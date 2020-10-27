@@ -21,7 +21,7 @@ var NONE        = 4,
     DYING       = 10,
     Pacman      = {};
 
-Pacman.FPS = 5;
+Pacman.FPS = 15;
 
 Pacman.User = function (game, map) {
 
@@ -529,6 +529,7 @@ Pacman.Ghost = function (game, map, colour) {
 
 
     function chase(ctx) {
+        console.log("chased.")
         if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
             due = LEFT;
             direction = LEFT;
@@ -539,16 +540,18 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function bob(ctx) {
-        if (nextSquare(position.x, direction) === 110) {
+       // if (nextSquare(position.x, direction) === 110) {
+            console.log("Bobbed.")
             due = oppositeDirection();
-            //direction = oppositeDirection();
+            direction = oppositeDirection();
             return move(ctx);
-        } else {
-            return move(ctx);
-        }
+       // } else {
+           // return move(ctx);
+        //}
     }
 
     function attack() {
+        console.log(distance() + " Attacked.")
         PACMAN.loseLife();
         PACMAN.completedLevel();
     }
@@ -592,10 +595,10 @@ Pacman.Ghost = function (game, map, colour) {
     }
       if (attackVar === false && chaseVar === false && bobVar === false) {
         if (distance() >= 100) {
-            if (tracker <= 10.67379) {
+            if (tracker <= 10.67379 / 15) {
                 attackVar = true;
                 attack();
-            } else if (tracker > 10.67379 && tracker <= 29.47 + 10.67379) {
+            } else if (tracker > 10.67379 / 15 && tracker <= (29.47 + 10.67379) / 15) {
                 chaseVar = true;
                 chase(ctx);
             } else {
@@ -603,10 +606,10 @@ Pacman.Ghost = function (game, map, colour) {
                 bob(ctx);
             }
       } else if (distance() >= 90 && distance() < 100) {
-          if (tracker <= 11.11090) {
+          if (tracker <= 11.11090 / 15) {
               attackVar = true;
               attack();
-            } else if (tracker > 11.11090 && tracker <= 29.33403 + 11.11090) {
+            } else if (tracker > 11.11090 / 15 && tracker <= (29.33403 + 11.11090) / 15) {
               chaseVar = true;
               chase(ctx);
             } else {
@@ -614,10 +617,10 @@ Pacman.Ghost = function (game, map, colour) {
               bob(ctx);
             }
       } else if (distance() >= 80 && distance() < 90) {
-            if (tracker <= 11.83156) {
+            if (tracker <= 11.83156 / 15) {
                 attackVar = true;
                 attack();
-            } else if (tracker > 11.83156 && tracker <= 29.0955 + 11.83156) {
+            } else if (tracker > 11.83156 / 15 && tracker <= (29.0955 + 11.83156) / 15) {
                 chaseVar = true;
                 chase(ctx);
             } else {
@@ -625,10 +628,10 @@ Pacman.Ghost = function (game, map, colour) {
                 bob(ctx);
             }
       } else if (distance() >= 70 && distance() < 80) {
-         if (tracker <= 13.01974) {
+         if (tracker <= 13.01974 / 15) {
              attackVar = true;
              attack();
-            } else if (tracker > 13.01974 && tracker <= 28.7034858 + 13.01974) {
+            } else if (tracker > 13.01974 / 15 && tracker <= (28.7034858 + 13.01974) / 15) {
              chaseVar = true;
              chase(ctx);
             } else {
@@ -636,10 +639,10 @@ Pacman.Ghost = function (game, map, colour) {
              bob(ctx);
             }
       } else if (distance() >= 60 && distance() < 70) {
-          if (tracker <= 14.97871) {
+          if (tracker <= 14.97871 / 15) {
               attackVar = true;
               attack();
-            } else if (tracker > 14.97871 && tracker <= 28.057 + 14.97871) {
+            } else if (tracker > 14.97871 / 15 && tracker <= (28.057 + 14.97871) / 15) {
               chaseVar = true;
               chase(ctx);
             } else {
@@ -647,10 +650,10 @@ Pacman.Ghost = function (game, map, colour) {
               bob(ctx);
             }
       } else if (distance() >= 50 && distance() < 60) {
-          if (tracker <= 18.20850) {
+          if (tracker <= 18.20850 / 15) {
               attackVar = true;
               attack();
-            } else if (tracker > 18.20850 && tracker <= 26.991195 + 18.20850) {
+            } else if (tracker > 18.20850 / 15 && tracker <= (26.991195 + 18.20850) / 15) {
               chaseVar = true;
               chase(ctx);
             } else {
@@ -658,10 +661,10 @@ Pacman.Ghost = function (game, map, colour) {
               bob(ctx);
             }
       } else if (distance() >= 40 && distance() < 50) {
-          if (tracker <= 23.53353) {
+          if (tracker <= 23.53353 / 15) {
               attackVar = true;
               attack();
-            } else if (tracker > 23.53353 && tracker <= 25.2339351 + 23.53353) {
+            } else if (tracker > 23.53353 / 15 && tracker <= (25.2339351 + 23.53353) / 15) {
               chaseVar = true;
               chase(ctx);
             } else {
@@ -669,10 +672,10 @@ Pacman.Ghost = function (game, map, colour) {
               bob(ctx);
             }
       } else if (distance() >= 30 && distance() < 40) {
-          if (tracker <= 32.31302) {
+          if (tracker <= 32.31302 / 15) {
               attackVar = true;
               attack();
-            } else if (tracker > 32.31302 && tracker <= 22.336 + 32.31302) {
+            } else if (tracker > 32.31302 / 15 && tracker <= (22.336 + 32.31302) / 15) {
               chaseVar = true;
               chase(ctx);
             } else {
@@ -680,10 +683,10 @@ Pacman.Ghost = function (game, map, colour) {
               bob(ctx);
             }
       } else if (distance() >= 20 && distance() < 30) {
-          if (tracker <= 46.78794) {
+          if (tracker <= 46.78794 / 15) {
               attackVar = true;
               attack();
-            } else if (tracker > 46.78794 && tracker <= 17.55997 + 46.78794) {
+            } else if (tracker > 46.78794 / 15 && tracker <= (17.55997 + 46.78794) / 15) {
               chaseVar = true;
               chase(ctx);
             } else {
@@ -691,10 +694,10 @@ Pacman.Ghost = function (game, map, colour) {
               bob(ctx);
             }
       } else if (distance() >= 10 && distance() < 20) {
-          if (tracker <= 70.65307) {
+          if (tracker <= 70.65307 / 15) {
               attackVar = true;
               attack();
-            } else if (tracker > 70.65307 && tracker <= 9.6844869 + 70.65307) {
+            } else if (tracker > 70.65307 / 15 && tracker <= (9.6844869 + 70.65307) / 15) {
               chaseVar = true;
               chase(ctx);
             } else {
