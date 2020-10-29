@@ -22,6 +22,8 @@ var NONE        = 4,
     Pacman      = {};
 
 Pacman.FPS = 15;
+Pacman.attackVar1 = false;
+Pacman.AFPS = 5;
 
 Pacman.User = function (game, map) {
 
@@ -93,6 +95,7 @@ Pacman.User = function (game, map) {
     function reset() {
         initUser();
         resetPosition();
+        Pacman.attackVar1 = false;
     };
 
     function keyDown(e) {
@@ -319,6 +322,7 @@ Pacman.Ghost = function (game, map, colour) {
         attackVar = false,
         chaseVar = false,
         bobVar = false,
+        bobCount = null,
         fps = 18,
         pacman2 = new Pacman.User(game, map);
 
@@ -540,18 +544,30 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function bob(ctx) {
-       // if (nextSquare(position.x, direction) === 110) {
+        if (bobCount >= 20) {
             console.log("Bobbed.")
-            due = oppositeDirection();
-            direction = oppositeDirection();
+            due = oppositeDirection(due);
+            direction = oppositeDirection(direction);
+            bobCount = 0;
             return move(ctx);
-       // } else {
-           // return move(ctx);
-        //}
+        }
     }
 
-    function attack() {
-        console.log(distance() + " Attacked.")
+    function attack(ctx) {
+        console.log(distance() + " Attacked.");
+        /* Pacman.attackVar1 = true;
+        attackVar = true;
+        if (PACMAN.getUserPos() < 150) {
+            direction = LEFT;
+            due = LEFT;
+            oldPos = position;
+            npos = PACMAN.getUserPos() + 10;
+            position.x = npos;
+            return {
+                "new": position,
+                "old": oldPos
+            };
+        } */
         PACMAN.loseLife();
         PACMAN.completedLevel();
     }
@@ -590,152 +606,191 @@ Pacman.Ghost = function (game, map, colour) {
             "x": pointToCoord(nextSquare(npos.x, direction))
         })) {
 
-        due = oppositeDirection();
+        due = oppositeDirection(due);
+        direction = oppositeDirection(direction);
         return move(ctx);
     }
-      if (attackVar === false && chaseVar === false && bobVar === false) {
+      if (chaseVar === false && bobVar === false) {
         if (distance() >= 100) {
-            if (tracker <= 10.67379 / 15) {
+            if (tracker <= 10.67379 / 25) {
                 attackVar = true;
-                attack();
-            } else if (tracker > 10.67379 / 15 && tracker <= (29.47 + 10.67379) / 15) {
+                return attack(ctx);
+            } else if (tracker > 10.67379 / 25 && tracker <= (29.47 + 10.67379) / 25) {
                 chaseVar = true;
                 chase(ctx);
             } else {
                 bobVar = true;
-                bob(ctx);
+                bobCount++;
+                if (bobCount < 10) {
+                    console.log(bobCount, "hit bob, but bobCount not 5");
+                    return move(ctx);
+                } else {
+                    bob(ctx);
+                }
             }
       } else if (distance() >= 90 && distance() < 100) {
-          if (tracker <= 11.11090 / 15) {
+          if (tracker <= 11.11090 / 25) {
               attackVar = true;
-              attack();
-            } else if (tracker > 11.11090 / 15 && tracker <= (29.33403 + 11.11090) / 15) {
+              return attack(ctx);
+            } else if (tracker > 11.11090 / 25 && tracker <= (29.33403 + 11.11090) / 25) {
               chaseVar = true;
               chase(ctx);
             } else {
               bobVar = true;
-              bob(ctx);
+              bobCount++;
+              if (bobCount < 10) {
+                  console.log(bobCount, "hit bob, but bobCount not 5");
+                  return move(ctx);
+              } else {
+                  bob(ctx);
+              }
             }
       } else if (distance() >= 80 && distance() < 90) {
-            if (tracker <= 11.83156 / 15) {
+            if (tracker <= 11.83156 / 25) {
                 attackVar = true;
-                attack();
-            } else if (tracker > 11.83156 / 15 && tracker <= (29.0955 + 11.83156) / 15) {
+                return attack(ctx);
+            } else if (tracker > 11.83156 / 25 && tracker <= (29.0955 + 11.83156) / 25) {
                 chaseVar = true;
                 chase(ctx);
             } else {
                 bobVar = true;
-                bob(ctx);
+                bobCount++;
+                if (bobCount < 20) {
+                    console.log(bobCount, "hit bob, but bobCount not 5");
+                    return move(ctx);
+                } else {
+                    bob(ctx);
+                }
             }
       } else if (distance() >= 70 && distance() < 80) {
-         if (tracker <= 13.01974 / 15) {
+         if (tracker <= 13.01974 / 25) {
              attackVar = true;
-             attack();
-            } else if (tracker > 13.01974 / 15 && tracker <= (28.7034858 + 13.01974) / 15) {
+             return attack(ctx);
+            } else if (tracker > 13.01974 / 25 && tracker <= (28.7034858 + 13.01974) / 25) {
              chaseVar = true;
              chase(ctx);
             } else {
              bobVar = true;
-             bob(ctx);
+             bobCount++;
+             if (bobCount < 20) {
+                 console.log(bobCount, "hit bob, but bobCount not 5");
+                 return move(ctx);
+             } else {
+                 bob(ctx);
+             }
             }
       } else if (distance() >= 60 && distance() < 70) {
-          if (tracker <= 14.97871 / 15) {
+          if (tracker <= 14.97871 / 25) {
               attackVar = true;
-              attack();
-            } else if (tracker > 14.97871 / 15 && tracker <= (28.057 + 14.97871) / 15) {
+              return attack(ctx);
+            } else if (tracker > 14.97871 / 25 && tracker <= (28.057 + 14.97871) / 25) {
               chaseVar = true;
               chase(ctx);
             } else {
               bobVar = true;
-              bob(ctx);
+              bobCount++;
+              if (bobCount < 20) {
+                  console.log(bobCount, "hit bob, but bobCount not 5");
+                  return move(ctx);
+              } else {
+                  bob(ctx);
+              }
             }
       } else if (distance() >= 50 && distance() < 60) {
-          if (tracker <= 18.20850 / 15) {
+          if (tracker <= 18.20850 / 25) {
               attackVar = true;
-              attack();
-            } else if (tracker > 18.20850 / 15 && tracker <= (26.991195 + 18.20850) / 15) {
+              return attack(ctx);
+            } else if (tracker > 18.20850 / 25 && tracker <= (26.991195 + 18.20850) / 25) {
               chaseVar = true;
               chase(ctx);
             } else {
               bobVar = true;
-              bob(ctx);
+              bobCount++;
+              if (bobCount < 20) {
+                  console.log(bobCount, "hit bob, but bobCount not 5");
+                  return move(ctx);
+              } else {
+                  bob(ctx);
+              }
             }
       } else if (distance() >= 40 && distance() < 50) {
-          if (tracker <= 23.53353 / 15) {
+          if (tracker <= 23.53353 / 25) {
               attackVar = true;
-              attack();
-            } else if (tracker > 23.53353 / 15 && tracker <= (25.2339351 + 23.53353) / 15) {
+              return attack(ctx);
+            } else if (tracker > 23.53353 / 25 && tracker <= (25.2339351 + 23.53353) / 25) {
               chaseVar = true;
               chase(ctx);
             } else {
               bobVar = true;
-              bob(ctx);
+              bobCount++;
+              if (bobCount < 20) {
+                  console.log(bobCount, "hit bob, but bobCount not 5");
+                  return move(ctx);
+              } else {
+                  bob(ctx);
+              }
             }
       } else if (distance() >= 30 && distance() < 40) {
-          if (tracker <= 32.31302 / 15) {
+          if (tracker <= 32.31302 / 25) {
               attackVar = true;
-              attack();
-            } else if (tracker > 32.31302 / 15 && tracker <= (22.336 + 32.31302) / 15) {
+              return attack(ctx);
+            } else if (tracker > 32.31302 / 25 && tracker <= (22.336 + 32.31302) / 25) {
               chaseVar = true;
               chase(ctx);
             } else {
               bobVar = true;
-              bob(ctx);
+              bobCount++;
+              if (bobCount < 20) {
+                  console.log(bobCount, "hit bob, but bobCount not 5");
+                  return move(ctx);
+              } else {
+                  bob(ctx);
+              }
             }
       } else if (distance() >= 20 && distance() < 30) {
-          if (tracker <= 46.78794 / 15) {
+          if (tracker <= 46.78794 / 25) {
               attackVar = true;
-              attack();
-            } else if (tracker > 46.78794 / 15 && tracker <= (17.55997 + 46.78794) / 15) {
+              return attack(ctx);
+            } else if (tracker > 46.78794 / 25 && tracker <= (17.55997 + 46.78794) / 25) {
               chaseVar = true;
               chase(ctx);
             } else {
               bobVar = true;
-              bob(ctx);
+              bobCount++;
+              if (bobCount < 20) {
+                  console.log(bobCount, "hit bob, but bobCount not 5");
+                  return move(ctx);
+              } else {
+                  bob(ctx);
+              }
             }
       } else if (distance() >= 10 && distance() < 20) {
-          if (tracker <= 70.65307 / 15) {
+          if (tracker <= 70.65307 / 25) {
               attackVar = true;
-              attack();
-            } else if (tracker > 70.65307 / 15 && tracker <= (9.6844869 + 70.65307) / 15) {
+              return attack(ctx);
+            } else if (tracker > 70.65307 / 25 && tracker <= (9.6844869 + 70.65307) / 25) {
               chaseVar = true;
               chase(ctx);
             } else {
               bobVar = true;
-              bob(ctx);
+              bobCount++;
+              if (bobCount < 20) {
+                  console.log(bobCount, "hit bob, but bobCount not 5");
+                  return move(ctx);
+              } else {
+                  bob(ctx);
+              }
             }
-      }
-      }
-    //console.log(pacman2.getNewCoord(pacman2.getDirection(), pacman2.getPosition()));
-   /* if (distance() <= 80) {
-        attackVar = true;
-        due = LEFT;
-        direction = LEFT;
-    } */
+      } }
 
-   /* if (nextSquare(npos.x, direction) === 110 && attackVar === false) {
-        due = oppositeDirection();
-        direction = oppositeDirection();
-        return move(ctx);
-    } */
-
-
-    //if (attackVar === false) {
     position = npos;
-    //}
-
-
     var tmp = pane(position);
     if (tmp) {
         position = tmp;
     }
-
-    /*if (attackVar === false && bobVar === false && chaseVar === false) {
-    due = getRandomDirection();
-     } */
     bobVar = false;
-    attackVar = false;
     chaseVar = false;
+    attackVar = false;
     return {
         "new": position,
         "old": oldPos
@@ -1165,7 +1220,7 @@ var PACMAN = (function () {
                     setState(EATEN_PAUSE);
                     timerStart = tick;
                 } else if (ghost1.isDangerous()) {
-                    audio.play("die");
+                    //audio.play("die");
                     setState(DYING);
                     timerStart = tick;
                 }
@@ -1247,6 +1302,14 @@ var PACMAN = (function () {
         return userPosX;
     }
 
+    function getUserDir() {
+        return user.direction;
+    }
+
+    function getUserDue() {
+        return user.getDue();
+    }
+
     function init(wrapper, root) {
 
         var i, len, ghost,
@@ -1305,6 +1368,9 @@ var PACMAN = (function () {
         document.addEventListener("keypress", keyPress, true);
 
         timer = window.setInterval(mainLoop, 1000 / Pacman.FPS);
+        /*if (Pacman.attackVar1 === true) {
+            window.setInterval(user.move, 1000/Pacman.AFPS)
+        } */
     };
 
     function getGhostPos() {
@@ -1316,6 +1382,8 @@ var PACMAN = (function () {
         "getGhostPos": getGhostPos,
         "loseLife": loseLife,
         "completedLevel": completedLevel,
+        "getUserDir" : getUserDir,
+        "getUserDue" : getUserDue,
         "init" : init,
     };
 
