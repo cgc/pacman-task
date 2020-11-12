@@ -323,6 +323,7 @@ Pacman.Ghost = function (game, map, colour) {
         chaseVar = false,
         bobVar = false,
         bobCount = null,
+        chaseCount = null,
         fps = 18,
         pacman2 = new Pacman.User(game, map);
 
@@ -386,6 +387,7 @@ Pacman.Ghost = function (game, map, colour) {
         position = {"x": 130, "y": 100};
         direction = getRandomDirection();
         due = getRandomDirection();
+        chaseCount = 0;
     };
 
     function onWholeSquare(x) {
@@ -544,7 +546,7 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function bob(ctx) {
-        if (bobCount >= 20) {
+        if (bobCount >= 10) {
             console.log("Bobbed.")
             due = oppositeDirection(due);
             direction = oppositeDirection(direction);
@@ -615,8 +617,9 @@ Pacman.Ghost = function (game, map, colour) {
             if (tracker <= 10.67379 / 25) {
                 attackVar = true;
                 return attack(ctx);
-            } else if (tracker > 10.67379 / 25 && tracker <= (29.47 + 10.67379) / 25) {
+            } else if ((tracker > 10.67379 / 25 && tracker <= (29.47 + 10.67379) / 25) || chaseCount >= 1) {
                 chaseVar = true;
+                chaseCount++;
                 chase(ctx);
             } else {
                 bobVar = true;
@@ -632,8 +635,9 @@ Pacman.Ghost = function (game, map, colour) {
           if (tracker <= 11.11090 / 25) {
               attackVar = true;
               return attack(ctx);
-            } else if (tracker > 11.11090 / 25 && tracker <= (29.33403 + 11.11090) / 25) {
+            } else if ((tracker > 11.11090 / 25 && tracker <= (29.33403 + 11.11090) / 25) || chaseCount >= 1) {
               chaseVar = true;
+              chaseCount++;
               chase(ctx);
             } else {
               bobVar = true;
@@ -649,8 +653,9 @@ Pacman.Ghost = function (game, map, colour) {
             if (tracker <= 11.83156 / 25) {
                 attackVar = true;
                 return attack(ctx);
-            } else if (tracker > 11.83156 / 25 && tracker <= (29.0955 + 11.83156) / 25) {
+            } else if ((tracker > 11.83156 / 25 && tracker <= (29.0955 + 11.83156) / 25) || chaseCount >= 1) {
                 chaseVar = true;
+                chaseCount++;
                 chase(ctx);
             } else {
                 bobVar = true;
@@ -666,8 +671,9 @@ Pacman.Ghost = function (game, map, colour) {
          if (tracker <= 13.01974 / 25) {
              attackVar = true;
              return attack(ctx);
-            } else if (tracker > 13.01974 / 25 && tracker <= (28.7034858 + 13.01974) / 25) {
+            } else if ((tracker > 13.01974 / 25 && tracker <= (28.7034858 + 13.01974) / 25) || chaseCount >= 1) {
              chaseVar = true;
+             chaseCount++;
              chase(ctx);
             } else {
              bobVar = true;
@@ -683,8 +689,9 @@ Pacman.Ghost = function (game, map, colour) {
           if (tracker <= 14.97871 / 25) {
               attackVar = true;
               return attack(ctx);
-            } else if (tracker > 14.97871 / 25 && tracker <= (28.057 + 14.97871) / 25) {
+            } else if ((tracker > 14.97871 / 25 && tracker <= (28.057 + 14.97871) / 25) || chaseCount >= 1) {
               chaseVar = true;
+              chaseCount++;
               chase(ctx);
             } else {
               bobVar = true;
@@ -700,8 +707,9 @@ Pacman.Ghost = function (game, map, colour) {
           if (tracker <= 18.20850 / 25) {
               attackVar = true;
               return attack(ctx);
-            } else if (tracker > 18.20850 / 25 && tracker <= (26.991195 + 18.20850) / 25) {
+            } else if ((tracker > 18.20850 / 25 && tracker <= (26.991195 + 18.20850) / 25) || chaseCount >= 1) {
               chaseVar = true;
+              chaseCount++;
               chase(ctx);
             } else {
               bobVar = true;
@@ -717,8 +725,9 @@ Pacman.Ghost = function (game, map, colour) {
           if (tracker <= 23.53353 / 25) {
               attackVar = true;
               return attack(ctx);
-            } else if (tracker > 23.53353 / 25 && tracker <= (25.2339351 + 23.53353) / 25) {
+            } else if ((tracker > 23.53353 / 25 && tracker <= (25.2339351 + 23.53353) / 25) || chaseCount >= 1) {
               chaseVar = true;
+              chaseCount++;
               chase(ctx);
             } else {
               bobVar = true;
@@ -734,8 +743,9 @@ Pacman.Ghost = function (game, map, colour) {
           if (tracker <= 32.31302 / 25) {
               attackVar = true;
               return attack(ctx);
-            } else if (tracker > 32.31302 / 25 && tracker <= (22.336 + 32.31302) / 25) {
+            } else if ((tracker > 32.31302 / 25 && tracker <= (22.336 + 32.31302) / 25) || chaseCount >= 1) {
               chaseVar = true;
+              chaseCount++;
               chase(ctx);
             } else {
               bobVar = true;
@@ -751,8 +761,9 @@ Pacman.Ghost = function (game, map, colour) {
           if (tracker <= 46.78794 / 25) {
               attackVar = true;
               return attack(ctx);
-            } else if (tracker > 46.78794 / 25 && tracker <= (17.55997 + 46.78794) / 25) {
+            } else if ((tracker > 46.78794 / 25 && tracker <= (17.55997 + 46.78794) / 25) || chaseCount >= 1) {
               chaseVar = true;
+              chaseCount++;
               chase(ctx);
             } else {
               bobVar = true;
@@ -768,8 +779,9 @@ Pacman.Ghost = function (game, map, colour) {
           if (tracker <= 70.65307 / 25) {
               attackVar = true;
               return attack(ctx);
-            } else if (tracker > 70.65307 / 25 && tracker <= (9.6844869 + 70.65307) / 25) {
+            } else if ((tracker > 70.65307 / 25 && tracker <= (9.6844869 + 70.65307) / 25) || chaseCount >= 1) {
               chaseVar = true;
+              chaseCount++;
               chase(ctx);
             } else {
               bobVar = true;
