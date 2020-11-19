@@ -21,9 +21,215 @@ var NONE        = 4,
     DYING       = 10,
     Pacman      = {};
 
+Pacman.userStartPos = null;
+Pacman.ghostStartPos = null;
+Pacman.totalTrials = 1;
 Pacman.FPS = 15;
 Pacman.attackVar1 = false;
 Pacman.AFPS = 5;
+Pacman.startingPositions = [
+    [1,20,120  ],
+    [2,60,160  ],
+    [3,20,120  ],
+    [4,130,30  ],
+    [5,140,40  ],
+    [6,50,150  ],
+    [7,30,130  ],
+    [8,140,40  ],
+    [9,20,120  ],
+    [10,120,20  ],
+    [11,80,180  ],
+    [12,50,150  ],
+    [13,130,30  ],
+    [14,60,160  ],
+    [15,180,80  ],
+    [16,50,150  ],
+    [17,140,40  ],
+    [18,30,130  ],
+    [19,40,140  ],
+    [20,130,30  ],
+    [21,130,30  ],
+    [22,150,50  ],
+    [23,50,150  ],
+    [24,60,160  ],
+    [25,170,70  ],
+    [26,60,160  ],
+    [27,50,150  ],
+    [28,30,130  ],
+    [29,160,60  ],
+    [30,120,20  ],
+    [31,40,140  ],
+    [32,140,40  ],
+    [33,20,120  ],
+    [34,140,40  ],
+    [35,120,20  ],
+    [36,180,80  ],
+    [37,150,50  ],
+    [38,70,170  ],
+    [39,140,40  ],
+    [40,120,20  ],
+    [41,50,150  ],
+    [42,50,150  ],
+    [43,70,170  ],
+    [44,30,130  ],
+    [45,170,70  ],
+    [46,160,60  ],
+    [47,60,160  ],
+    [48,50,150  ],
+    [49,30,130  ],
+    [50,120,20  ],
+    [51,30,130  ],
+    [52,40,140  ],
+    [53,120,20  ],
+    [54,80,180  ],
+    [55,20,120  ],
+    [56,60,160  ],
+    [57,140,40  ],
+    [58,30,130  ],
+    [59,70,170  ],
+    [60,70,170  ],
+    [61,30,130  ],
+    [62,50,150  ],
+    [63,40,140  ],
+    [64,70,170  ],
+    [65,60,160  ],
+    [66,30,130  ],
+    [67,80,180  ],
+    [68,70,170  ],
+    [69,140,40  ],
+    [70,140,40  ],
+    [71,120,20  ],
+    [72,60,160  ],
+    [73,20,120  ],
+    [74,20,120  ],
+    [75,80,180  ],
+    [76,50,150  ],
+    [77,170,70  ],
+    [78,140,40  ],
+    [79,130,30  ],
+    [80,170,70  ],
+    [81,160,60  ],
+    [82,50,150  ],
+    [83,130,30  ],
+    [84,150,50  ],
+    [85,40,140  ],
+    [86,170,70  ],
+    [87,60,160  ],
+    [88,160,60  ],
+    [89,120,20  ],
+    [90,180,80  ],
+    [91,60,160  ],
+    [92,160,60  ],
+    [93,70,170  ],
+    [94,30,130  ],
+    [95,30,130  ],
+    [96,120,20  ],
+    [97,20,120  ],
+    [98,30,130  ],
+    [99,60,160  ],
+    [100,180,80  ],
+    [101,120,20  ],
+    [102,80,180  ],
+    [103,120,20  ],
+    [104,60,160  ],
+    [105,50,150  ],
+    [106,130,30  ],
+    [107,50,150  ],
+    [108,80,180  ],
+    [109,140,40  ],
+    [110,30,130  ],
+    [111,150,50  ],
+    [112,170,70  ],
+    [113,60,160  ],
+    [114,70,170  ],
+    [115,40,140  ],
+    [116,70,170  ],
+    [117,160,60  ],
+    [118,170,70  ],
+    [119,20,120  ],
+    [120,160,60  ],
+    [121,130,30  ],
+    [122,130,30  ],
+    [123,60,160  ],
+    [124,180,80  ],
+    [125,150,50  ],
+    [126,130,30  ],
+    [127,140,40  ],
+    [128,120,20  ],
+    [129,170,70  ],
+    [130,80,180  ],
+    [131,70,170  ],
+    [132,20,120  ],
+    [133,170,70  ],
+    [134,180,80  ],
+    [135,60,160  ],
+    [136,130,30  ],
+    [137,80,180  ],
+    [138,140,40  ],
+    [139,150,50  ],
+    [140,140,40  ],
+    [141,140,40  ],
+    [142,120,20  ],
+    [143,20,120  ],
+    [144,150,50  ],
+    [145,130,30  ],
+    [146,170,70  ],
+    [147,130,30  ],
+    [148,40,140  ],
+    [149,20,120  ],
+    [150,180,80  ],
+    [151,180,80  ],
+    [152,70,170  ],
+    [153,120,20  ],
+    [154,150,50  ],
+    [155,180,80  ],
+    [156,60,160  ],
+    [157,20,120  ],
+    [158,70,170  ],
+    [159,20,120  ],
+    [160,30,130  ],
+    [161,30,130  ],
+    [162,180,80  ],
+    [163,70,170  ],
+    [164,70,170  ],
+    [165,70,170  ],
+    [166,70,170  ],
+    [167,50,150  ],
+    [168,160,60  ],
+    [169,30,130  ],
+    [170,140,40  ],
+    [171,80,180  ],
+    [172,160,60  ],
+    [173,180,80  ],
+    [174,160,60  ],
+    [175,140,40  ],
+    [176,130,30  ],
+    [177,20,120  ],
+    [178,30,130  ],
+    [179,120,20  ],
+    [180,120,20  ],
+    [181,30,130  ],
+    [182,130,30  ],
+    [183,160,60  ],
+    [184,150,50  ],
+    [185,170,70  ],
+    [186,180,80  ],
+    [187,180,80  ],
+    [188,30,130  ],
+    [189,160,60  ],
+    [190,30,130  ],
+    [191,150,50  ],
+    [192,140,40  ],
+    [193,130,30  ],
+    [194,160,60  ],
+    [195,70,170  ],
+    [196,60,160  ],
+    [197,140,40  ],
+    [198,20,120  ],
+    [199,20,120  ],
+    [200,60,160  ]
+];
+
 
 Pacman.User = function (game, map) {
 
@@ -87,7 +293,7 @@ Pacman.User = function (game, map) {
     };
 
     function resetPosition() {
-        position = {"x": 30, "y": 100};
+        position = {"x": Pacman.startingPositions[Pacman.totalTrials - 1][1], "y": 100};
         direction = NONE;
         due = NONE;
     };
@@ -171,7 +377,7 @@ Pacman.User = function (game, map) {
                 npos = null;
             }
         }
-        if (position.x === 10 && position.y === 100) {
+        if (position.x === 10 || position.x === 170) {
             game.completedLevel();
             trials--;
         }
@@ -324,6 +530,9 @@ Pacman.Ghost = function (game, map, colour) {
         bobVar = false,
         bobCount = null,
         chaseCount = null,
+        attackCount = null,
+        attackDist = null,
+        wallDist = null,
         fps = 18,
         pacman2 = new Pacman.User(game, map);
 
@@ -342,6 +551,35 @@ Pacman.Ghost = function (game, map, colour) {
             "y": addBounded(current.y, ySpeed)
         };
     };
+
+    function getNewAttackCoord(x, y) {
+        let moveAmount = Math.ceil(wallDist / attackDist) * 5;
+        if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+            if (x - moveAmount < PACMAN.getUserPos()) {
+                return {
+                    "x" : PACMAN.getUserPos(),
+                    "y" : y
+                }
+            } else {
+                return {
+                    "x" : x - moveAmount,
+                    "y" : y
+                }
+            }
+        } else {
+            if (x + moveAmount > PACMAN.getUserPos()) {
+                return {
+                    "x" : PACMAN.getUserPos,
+                    "y" : y
+                }
+            } else {
+                return {
+                    "x" : x + moveAmount,
+                    "y" : y
+                }
+            }
+        }
+    }
 
     /* Collision detection(walls) is done when a ghost lands on an
      * exact block, make sure they dont skip over it
@@ -384,10 +622,11 @@ Pacman.Ghost = function (game, map, colour) {
     function reset() {
         eaten = null;
         eatable = null;
-        position = {"x": 130, "y": 100};
+        position = {"x": Pacman.startingPositions[Pacman.totalTrials - 1][2], "y": 100};
         direction = getRandomDirection();
         due = getRandomDirection();
         chaseCount = 0;
+        attackCount = 0;
     };
 
     function onWholeSquare(x) {
@@ -446,6 +685,9 @@ Pacman.Ghost = function (game, map, colour) {
     };
 
     function draw(ctx) {
+       /* if (attackVar === true) {
+
+        } */
 
         var s = map.blockSize,
             top = (position.y / 10) * s,
@@ -541,6 +783,7 @@ Pacman.Ghost = function (game, map, colour) {
             direction = LEFT;
         } else {
             due = RIGHT;
+            direction = RIGHT;
         }
         return move(ctx);
     }
@@ -557,21 +800,32 @@ Pacman.Ghost = function (game, map, colour) {
 
     function attack(ctx) {
         console.log(distance() + " Attacked.");
-        /* Pacman.attackVar1 = true;
+         Pacman.attackVar1 = true;
         attackVar = true;
-        if (PACMAN.getUserPos() < 150) {
+        let npos;
+        if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
             direction = LEFT;
             due = LEFT;
-            oldPos = position;
-            npos = PACMAN.getUserPos() + 10;
-            position.x = npos;
+            var oldPos = position;
+            npos = getNewAttackCoord(oldPos.x ,PACMAN.getGhostPosY());
+            position = npos;
             return {
                 "new": position,
                 "old": oldPos
             };
-        } */
-        PACMAN.loseLife();
-        PACMAN.completedLevel();
+        } else {
+            direction = RIGHT;
+            due = RIGHT;
+            var oldPos = position;
+            npos = getNewAttackCoord(oldPos.x, PACMAN.getGhostPosY());
+            position = npos;
+            return {
+                "new" : position,
+                "old" : oldPos
+            };
+        }
+        //PACMAN.loseLife();
+        //PACMAN.completedLevel();
     }
 
 
@@ -614,8 +868,15 @@ Pacman.Ghost = function (game, map, colour) {
     }
       if (chaseVar === false && bobVar === false) {
         if (distance() >= 100) {
-            if (tracker <= 10.67379 / 25) {
+            if ((tracker <= 10.67379 / 25) || attackCount >= 1) {
+                if (attackCount === 0) {
+                    attackDist = distance();
+                    if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                      wallDist = PACMAN.getUserPos();
+                    }
+                }
                 attackVar = true;
+                attackCount++;
                 return attack(ctx);
             } else if ((tracker > 10.67379 / 25 && tracker <= (29.47 + 10.67379) / 25) || chaseCount >= 1) {
                 chaseVar = true;
@@ -632,8 +893,15 @@ Pacman.Ghost = function (game, map, colour) {
                 }
             }
       } else if (distance() >= 90 && distance() < 100) {
-          if (tracker <= 11.11090 / 25) {
+          if ((tracker <= 11.11090 / 25) || attackCount >= 1) {
               attackVar = true;
+              if (attackCount === 0) {
+                  attackDist = distance();
+                  if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                      wallDist = PACMAN.getUserPos();
+                  }
+              }
+              attackCount++;
               return attack(ctx);
             } else if ((tracker > 11.11090 / 25 && tracker <= (29.33403 + 11.11090) / 25) || chaseCount >= 1) {
               chaseVar = true;
@@ -650,8 +918,15 @@ Pacman.Ghost = function (game, map, colour) {
               }
             }
       } else if (distance() >= 80 && distance() < 90) {
-            if (tracker <= 11.83156 / 25) {
+            if ((tracker <= 11.83156 / 25) || attackCount >= 1) {
                 attackVar = true;
+                if (attackCount === 0) {
+                    attackDist = distance();
+                    if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                        wallDist = PACMAN.getUserPos();
+                    }
+                }
+                attackCount++;
                 return attack(ctx);
             } else if ((tracker > 11.83156 / 25 && tracker <= (29.0955 + 11.83156) / 25) || chaseCount >= 1) {
                 chaseVar = true;
@@ -668,8 +943,15 @@ Pacman.Ghost = function (game, map, colour) {
                 }
             }
       } else if (distance() >= 70 && distance() < 80) {
-         if (tracker <= 13.01974 / 25) {
+         if ((tracker <= 13.01974 / 25) || attackCount >= 1) {
              attackVar = true;
+             if (attackCount === 0) {
+                 attackDist = distance();
+                 if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                     wallDist = PACMAN.getUserPos();
+                 }
+             }
+             attackCount++;
              return attack(ctx);
             } else if ((tracker > 13.01974 / 25 && tracker <= (28.7034858 + 13.01974) / 25) || chaseCount >= 1) {
              chaseVar = true;
@@ -686,8 +968,15 @@ Pacman.Ghost = function (game, map, colour) {
              }
             }
       } else if (distance() >= 60 && distance() < 70) {
-          if (tracker <= 14.97871 / 25) {
+          if ((tracker <= 14.97871 / 25) || attackCount >= 1) {
               attackVar = true;
+              if (attackCount === 0) {
+                  attackDist = distance();
+                  if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                      wallDist = PACMAN.getUserPos();
+                  }
+              }
+              attackCount++;
               return attack(ctx);
             } else if ((tracker > 14.97871 / 25 && tracker <= (28.057 + 14.97871) / 25) || chaseCount >= 1) {
               chaseVar = true;
@@ -704,8 +993,15 @@ Pacman.Ghost = function (game, map, colour) {
               }
             }
       } else if (distance() >= 50 && distance() < 60) {
-          if (tracker <= 18.20850 / 25) {
+          if ((tracker <= 18.20850 / 25) || attackCount >= 1) {
               attackVar = true;
+              if (attackCount === 0) {
+                  attackDist = distance();
+                  if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                      wallDist = PACMAN.getUserPos();
+                  }
+              }
+              attackCount++;
               return attack(ctx);
             } else if ((tracker > 18.20850 / 25 && tracker <= (26.991195 + 18.20850) / 25) || chaseCount >= 1) {
               chaseVar = true;
@@ -722,8 +1018,15 @@ Pacman.Ghost = function (game, map, colour) {
               }
             }
       } else if (distance() >= 40 && distance() < 50) {
-          if (tracker <= 23.53353 / 25) {
+          if ((tracker <= 23.53353 / 25) || attackCount >= 1) {
               attackVar = true;
+              if (attackCount === 0) {
+                  attackDist = distance();
+                  if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                      wallDist = PACMAN.getUserPos();
+                  }
+              }
+              attackCount++;
               return attack(ctx);
             } else if ((tracker > 23.53353 / 25 && tracker <= (25.2339351 + 23.53353) / 25) || chaseCount >= 1) {
               chaseVar = true;
@@ -740,8 +1043,15 @@ Pacman.Ghost = function (game, map, colour) {
               }
             }
       } else if (distance() >= 30 && distance() < 40) {
-          if (tracker <= 32.31302 / 25) {
+          if ((tracker <= 32.31302 / 25) || attackCount >= 1) {
               attackVar = true;
+              if (attackCount === 0) {
+                  attackDist = distance();
+                  if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                      wallDist = PACMAN.getUserPos();
+                  }
+              }
+              attackCount++;
               return attack(ctx);
             } else if ((tracker > 32.31302 / 25 && tracker <= (22.336 + 32.31302) / 25) || chaseCount >= 1) {
               chaseVar = true;
@@ -758,8 +1068,15 @@ Pacman.Ghost = function (game, map, colour) {
               }
             }
       } else if (distance() >= 20 && distance() < 30) {
-          if (tracker <= 46.78794 / 25) {
+          if ((tracker <= 46.78794 / 25) || attackCount >= 1) {
               attackVar = true;
+              if (attackCount === 0) {
+                  attackDist = distance();
+                  if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                      wallDist = PACMAN.getUserPos();
+                  }
+              }
+              attackCount++;
               return attack(ctx);
             } else if ((tracker > 46.78794 / 25 && tracker <= (17.55997 + 46.78794) / 25) || chaseCount >= 1) {
               chaseVar = true;
@@ -776,8 +1093,15 @@ Pacman.Ghost = function (game, map, colour) {
               }
             }
       } else if (distance() >= 10 && distance() < 20) {
-          if (tracker <= 70.65307 / 25) {
+          if ((tracker <= 70.65307 / 25) || attackCount >= 1) {
               attackVar = true;
+              if (attackCount === 0) {
+                  attackDist = distance();
+                  if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
+                      wallDist = PACMAN.getUserPos();
+                  }
+              }
+              attackCount++;
               return attack(ctx);
             } else if ((tracker > 70.65307 / 25 && tracker <= (9.6844869 + 70.65307) / 25) || chaseCount >= 1) {
               chaseVar = true;
@@ -816,7 +1140,8 @@ Pacman.Ghost = function (game, map, colour) {
         "makeEatable" : makeEatable,
         "reset"       : reset,
         "move"        : move,
-        "draw"        : draw
+        "draw"        : draw,
+        "getNewAttackCoord" : getNewAttackCoord
     };
 };
 
@@ -1070,7 +1395,7 @@ var PACMAN = (function () {
         eatenCount   = 0,
         level        = 0,
         tick         = 0,
-        ghostPos, userPos, ghostPosX, userPosX,
+        ghostPos, userPos, ghostPosX, userPosX, ghostPosY
         stateChanged = true,
         timerStart   = null,
         lastTime     = 0,
@@ -1105,6 +1430,11 @@ var PACMAN = (function () {
     };
 
     function startLevel() {
+        if (Pacman.totalTrials === 200) {
+            Pacman.totalTrials = 1;
+        } else {
+            Pacman.totalTrials++;
+        }
         user.resetPosition();
         ghost1.reset();
         //audio.play("start");
@@ -1219,6 +1549,7 @@ var PACMAN = (function () {
         ghostPos = g["new"];
         ghostPosX = g["new"].x;
         userPosX = u["new"].x;
+        ghostPosY = g["new"].y;
 
 
             if (collided(userPos, ghostPos)) {
@@ -1240,7 +1571,6 @@ var PACMAN = (function () {
     };
 
     function mainLoop() {
-
         var diff;
 
         if (state !== PAUSE) {
@@ -1264,7 +1594,7 @@ var PACMAN = (function () {
                 loseLife();
             } else {
                 redrawBlock(userPos);
-                redrawBlock(ghostPos.old);
+                redrawBlock(ghostPos);
                 ghostPos = ghost1.draw(ctx);
                 user.drawDead(ctx, (tick - timerStart) / (Pacman.FPS * 2));
             }
@@ -1286,6 +1616,7 @@ var PACMAN = (function () {
 
         drawFooter();
     }
+
 
     function eatenPill() {
         audio.play("eatpill");
@@ -1312,6 +1643,10 @@ var PACMAN = (function () {
     function getUserPos() {
         //console.log(userPos);
         return userPosX;
+    }
+
+    function getGhostPosY() {
+        return ghostPosY;
     }
 
     function getUserDir() {
@@ -1397,6 +1732,7 @@ var PACMAN = (function () {
         "getUserDir" : getUserDir,
         "getUserDue" : getUserDue,
         "init" : init,
+        "getGhostPosY" : getGhostPosY
     };
 
 }());
