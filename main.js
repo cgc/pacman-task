@@ -28,206 +28,206 @@ Pacman.FPS = 15;
 Pacman.attackVar1 = false;
 Pacman.AFPS = 5;
 Pacman.startingPositions = [
-    [1,20,100  ],
-    [2,60,140  ],
-    [3,20,100  ],
-    [4,130,50  ],
-    [5,140,60  ],
-    [6,50,130  ],
-    [7,30,110  ],
-    [8,140,60  ],
-    [9,20,100  ],
-    [10,120,40  ],
-    [11,80,0  ],
-    [12,50,130  ],
-    [13,130,50  ],
-    [14,60,140  ],
-    [15,50,130  ],
-    [16,140,60  ],
-    [17,30,110  ],
-    [18,40,120  ],
-    [19,130,50  ],
-    [20,130,50  ],
-    [21,150,70  ],
-    [22,50,130  ],
-    [23,60,140  ],
-    [24,60,140  ],
-    [25,50,130  ],
-    [26,30,110  ],
-    [27,160,80  ],
-    [28,120,40  ],
-    [29,40,120  ],
-    [30,140,60  ],
-    [31,20,100  ],
-    [32,140,60  ],
-    [33,120,40  ],
-    [34,150,70  ],
-    [35,70,150  ],
-    [36,140,60  ],
-    [37,120,40  ],
-    [38,50,130  ],
-    [39,50,130  ],
-    [40,70,150  ],
-    [41,30,110  ],
-    [42,160,80  ],
-    [43,60,140  ],
-    [44,50,130  ],
-    [45,30,110  ],
-    [46,120,40  ],
-    [47,30,110  ],
-    [48,40,120  ],
-    [49,120,40  ],
-    [50,80,0  ],
-    [51,20,100  ],
-    [52,60,140  ],
-    [53,140,60  ],
-    [54,30,110  ],
-    [55,70,150  ],
-    [56,70,150  ],
-    [57,30,110  ],
-    [58,50,130  ],
-    [59,40,120  ],
-    [60,70,150  ],
-    [61,60,140  ],
-    [62,30,110  ],
-    [63,80,0  ],
-    [64,70,150  ],
-    [65,140,60  ],
-    [66,140,60  ],
-    [67,120,40  ],
-    [68,60,140  ],
-    [69,20,100  ],
-    [70,20,100  ],
-    [71,80,0  ],
-    [72,50,130  ],
-    [73,140,60  ],
-    [74,130,50  ],
-    [75,160,80  ],
-    [76,50,130  ],
-    [77,130,50  ],
-    [78,150,70  ],
-    [79,40,120  ],
-    [80,60,140  ],
-    [81,160,80  ],
-    [82,120,40  ],
-    [83,60,140  ],
-    [84,160,80  ],
-    [85,70,150  ],
-    [86,30,110  ],
-    [87,30,110  ],
-    [88,120,40  ],
-    [89,20,100  ],
-    [90,30,110  ],
-    [91,60,140  ],
-    [92,120,40  ],
-    [93,80,0  ],
-    [94,120,40  ],
-    [95,60,140  ],
-    [96,50,130  ],
-    [97,130,50  ],
-    [98,50,130  ],
-    [99,80,0  ],
-    [100,140,60  ],
-    [101,30,110  ],
-    [102,150,70  ],
-    [103,60,140  ],
-    [104,70,150  ],
-    [105,40,120  ],
-    [106,70,150  ],
-    [107,160,80  ],
-    [108,20,100  ],
-    [109,160,80  ],
-    [110,130,50  ],
-    [111,130,50  ],
-    [112,60,140  ],
-    [113,150,70  ],
-    [114,130,50  ],
-    [115,140,60  ],
-    [116,120,40  ],
-    [117,80,0  ],
-    [118,70,150  ],
-    [119,20,100  ],
-    [120,60,140  ],
-    [121,130,50  ],
-    [122,80,0  ],
-    [123,140,60  ],
-    [124,150,70  ],
-    [125,140,60  ],
-    [126,140,60  ],
-    [127,120,40  ],
-    [128,20,100  ],
-    [129,150,70  ],
-    [130,130,50  ],
-    [131,130,50  ],
-    [132,40,120  ],
-    [133,20,100  ],
-    [134,70,150  ],
-    [135,120,40  ],
-    [136,150,70  ],
-    [137,60,140  ],
-    [138,20,100  ],
-    [139,70,150  ],
-    [140,20,100  ],
-    [141,30,110  ],
-    [142,30,110  ],
-    [143,70,150  ],
-    [144,70,150  ],
-    [145,70,150  ],
-    [146,70,150  ],
-    [147,50,130  ],
-    [148,160,80  ],
-    [149,30,110  ],
-    [150,140,60  ],
-    [151,80,0  ],
-    [152,160,80  ],
-    [153,160,80  ],
-    [154,140,60  ],
-    [155,130,50  ],
-    [156,20,100  ],
-    [157,30,110  ],
-    [158,120,40  ],
-    [159,120,40  ],
-    [160,30,110  ],
-    [161,130,50  ],
+    [1,20,120  ],
+    [2,60,160  ],
+    [3,20,120  ],
+    [4,130,30  ],
+    [5,140,40  ],
+    [6,50,150  ],
+    [7,30,130  ],
+    [8,140,40  ],
+    [9,20,120  ],
+    [10,120,20  ],
+    [11,80,170  ],
+    [12,50,150  ],
+    [13,130,30  ],
+    [14,60,160  ],
+    [15,160,80  ],
+    [16,50,150  ],
+    [17,140,40  ],
+    [18,30,130  ],
+    [19,40,140  ],
+    [20,130,30  ],
+    [21,130,30  ],
+    [22,150,50  ],
+    [23,50,150  ],
+    [24,60,160  ],
+    [25,160,70  ],
+    [26,60,160  ],
+    [27,50,150  ],
+    [28,30,130  ],
+    [29,160,60  ],
+    [30,120,20  ],
+    [31,40,140  ],
+    [32,140,40  ],
+    [33,20,120  ],
+    [34,140,40  ],
+    [35,120,20  ],
+    [36,160,80  ],
+    [37,150,50  ],
+    [38,70,170  ],
+    [39,140,40  ],
+    [40,120,20  ],
+    [41,50,150  ],
+    [42,50,150  ],
+    [43,70,170  ],
+    [44,30,130  ],
+    [45,160,70  ],
+    [46,160,60  ],
+    [47,60,160  ],
+    [48,50,150  ],
+    [49,30,130  ],
+    [50,120,20  ],
+    [51,30,130  ],
+    [52,40,140  ],
+    [53,120,20  ],
+    [54,80,170  ],
+    [55,20,120  ],
+    [56,60,160  ],
+    [57,140,40  ],
+    [58,30,130  ],
+    [59,70,170  ],
+    [60,70,170  ],
+    [61,30,130  ],
+    [62,50,150  ],
+    [63,40,140  ],
+    [64,70,170  ],
+    [65,60,160  ],
+    [66,30,130  ],
+    [67,80,170  ],
+    [68,70,170  ],
+    [69,140,40  ],
+    [70,140,40  ],
+    [71,120,20  ],
+    [72,60,160  ],
+    [73,20,120  ],
+    [74,20,120  ],
+    [75,80,170  ],
+    [76,50,150  ],
+    [77,160,70  ],
+    [78,140,40  ],
+    [79,130,30  ],
+    [80,160,70  ],
+    [81,160,60  ],
+    [82,50,150  ],
+    [83,130,30  ],
+    [84,150,50  ],
+    [85,40,140  ],
+    [86,160,70  ],
+    [87,60,160  ],
+    [88,160,60  ],
+    [89,120,20  ],
+    [90,160,80  ],
+    [91,60,160  ],
+    [92,160,60  ],
+    [93,70,170  ],
+    [94,30,130  ],
+    [95,30,130  ],
+    [96,120,20  ],
+    [97,20,120  ],
+    [98,30,130  ],
+    [99,60,160  ],
+    [100,160,80  ],
+    [101,120,20  ],
+    [102,80,170  ],
+    [103,120,20  ],
+    [104,60,160  ],
+    [105,50,150  ],
+    [106,130,30  ],
+    [107,50,150  ],
+    [108,80,170  ],
+    [109,140,40  ],
+    [110,30,130  ],
+    [111,150,50  ],
+    [112,160,70  ],
+    [113,60,160  ],
+    [114,70,170  ],
+    [115,40,140  ],
+    [116,70,170  ],
+    [117,160,60  ],
+    [118,160,70  ],
+    [119,20,120  ],
+    [120,160,60  ],
+    [121,130,30  ],
+    [122,130,30  ],
+    [123,60,160  ],
+    [124,160,80  ],
+    [125,150,50  ],
+    [126,130,30  ],
+    [127,140,40  ],
+    [128,120,20  ],
+    [129,160,70  ],
+    [130,80,170  ],
+    [131,70,170  ],
+    [132,20,120  ],
+    [133,160,70  ],
+    [134,160,80  ],
+    [135,60,160  ],
+    [136,130,30  ],
+    [137,80,170  ],
+    [138,140,40  ],
+    [139,150,50  ],
+    [140,140,40  ],
+    [141,140,40  ],
+    [142,120,20  ],
+    [143,20,120  ],
+    [144,150,50  ],
+    [145,130,30  ],
+    [146,160,70  ],
+    [147,130,30  ],
+    [148,40,140  ],
+    [149,20,120  ],
+    [150,160,80  ],
+    [151,160,80  ],
+    [152,70,170  ],
+    [153,120,20  ],
+    [154,150,50  ],
+    [155,160,80  ],
+    [156,60,160  ],
+    [157,20,120  ],
+    [158,70,170  ],
+    [159,20,120  ],
+    [160,30,130  ],
+    [161,30,130  ],
     [162,160,80  ],
-    [163,150,70  ],
-    [164,30,110  ],
-    [165,160,80  ],
-    [166,30,110  ],
-    [167,150,70  ],
-    [168,140,60  ],
-    [169,130,50  ],
-    [170,160,80  ],
-    [171,70,150  ],
-    [172,60,140  ],
-    [173,140,60  ],
-    [174,20,100  ],
-    [175,20,100  ],
-    [176,60,140  ],
-    [177,40,120  ],
-    [178,160,80  ],
-    [179,140,60  ],
-    [180,20,100  ],
-    [181,60,140  ],
-    [182,40,120  ],
-    [183,70,150  ],
-    [184,140,60  ],
-    [185,150,70  ],
-    [186,50,130  ],
-    [187,140,60  ],
-    [188,20,100  ],
-    [189,150,70  ],
-    [190,150,70  ],
-    [191,50,130  ],
-    [192,50,130  ],
-    [193,50,130  ],
-    [194,150,70  ],
-    [195,20,100  ],
-    [196,130,50  ],
-    [197,20,100  ],
-    [198,160,80  ],
-    [199,20,100  ],
-    [200,50,130  ]
+    [163,70,170  ],
+    [164,70,170  ],
+    [165,70,170  ],
+    [166,70,170  ],
+    [167,50,150  ],
+    [168,160,60  ],
+    [169,30,130  ],
+    [170,140,40  ],
+    [171,80,170  ],
+    [172,160,60  ],
+    [173,160,80  ],
+    [174,160,60  ],
+    [175,140,40  ],
+    [176,130,30  ],
+    [177,20,120  ],
+    [178,30,130  ],
+    [179,120,20  ],
+    [180,120,20  ],
+    [181,30,130  ],
+    [182,130,30  ],
+    [183,160,60  ],
+    [184,150,50  ],
+    [185,160,70  ],
+    [186,160,80  ],
+    [187,160,80  ],
+    [188,30,130  ],
+    [189,160,60  ],
+    [190,30,130  ],
+    [191,150,50  ],
+    [192,140,40  ],
+    [193,130,30  ],
+    [194,160,60  ],
+    [195,70,170  ],
+    [196,60,160  ],
+    [197,140,40  ],
+    [198,20,120  ],
+    [199,20,120  ],
+    [200,60,160  ]
 ];
 
 
@@ -241,6 +241,7 @@ Pacman.User = function (game, map) {
         trials = null,
         score     = 5,
         keyMap    = {},
+        over = true,
         //ghost = new Pacman.Ghost(game, map, "#FF00FF"),
         position = null;
 
@@ -281,15 +282,22 @@ Pacman.User = function (game, map) {
         return due;
     }
 
+    function setEaten(num) {
+        eaten = num;
+    }
+
     function initUser() {
         score = 0;
+        if (lives !== 0) {
+            trials = 20;
+        }
         lives = 3;
-        trials = 20;
         newLevel();
     }
 
     function newLevel() {
         resetPosition();
+        over = true;
         eaten = 0;
     };
 
@@ -379,6 +387,8 @@ Pacman.User = function (game, map) {
             }
         }
         if (position.x === 10 || position.x === 170) {
+            console.log("Escaped.");
+            console.log("\n");
             game.completedLevel();
             trials--;
         }
@@ -409,15 +419,37 @@ Pacman.User = function (game, map) {
         block = map.block(nextWhole);
 
 
-
         if ((isMidSquare(position.y) || isMidSquare(position.x)) &&
             block === Pacman.BISCUIT || block === Pacman.PILL) {
 
             map.setBlock(nextWhole, Pacman.EMPTY);
-           /* if (position.x < ghost.getX()) {
-
-            } */
-            addScore((block === Pacman.BISCUIT) ? 10 : 50);
+            if (position.x < 110 && over) {
+                if (position.x === 62) {
+                    addScore(10);
+                } else if (position.x === 72) {
+                    addScore(20);
+                } else if (position.x === 82) {
+                    addScore(30);
+                } else if (position.x === 92) {
+                    addScore(40);
+                } else if (position.x === 102) {
+                    addScore(50);
+                }
+            } else {
+                over = false;
+                if (position.x === 118) {
+                    addScore(10);
+                } else if (position.x === 108) {
+                    addScore(20);
+                } else if (position.x === 98) {
+                    addScore(30);
+                } else if (position.x === 88) {
+                    addScore(40);
+                } else if (position.x === 78) {
+                    addScore(50);
+                }
+            }
+            //addScore((block === Pacman.BISCUIT) ? 10 : 50);
             eaten += 1;
 
             if (eaten === 5) {
@@ -436,7 +468,6 @@ Pacman.User = function (game, map) {
 
     };
     function getPosition() {
-        //console.log(position);
         return position;
     };
 
@@ -467,7 +498,7 @@ Pacman.User = function (game, map) {
             return;
         }
 
-        ctx.fillStyle = "#FFFF00";
+        ctx.fillStyle = "#00FF00";
         ctx.beginPath();
         ctx.moveTo(((position.x/10) * size) + half,
             ((position.y/10) * size) + half);
@@ -499,16 +530,23 @@ Pacman.User = function (game, map) {
         ctx.fill();
     };
 
+    function getEaten() {
+        return eaten;
+    }
+
     initUser();
 
     return {
         "draw"          : draw,
+        "over"          : over,
         "drawDead"      : drawDead,
         "loseLife"      : loseLife,
         "getLives"      : getLives,
         "getTrials"     : getTrials,
         "getPosition"  : getPosition,
         "score"         : score,
+        "getEaten" : getEaten,
+        "setEaten" :setEaten,
         "getDirection"  : getDirection,
         "getDue"        : getDue,
         "addScore"      : addScore,
@@ -533,6 +571,7 @@ Pacman.Ghost = function (game, map, colour) {
         chaseVar = false,
         bobVar = false,
         bobCount = null,
+        distanceVar = null,
         chaseCount = null,
         attackCount = null,
         attackDist = null,
@@ -566,22 +605,36 @@ Pacman.Ghost = function (game, map, colour) {
                     "y" : y
                 }
             } else {
-                return {
-                    "x" : x - 3,
-                    "y" : y
+                if (distance() > 50) {
+                    return {
+                        "x" : x - 5,
+                        "y" : y
+                    }
+                } else {
+                    return {
+                        "x" : x - 3,
+                        "y" : y
+                    }
                 }
             }
         } else {
             //if (x + moveAmount > PACMAN.getUserPos()) {
-            if (x + 3 < PACMAN.getUserPos()) {
+            if (x + 3 > PACMAN.getUserPos()) {
                 return {
                     "x" : PACMAN.getUserPos,
                     "y" : y
                 }
             } else {
-                return {
-                    "x" : x + 3,
-                    "y" : y
+                if (distance() > 50) {
+                    return {
+                        "x" : x + 5,
+                        "y" : y
+                    }
+                } else {
+                    return {
+                        "x" : x + 3,
+                        "y" : y
+                    }
                 }
             }
         }
@@ -771,19 +824,12 @@ Pacman.Ghost = function (game, map, colour) {
     };
 
     function distance() {
-        //console.log((Math.abs(PACMAN.getUserPos() - PACMAN.getGhostPos())));
-        //console.log("User Position" + PACMAN.getUserPos());
-        //console.log(PACMAN.getGhostPos());
-        //return Math.abs(PACMAN.getUserPos() );
-        //console.log(PACMAN.getGhostPos());
-        //console.log(PACMAN.getUserPos());
-        //console.log(Math.abs(PACMAN.getGhostPos() - PACMAN.getUserPos()));
-        return Math.abs(PACMAN.getGhostPos() - PACMAN.getUserPos());
+        distanceVar = Math.abs(PACMAN.getGhostPos() - PACMAN.getUserPos())
+        return distanceVar;
     }
 
-
     function chase(ctx) {
-        console.log("chased.")
+        console.log("Chased.")
         if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
             due = LEFT;
             direction = LEFT;
@@ -796,7 +842,6 @@ Pacman.Ghost = function (game, map, colour) {
 
     function bob(ctx) {
         if (bobCount >= 10) {
-            console.log("Bobbed.")
             due = oppositeDirection(due);
             direction = oppositeDirection(direction);
             bobCount = 0;
@@ -805,7 +850,7 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function attack(ctx) {
-        console.log(distance() + " Attacked.");
+        console.log("Attacked.");
          Pacman.attackVar1 = true;
         attackVar = true;
         let npos;
@@ -864,7 +909,6 @@ Pacman.Ghost = function (game, map, colour) {
         }
 
         let tracker = Math.random() * 100;
-        //console.log(tracker);
 
     if (onGrid &&
         map.isWallSpace({
@@ -896,7 +940,6 @@ Pacman.Ghost = function (game, map, colour) {
                 bobVar = true;
                 bobCount++;
                 if (bobCount < 10) {
-                    console.log(bobCount, "hit bob, but bobCount not 5");
                     return move(ctx);
                 } else {
                     bob(ctx);
@@ -921,7 +964,6 @@ Pacman.Ghost = function (game, map, colour) {
               bobVar = true;
               bobCount++;
               if (bobCount < 10) {
-                  console.log(bobCount, "hit bob, but bobCount not 5");
                   return move(ctx);
               } else {
                   bob(ctx);
@@ -946,7 +988,6 @@ Pacman.Ghost = function (game, map, colour) {
                 bobVar = true;
                 bobCount++;
                 if (bobCount < 20) {
-                    console.log(bobCount, "hit bob, but bobCount not 5");
                     return move(ctx);
                 } else {
                     bob(ctx);
@@ -971,7 +1012,6 @@ Pacman.Ghost = function (game, map, colour) {
              bobVar = true;
              bobCount++;
              if (bobCount < 20) {
-                 console.log(bobCount, "hit bob, but bobCount not 5");
                  return move(ctx);
              } else {
                  bob(ctx);
@@ -996,7 +1036,6 @@ Pacman.Ghost = function (game, map, colour) {
               bobVar = true;
               bobCount++;
               if (bobCount < 20) {
-                  console.log(bobCount, "hit bob, but bobCount not 5");
                   return move(ctx);
               } else {
                   bob(ctx);
@@ -1021,7 +1060,6 @@ Pacman.Ghost = function (game, map, colour) {
               bobVar = true;
               bobCount++;
               if (bobCount < 20) {
-                  console.log(bobCount, "hit bob, but bobCount not 5");
                   return move(ctx);
               } else {
                   bob(ctx);
@@ -1046,7 +1084,6 @@ Pacman.Ghost = function (game, map, colour) {
               bobVar = true;
               bobCount++;
               if (bobCount < 20) {
-                  console.log(bobCount, "hit bob, but bobCount not 5");
                   return move(ctx);
               } else {
                   bob(ctx);
@@ -1071,7 +1108,6 @@ Pacman.Ghost = function (game, map, colour) {
               bobVar = true;
               bobCount++;
               if (bobCount < 20) {
-                  console.log(bobCount, "hit bob, but bobCount not 5");
                   return move(ctx);
               } else {
                   bob(ctx);
@@ -1096,7 +1132,6 @@ Pacman.Ghost = function (game, map, colour) {
               bobVar = true;
               bobCount++;
               if (bobCount < 20) {
-                  console.log(bobCount, "hit bob, but bobCount not 5");
                   return move(ctx);
               } else {
                   bob(ctx);
@@ -1121,7 +1156,6 @@ Pacman.Ghost = function (game, map, colour) {
               bobVar = true;
               bobCount++;
               if (bobCount < 20) {
-                  console.log(bobCount, "hit bob, but bobCount not 5");
                   return move(ctx);
               } else {
                   bob(ctx);
@@ -1151,6 +1185,7 @@ Pacman.Ghost = function (game, map, colour) {
         "reset"       : reset,
         "move"        : move,
         "draw"        : draw,
+        "distance" : distance,
         "getX" : getX,
         "getNewAttackCoord" : getNewAttackCoord
     };
@@ -1414,6 +1449,7 @@ var PACMAN = (function () {
         timer        = null,
         map          = null,
         user         = null,
+            endtrials = false,
         stored       = null;
 
     function getTick() {
@@ -1446,6 +1482,9 @@ var PACMAN = (function () {
         } else {
             Pacman.totalTrials++;
         }
+        if (user.trials === 0) {
+            user.trials = 20;
+        }
         map.reset();
         map.draw(ctx);
         user.resetPosition();
@@ -1458,6 +1497,7 @@ var PACMAN = (function () {
     function startNewGame() {
         setState(WAITING);
         level = 1;
+        user.trials = 20;
         user.reset();
         map.reset();
         map.draw(ctx);
@@ -1563,6 +1603,13 @@ var PACMAN = (function () {
         ghostPosX = g["new"].x;
         userPosX = u["new"].x;
         ghostPosY = g["new"].y;
+        console.log("Trial: " + Math.abs(20 - user.getTrials()));
+        console.log("User Position: " + userPosX);
+        console.log("Ghost Position: " + ghostPosX);
+        console.log("Distance: " + ghost1.distance());
+        console.log("Eaten: " + user.getEaten());
+        console.log("\n");
+
 
 
             if (collided(userPos, ghostPos)) {
@@ -1576,6 +1623,8 @@ var PACMAN = (function () {
                     setState(EATEN_PAUSE);
                     timerStart = tick;
                 } else if (ghost1.isDangerous()) {
+                    console.log("Hit ghost.");
+                    console.log("\n");
                     //audio.play("die");
                     setState(DYING);
                     timerStart = tick;
@@ -1592,12 +1641,24 @@ var PACMAN = (function () {
 
         map.drawPills(ctx);
 
+        if (user.getTrials() === 0 && !endtrials) {
+            endtrials = true;
+            map.draw(ctx);
+            //user.trials = 20;
+            dialog("Please exit the game.");
+            //startLevel();
+        }
+
         if (state === PLAYING) {
             mainDraw();
         } else if (state === WAITING && stateChanged) {
             stateChanged = false;
             map.draw(ctx);
-            dialog("Press n to start a new game!");
+            if (user.getTrials() !== 0) {
+                dialog("Press n to start a new game!");
+            } else {
+                dialog("Please exit the game.");
+            }
         } else if (state === EATEN_PAUSE &&
             (tick - timerStart) > (Pacman.FPS / 3)) {
             map.draw(ctx);
@@ -1605,13 +1666,14 @@ var PACMAN = (function () {
         } else if (state === DYING) {
             if (tick - timerStart > (Pacman.FPS * 2)) {
                 loseLife();
+                user.setEaten(0);
             } else {
                 redrawBlock(userPos);
                 redrawBlock(ghostPos);
-                ghostPos = ghost1.draw(ctx);
+                ghost1.draw(ctx);
                 user.drawDead(ctx, (tick - timerStart) / (Pacman.FPS * 2));
             }
-        } else if (state === COUNTDOWN) {
+        } else if (state === COUNTDOWN && endtrials === false) {
 
             diff = 5 + Math.floor((timerStart - tick) / Pacman.FPS);
 
@@ -1654,7 +1716,6 @@ var PACMAN = (function () {
     };
 
     function getUserPos() {
-        //console.log(userPos);
         return userPosX;
     }
 
