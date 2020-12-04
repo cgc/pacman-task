@@ -24,6 +24,7 @@ var NONE        = 4,
 Pacman.userStartPos = null;
 Pacman.ghostStartPos = null;
 Pacman.totalTrials = 1;
+Pacman.randomTrial = null;
 Pacman.FPS = 15;
 Pacman.attackVar1 = false;
 Pacman.AFPS = 5;
@@ -302,7 +303,14 @@ Pacman.User = function (game, map) {
     };
 
     function resetPosition() {
-        position = {"x": Pacman.startingPositions[Pacman.totalTrials - 1][1], "y": 100};
+        Pacman.randomTrial = Math.floor(Math.random() * 201);
+        if (Pacman.randomTrial > 200) {
+            Pacman.randomTrial = 200;
+        } else if (Pacman.randomTrial < 1) {
+            Pacman.randomTrial = 1;
+        }
+        console.assert(Pacman.randomTrial <= 201 || Pacman.randomTrial >= 0, Pacman.randomTrial);
+        position = {"x": Pacman.startingPositions[Pacman.randomTrial][1], "y": 100};
         direction = NONE;
         due = NONE;
     };
@@ -424,28 +432,28 @@ Pacman.User = function (game, map) {
 
             map.setBlock(nextWhole, Pacman.EMPTY);
             if (position.x < 110 && over) {
-                if (position.x === 62) {
+                if (position.x === 62 || position.x === 78) {
                     addScore(10);
-                } else if (position.x === 72) {
+                } else if (position.x === 72 || position.x === 88) {
                     addScore(20);
-                } else if (position.x === 82) {
+                } else if (position.x === 82 || position.x === 98) {
                     addScore(30);
-                } else if (position.x === 92) {
+                } else if (position.x === 92 || position.x === 108) {
                     addScore(40);
-                } else if (position.x === 102) {
+                } else if (position.x === 102 || position.x === 118) {
                     addScore(50);
                 }
             } else {
                 over = false;
-                if (position.x === 118) {
+                if (position.x === 118 || position.x === 102) {
                     addScore(10);
-                } else if (position.x === 108) {
+                } else if (position.x === 108 || position.x === 92) {
                     addScore(20);
-                } else if (position.x === 98) {
+                } else if (position.x === 98 || position.x === 82) {
                     addScore(30);
-                } else if (position.x === 88) {
+                } else if (position.x === 88 || position.x === 72) {
                     addScore(40);
-                } else if (position.x === 78) {
+                } else if (position.x === 78 || position.x === 62) {
                     addScore(50);
                 }
             }
@@ -681,7 +689,7 @@ Pacman.Ghost = function (game, map, colour) {
     function reset() {
         eaten = null;
         eatable = null;
-        position = {"x": Pacman.startingPositions[Pacman.totalTrials - 1][2], "y": 100};
+        position = {"x": Pacman.startingPositions[Pacman.randomTrial][2], "y": 100};
         direction = getRandomDirection();
         due = getRandomDirection();
         chaseCount = 0;
