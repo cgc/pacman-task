@@ -460,10 +460,10 @@ Pacman.User = function (game, map) {
             //addScore((block === Pacman.BISCUIT) ? 10 : 50);
             eaten += 1;
 
-            if (eaten === 5) {
+          /*  if (eaten === 5) {
                 game.completedLevel();
                 trials--;
-            }
+            } */
 
             if (block === Pacman.PILL) {
                 game.eatenPill();
@@ -1659,6 +1659,8 @@ var PACMAN = (function () {
 
         if (state === PLAYING) {
             mainDraw();
+            const now = new Date();
+            console.log("Time: " + now.getSeconds() + "." + now.getMilliseconds());
         } else if (state === WAITING && stateChanged) {
             stateChanged = false;
             map.draw(ctx);
