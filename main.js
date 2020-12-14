@@ -28,6 +28,8 @@ Pacman.randomTrial = null;
 Pacman.FPS = 15;
 Pacman.attackVar1 = false;
 Pacman.AFPS = 5;
+Pacman.countdownCheck = false;
+Pacman.escaped = false;
 Pacman.startingPositions = [
     [1,20,120  ],
     [2,60,160  ],
@@ -398,6 +400,7 @@ Pacman.User = function (game, map) {
             console.log("Escaped.");
             console.log("\n");
             game.completedLevel();
+            Pacman.escaped = true;
             trials--;
         }
 
@@ -1309,7 +1312,13 @@ Pacman.Map = function (size) {
 
         for (i = 0; i < height; i += 1) {
             for (j = 0; j < width; j += 1) {
-                drawBlock(i, j, ctx);
+                if (Pacman.countdownCheck === true) {
+                    if (i !== PACMAN.getUserPos() && i !== PACMAN.getGhostPos()) {
+                        drawBlock(i, j, ctx);
+                    }
+                } else {
+                    drawBlock(i, j, ctx);
+                }
             }
         }
     };
@@ -1603,8 +1612,10 @@ var PACMAN = (function () {
         let g = ghost1.move(ctx);
         redrawBlock(g.old);
         redrawBlock(u.old);
-        ghost1.draw(ctx);
-        user.draw(ctx);
+        if (Pacman.escaped === false) {
+            ghost1.draw(ctx);
+            user.draw(ctx);
+        }
 
         userPos = u["new"];
         ghostPos = g["new"];
@@ -1641,13 +1652,16 @@ var PACMAN = (function () {
     };
 
     function mainLoop() {
+        if (Pacman.escaped === true) {
+            Pacman.escaped = false;
+        }
         var diff;
 
         if (state !== PAUSE) {
             ++tick;
         }
 
-        map.drawPills(ctx);
+        //map.drawPills(ctx);
 
         if (user.getTrials() === 0 && !endtrials) {
             endtrials = true;
@@ -1692,11 +1706,13 @@ var PACMAN = (function () {
                 setState(PLAYING);
             } else {
                 if (diff !== lastTime) {
+                    Pacman.countdownCheck = true;
                     lastTime = diff;
                     map.draw(ctx);
                     dialog("Starting in: " + diff);
                 }
             }
+            Pacman.countdownCheck = false;
         }
 
         drawFooter();
