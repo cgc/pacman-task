@@ -1513,54 +1513,54 @@ Pacman.Map = function (size) {
                 let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
                 if (userPosition <= 80) {
                    if (x === (userPosition / 10) + 2) {
-                       ctx.fillStyle = "#FFF";
+                       ctx.fillStyle = "#ffff00";
                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / 6, blockSize / 6);
                    } else if (x === (userPosition / 10) + 3) {
-                       ctx.fillStyle = "#FFF";
+                       ctx.fillStyle = "#ffff00";
                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / 5, blockSize / 5);
                    } else if (x === (userPosition / 10) + 4) {
-                       ctx.fillStyle = "#FFF";
+                       ctx.fillStyle = "#ffff00";
                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / 4, blockSize / 4);
                    } else if (x === (userPosition / 10) + 5) {
-                       ctx.fillStyle = "#FFF";
+                       ctx.fillStyle = "#ffff00";
                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / 3, blockSize / 3);
                    } else if (x === (userPosition / 10) + 6) {
-                       ctx.fillStyle = "#FFF";
+                       ctx.fillStyle = "#ffff00";
                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / 2, blockSize / 2);
                    }
                 } else {
                     if (x === (userPosition / 10) - 2) {
-                        ctx.fillStyle = "#FFF";
+                        ctx.fillStyle = "#ffff00";
                         ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / 6, blockSize / 6);
                     } else if (x === (userPosition / 10) - 3) {
-                        ctx.fillStyle = "#FFF";
+                        ctx.fillStyle = "#ffff00";
                         ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / 5, blockSize / 5);
                     } else if (x === (userPosition / 10) - 4) {
-                        ctx.fillStyle = "#FFF";
+                        ctx.fillStyle = "#ffff00";
                         ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / 4, blockSize / 4);
                     } else if (x === (userPosition / 10) - 5) {
-                        ctx.fillStyle = "#FFF";
+                        ctx.fillStyle = "#ffff00";
                         ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / 3, blockSize / 3);
                     } else if (x === (userPosition / 10) - 6) {
-                        ctx.fillStyle = "#FFF";
+                        ctx.fillStyle = "#ffff00";
                         ctx.fillRect((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / 2, blockSize / 2);
