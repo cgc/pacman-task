@@ -614,6 +614,7 @@ Pacman.Ghost = function (game, map, colour) {
         attackCount = null,
         attackDist = null,
         wallDist = null,
+        tracker2 = null,
         fps = 18,
         pacman2 = new Pacman.User(game, map);
 
@@ -746,6 +747,8 @@ Pacman.Ghost = function (game, map, colour) {
         chaseVar = false;
         chaseCount = 0;
         attackCount = 0;
+        tracker2 = Math.random();
+
     };
 
     function onWholeSquare(x) {
@@ -956,8 +959,8 @@ Pacman.Ghost = function (game, map, colour) {
         const n = 161;
         const arr = [...Array(n).keys()];
         let lambda = arr.indexOf(x);
-        let xMax = 1;
-        let xMin = 0.5;
+        let xMax = 3;
+        let xMin = 2.5;
         let yMax = 160;
         let yMin = 0;
         const retArr = [];
@@ -966,13 +969,14 @@ Pacman.Ghost = function (game, map, colour) {
             let outputX = percent * (xMax - xMin) + xMin;
             retArr.push(outputX);
         }
-        retArr.sort().reverse();
+        // retArr.sort().reverse();
         return retArr[lambda];
     }
 
     function survival(x, lambda, gamma) {
-        let t = x/5;
-        let re = (gamma * (Math.E ** ((t * -1) * lambda))) / (1 - ((1 - gamma) * (Math.E ** ((t * -1) * lambda))));
+        let t = x;
+        // let re = (gamma * (Math.E ** ((t * -1) * lambda))) / (1 - ((1 - gamma) * (Math.E ** ((t * -1) * lambda))));
+        let re = 1 - (1 / (1 + (Math.E ** ((x - lambda) * -2)))) ;
         return re;
     }
 
@@ -1013,17 +1017,19 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     //let tracker = Math.random() * 100;
-    let tracker2 = Math.random();
     if (!isNaN(distance())) {
         let lambda = distanceToLambda(distance());
         const now = performance.now();
         console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 4));
-        let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 3);
+        let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 4);
+        console.log('prob of survival: ' + probOfSurvival);
         //if (chaseVar === false && bobVar === false) {
             //console.log(now.getSeconds() + "." + now.getMilliseconds());
             //console.log(tracker2, probOfSurvival);
         //console.log(attackVar);
         console.log(chaseVar);
+        console.log("tracker: " + tracker2);
+        console.log("bob Counter" + bobCount);
             if ((tracker2 > probOfSurvival || attackVar === true) && chaseVar === false) {
                 if (attackCount === 0) {
                     attackDist = distance();
@@ -1034,7 +1040,7 @@ Pacman.Ghost = function (game, map, colour) {
                 attackVar = true;
                 attackCount++;
                 return attack(ctx);
-            } else if (tracker2 > probOfSurvival / 3
+            } else if (tracker2 > probOfSurvival - (probOfSurvival / 8)
                 || chaseVar === true) {
                 chaseVar = true;
                 chaseCount++;
@@ -1047,12 +1053,12 @@ Pacman.Ghost = function (game, map, colour) {
                     "old" : oldPos
                 }
                 bobCount++;
-                if (bobCount >= 20) {
+                if (bobCount >= 5) {
                     due = oppositeDirection(due);
                     direction = oppositeDirection(direction);
                     bobCount = 0;
                 }
-                if (bobCount < 20) {
+                if (bobCount < 5) {
                     if (position.x > PACMAN.getUserPos().x) {
                         position = oldPos;
                         let npos = position.x - 2;
@@ -2149,4 +2155,3 @@ $(function(){
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
 });
-
