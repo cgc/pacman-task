@@ -32,6 +32,19 @@ Pacman.countdownCheck = false;
 Pacman.escaped = false;
 Pacman.totalTime = performance.now();
 Pacman.trialTime = performance.now();
+Pacman.timeArray = [];
+Pacman.ghostLocationArray = [];
+Pacman.userLocationArray = [];
+Pacman.bisc1Array = [];
+Pacman.bisc2Array = [];
+Pacman.bisc3Array = [];
+Pacman.bisc4Array = [];
+Pacman.bisc5Array = [];
+Pacman.attackArray = [];
+Pacman.chaseArray = [];
+Pacman.eatenArray = [];
+Pacman.scoreArray = [];
+Pacman.lives = null;
 Pacman.startingPositions = [
     [1,20,120  ],
     [2,60,160  ],
@@ -437,26 +450,36 @@ Pacman.User = function (game, map) {
             let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
             if (userPosition <= 80) {
                 if (nextWhole.x === (userPosition / 10) + 2) {
+                    Pacman.bisc1Array.push("True");
                     addScore(10);
                 } else if (nextWhole.x === (userPosition / 10) + 3) {
+                    Pacman.bisc2Array.push("True");
                     addScore(20);
                 } else if (nextWhole.x === (userPosition / 10) + 4) {
+                    Pacman.bisc3Array.push("True");
                     addScore(30);
                 } else if (nextWhole.x === (userPosition / 10) + 5) {
+                    Pacman.bisc4Array.push("True");
                     addScore(40);
                 } else if (nextWhole.x === (userPosition / 10) + 6) {
+                    Pacman.bisc5Array.push("True");
                     addScore(50);
                 }
             } else {
                 if (nextWhole.x === (userPosition / 10) - 2) {
+                    Pacman.bisc1Array.push("True");
                     addScore(10);
                 } else if (nextWhole.x === (userPosition / 10) - 3) {
+                    Pacman.bisc2Array.push("True");
                     addScore(20);
                 } else if (nextWhole.x === (userPosition / 10) - 4) {
+                    Pacman.bisc3Array.push("True");
                     addScore(30);
                 } else if (nextWhole.x === (userPosition / 10) - 5) {
+                    Pacman.bisc4Array.push("True");
                     addScore(40);
                 } else if (nextWhole.x === (userPosition / 10) - 6) {
+                    Pacman.bisc5Array.push("True");
                     addScore(50);
                 }
             }
@@ -498,6 +521,12 @@ Pacman.User = function (game, map) {
             if (block === Pacman.PILL) {
                 game.eatenPill();
             }
+        } else {
+            Pacman.bisc1Array.push("False");
+            Pacman.bisc2Array.push("False");
+            Pacman.bisc3Array.push("False");
+            Pacman.bisc4Array.push("False");
+            Pacman.bisc5Array.push("False");
         }
         return {
             "new" : position,
@@ -536,7 +565,7 @@ Pacman.User = function (game, map) {
             return;
         }
 
-        ctx.fillStyle = "#00FF00";
+        ctx.fillStyle = "#FFFF00";
         ctx.beginPath();
         ctx.moveTo(((position.x/10) * size) + half,
             ((position.y/10) * size) + half);
@@ -553,7 +582,7 @@ Pacman.User = function (game, map) {
         var s     = map.blockSize,
             angle = calcAngle(direction, position);
 
-        ctx.fillStyle = "#00FF00";
+        ctx.fillStyle = "#FFFF00";
 
         ctx.beginPath();
 
@@ -608,7 +637,7 @@ Pacman.Ghost = function (game, map, colour) {
         attackVar = false,
         chaseVar = false,
         bobVar = false,
-        bobCount = null,
+        bobCount = 0,
         distanceVar = null,
         chaseCount = null,
         attackCount = null,
@@ -748,7 +777,6 @@ Pacman.Ghost = function (game, map, colour) {
         chaseCount = 0;
         attackCount = 0;
         tracker2 = Math.random();
-
     };
 
     function onWholeSquare(x) {
@@ -893,6 +921,7 @@ Pacman.Ghost = function (game, map, colour) {
 
     function chase(ctx) {
         console.log("Chased.")
+        Pacman.chaseArray.push("True");
         if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
             due = LEFT;
             direction = LEFT;
@@ -923,6 +952,7 @@ Pacman.Ghost = function (game, map, colour) {
 
     function attack(ctx) {
         console.log("Attacked.");
+        Pacman.attackArray.push("True");
          Pacman.attackVar1 = true;
         attackVar = true;
         let npos;
@@ -1022,14 +1052,11 @@ Pacman.Ghost = function (game, map, colour) {
         const now = performance.now();
         console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 4));
         let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 4);
-        console.log('prob of survival: ' + probOfSurvival);
         //if (chaseVar === false && bobVar === false) {
             //console.log(now.getSeconds() + "." + now.getMilliseconds());
             //console.log(tracker2, probOfSurvival);
         //console.log(attackVar);
         console.log(chaseVar);
-        console.log("tracker: " + tracker2);
-        console.log("bob Counter" + bobCount);
             if ((tracker2 > probOfSurvival || attackVar === true) && chaseVar === false) {
                 if (attackCount === 0) {
                     attackDist = distance();
@@ -1046,19 +1073,18 @@ Pacman.Ghost = function (game, map, colour) {
                 chaseCount++;
                 return chase(ctx);
             } else {
-                bobVar = true;let oldPos = position;
+                Pacman.attackArray.push("False");
+                Pacman.chaseArray.push("False");
+                bobVar = true;
+                let oldPos = position;
                 position = getNewCoord(due, position);
-                return {
-                    "new" : position,
-                    "old" : oldPos
-                }
                 bobCount++;
-                if (bobCount >= 5) {
+                if (bobCount >= 20) {
                     due = oppositeDirection(due);
                     direction = oppositeDirection(direction);
                     bobCount = 0;
                 }
-                if (bobCount < 5) {
+                if (bobCount < 20) {
                     if (position.x > PACMAN.getUserPos().x) {
                         position = oldPos;
                         let npos = position.x - 2;
@@ -1077,8 +1103,11 @@ Pacman.Ghost = function (game, map, colour) {
                         }
                     }
                 }
+                return {
+                    "new" : position,
+                    "old" : oldPos
+                }
             }
-        //}
     }
 
      /* if (chaseVar === false && bobVar === false) {
@@ -1520,56 +1549,86 @@ Pacman.Map = function (size) {
                 if (userPosition <= 80) {
                    if (x === (userPosition / 10) + 2) {
                        ctx.fillStyle = "#ffff00";
-                       ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                       ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
-                           blockSize / 6, blockSize / 6);
+                           blockSize / 6,
+                           0,
+                           Math.PI * 2, false);
+                       ctx.fill();
                    } else if (x === (userPosition / 10) + 3) {
                        ctx.fillStyle = "#ffff00";
-                       ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                       ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
-                           blockSize / 5, blockSize / 5);
+                           blockSize / 5,
+                           0,
+                           Math.PI * 2, false);
+                       ctx.fill();
                    } else if (x === (userPosition / 10) + 4) {
                        ctx.fillStyle = "#ffff00";
-                       ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                       ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
-                           blockSize / 4, blockSize / 4);
+                           blockSize / 4,
+                           0,
+                           Math.PI * 2, false);
+                       ctx.fill();
                    } else if (x === (userPosition / 10) + 5) {
                        ctx.fillStyle = "#ffff00";
-                       ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                       ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
-                           blockSize / 3, blockSize / 3);
+                           blockSize / 3,
+                           0,
+                           Math.PI * 2, false);
+                       ctx.fill();
                    } else if (x === (userPosition / 10) + 6) {
                        ctx.fillStyle = "#ffff00";
-                       ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                       ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
-                           blockSize / 2, blockSize / 2);
+                           blockSize / 2.5,
+                           0,
+                           Math.PI * 2, false);
+                       ctx.fill();
                    }
                 } else {
                     if (x === (userPosition / 10) - 2) {
                         ctx.fillStyle = "#ffff00";
-                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
-                            blockSize / 6, blockSize / 6);
+                            blockSize / 6,
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
                     } else if (x === (userPosition / 10) - 3) {
                         ctx.fillStyle = "#ffff00";
-                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
-                            blockSize / 5, blockSize / 5);
+                            blockSize / 5,
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
                     } else if (x === (userPosition / 10) - 4) {
                         ctx.fillStyle = "#ffff00";
-                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
-                            blockSize / 4, blockSize / 4);
+                            blockSize / 4,
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
                     } else if (x === (userPosition / 10) - 5) {
                         ctx.fillStyle = "#ffff00";
-                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
-                            blockSize / 3, blockSize / 3);
+                            blockSize / 3,
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
                     } else if (x === (userPosition / 10) - 6) {
                         ctx.fillStyle = "#ffff00";
-                        ctx.fillRect((x * blockSize) + (blockSize / 2.5),
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
-                            blockSize / 2, blockSize / 2);
+                            blockSize / 2.5,
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
                     }
                 }
             }
@@ -1729,6 +1788,12 @@ var PACMAN = (function () {
         if (user.trials === 0) {
             user.trials = 20;
         }
+        if (user.trials !== 0) {
+            window.postMessage(["Trial " + user.trials,
+                {Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
+                Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
+                Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:Pacman.lives}], "*");
+        }
         map.reset();
         map.draw(ctx);
         user.resetPosition();
@@ -1764,6 +1829,18 @@ var PACMAN = (function () {
         timerStart = tick;
         setState(COUNTDOWN);
         Pacman.trialTime = performance.now();
+        Pacman.timeArray.length = 0;
+        Pacman.ghostLocationArray.length = 0;
+        Pacman.userLocationArray.length = 0;
+        Pacman.bisc1Array.length = 0;
+        Pacman.bisc2Array.length = 0;
+        Pacman.bisc3Array.length = 0;
+        Pacman.bisc4Array.length = 0;
+        Pacman.bisc5Array.length = 0;
+        Pacman.attackArray.length = 0;
+        Pacman.chaseArray.length = 0;
+        Pacman.eatenArray.length = 0;
+        Pacman.scoreArray.length = 0;
     }
 
     function startNewGame() {
@@ -1884,6 +1961,10 @@ var PACMAN = (function () {
         console.log("Distance: " + ghost1.distance());
         console.log("Eaten: " + user.getEaten());
         console.log("\n"); */
+        Pacman.userLocationArray.push(userPosX);
+        Pacman.ghostLocationArray.push(ghostPosX);
+        Pacman.eatenArray.push(user.getEaten());
+        Pacman.scoreArray.push(user.score);
 
 
 
@@ -1930,9 +2011,11 @@ var PACMAN = (function () {
         }
 
         if (state === PLAYING) {
-            mainDraw();
             const now = performance.now();
-            console.log("Overall time: " + ((now - Pacman.totalTime) / 1000)); //+ "." + now.getMilliseconds());
+            Pacman.timeArray.push((now - Pacman.totalTime) / 1000);
+            console.log("Overall time: " + ((now - Pacman.totalTime) / 1000));
+            mainDraw();
+            //+ "." + now.getMilliseconds());
         } else if (state === WAITING && stateChanged) {
             stateChanged = false;
             map.draw(ctx);
@@ -2155,3 +2238,4 @@ $(function(){
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
 });
+
