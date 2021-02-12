@@ -1050,14 +1050,18 @@ Pacman.Ghost = function (game, map, colour) {
     if (!isNaN(distance())) {
         let lambda = distanceToLambda(distance());
         const now = performance.now();
-        console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 4));
+        //console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 4));
         let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 4);
+        console.log("Tracker: " + tracker2);
+        console.log("ProbofSurvival: " + probOfSurvival);
+        console.log("Chase Value: " + (probOfSurvival - (probOfSurvival / 8)));
         //if (chaseVar === false && bobVar === false) {
             //console.log(now.getSeconds() + "." + now.getMilliseconds());
             //console.log(tracker2, probOfSurvival);
         //console.log(attackVar);
-        console.log(chaseVar);
+        //console.log(chaseVar);
             if ((tracker2 > probOfSurvival || attackVar === true) && chaseVar === false) {
+                console.log("In attack");
                 if (attackCount === 0) {
                     attackDist = distance();
                     if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
@@ -1069,44 +1073,69 @@ Pacman.Ghost = function (game, map, colour) {
                 return attack(ctx);
             } else if (tracker2 > probOfSurvival - (probOfSurvival / 8)
                 || chaseVar === true) {
+                console.log("In chase");
                 chaseVar = true;
                 chaseCount++;
                 return chase(ctx);
             } else {
                 Pacman.attackArray.push("False");
                 Pacman.chaseArray.push("False");
+                console.log("in bob" + bobCount);
                 bobVar = true;
-                let oldPos = position;
-                position = getNewCoord(due, position);
+               // let oldPos = position;
+               // position = getNewCoord(due, position);
                 bobCount++;
-                if (bobCount >= 20) {
+                if (position.x === 170) {
+                    position.x = 168;
+                    position.y = 100;
+                    return {
+                        "new" : position,
+                        "old" : oldPos
+                    }
+                }
+                if (position.x === 20) {
+                    position.x = 22;
+                    position.y = 100;
+                    return {
+                        "new" : position,
+                        "old": oldPos
+                    }
+                }
+                if (bobCount >= 10) {
                     due = oppositeDirection(due);
                     direction = oppositeDirection(direction);
+                    position = getNewCoord(due, position);
                     bobCount = 0;
+                    return {
+                        "new" : position,
+                        "old" : oldPos
+                    }
+                } else {
+                    position = getNewCoord(due, position);
+                    return {
+                        "new" : position,
+                        "old" : oldPos
+                    }
                 }
-                if (bobCount < 20) {
-                    if (position.x > PACMAN.getUserPos().x) {
-                        position = oldPos;
-                        let npos = position.x - 2;
+              /*  if (bobCount < 10) {
+                    if (position.x > Pacman.startingPositions[Pacman.randomTrial][1]) {
+                        npos.x = getX() - 2;
+                        npos.y = 100;
                         position = npos;
                         return {
                             "new" : npos,
                             "old" : oldPos
                         }
                     } else {
-                        position = oldPos;
-                        let npos = position.x + 2;
+                        npos.x = getX() + 2;
+                        npos.y = 100;
                         position = npos;
                         return {
                             "new" : npos,
                             "old" : oldPos
                         }
                     }
-                }
-                return {
-                    "new" : position,
-                    "old" : oldPos
-                }
+                } */
             }
     }
 
@@ -1955,12 +1984,12 @@ var PACMAN = (function () {
         ghostPosX = g["new"].x;
         userPosX = u["new"].x;
         ghostPosY = g["new"].y;
-       /* console.log("Trial: " + Math.abs(20 - user.getTrials()));
+       // console.log("Trial: " + Math.abs(20 - user.getTrials()));
         console.log("User Position: " + userPosX);
         console.log("Ghost Position: " + ghostPosX);
-        console.log("Distance: " + ghost1.distance());
-        console.log("Eaten: " + user.getEaten());
-        console.log("\n"); */
+       // console.log("Distance: " + ghost1.distance());
+      //  console.log("Eaten: " + user.getEaten());
+      //  console.log("\n"); */
         Pacman.userLocationArray.push(userPosX);
         Pacman.ghostLocationArray.push(ghostPosX);
         Pacman.eatenArray.push(user.getEaten());
@@ -2013,7 +2042,7 @@ var PACMAN = (function () {
         if (state === PLAYING) {
             const now = performance.now();
             Pacman.timeArray.push((now - Pacman.totalTime) / 1000);
-            console.log("Overall time: " + ((now - Pacman.totalTime) / 1000));
+            //console.log("Overall time: " + ((now - Pacman.totalTime) / 1000));
             mainDraw();
             //+ "." + now.getMilliseconds());
         } else if (state === WAITING && stateChanged) {
