@@ -1052,9 +1052,10 @@ Pacman.Ghost = function (game, map, colour) {
         const now = performance.now();
         //console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 4));
         let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 4);
+        let probOfChase = survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) + ( (survival(((now - Pacman.trialTime) / 1000) - 4, 2.5, 4) - survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) ) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) );
         console.log("Tracker: " + tracker2);
         console.log("ProbofSurvival: " + probOfSurvival);
-        console.log("Chase Value: " + (probOfSurvival - (probOfSurvival / 8)));
+        console.log("Chase Value: " + probOfChase);
         //if (chaseVar === false && bobVar === false) {
             //console.log(now.getSeconds() + "." + now.getMilliseconds());
             //console.log(tracker2, probOfSurvival);
@@ -1071,7 +1072,7 @@ Pacman.Ghost = function (game, map, colour) {
                 attackVar = true;
                 attackCount++;
                 return attack(ctx);
-            } else if (tracker2 > probOfSurvival - (probOfSurvival / 8)
+            } else if (tracker2 > probOfChase
                 || chaseVar === true) {
                 console.log("In chase");
                 chaseVar = true;
@@ -2277,4 +2278,3 @@ $(function(){
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
 });
-
