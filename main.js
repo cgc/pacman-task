@@ -776,7 +776,6 @@ Pacman.Ghost = function (game, map, colour) {
         chaseVar = false;
         chaseCount = 0;
         attackCount = 0;
-        tracker2 = Math.random();
     };
 
     function onWholeSquare(x) {
@@ -989,8 +988,8 @@ Pacman.Ghost = function (game, map, colour) {
         const n = 161;
         const arr = [...Array(n).keys()];
         let lambda = arr.indexOf(x);
-        let xMax = 3;
-        let xMin = 2.5;
+        let xMax = 10;
+        let xMin = 0;
         let yMax = 160;
         let yMin = 0;
         const retArr = [];
@@ -1003,10 +1002,9 @@ Pacman.Ghost = function (game, map, colour) {
         return retArr[lambda];
     }
 
-    function survival(x, lambda, gamma) {
-        let t = x;
-        // let re = (gamma * (Math.E ** ((t * -1) * lambda))) / (1 - ((1 - gamma) * (Math.E ** ((t * -1) * lambda))));
-        let re = 1 - (1 / (1 + (Math.E ** ((x - lambda) * -2)))) ;
+    function survival(lambda_dist) {
+
+        let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 2.25) * -3)))) ) / 10;
         return re;
     }
 
@@ -1048,20 +1046,22 @@ Pacman.Ghost = function (game, map, colour) {
 
     //let tracker = Math.random() * 100;
     if (!isNaN(distance())) {
-        let lambda = distanceToLambda(distance());
+        let lambda_dist = distanceToLambda(distance());
         const now = performance.now();
-        //console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 4));
-        let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 4);
-        let probOfChase = survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) + ( (survival(((now - Pacman.trialTime) / 1000) - 4, 2.5, 4) - survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) ) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) );
+        tracker2 = Math.random();
+        tracker3 = Math.random();
+        console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 2));
+        let probOfAttack = survival(lambda_dist);
+        let probOfChase =  .5;
         console.log("Tracker: " + tracker2);
-        console.log("ProbofSurvival: " + probOfSurvival);
+        console.log("probOfAttack: " + probOfAttack);
         console.log("Chase Value: " + probOfChase);
         //if (chaseVar === false && bobVar === false) {
             //console.log(now.getSeconds() + "." + now.getMilliseconds());
-            //console.log(tracker2, probOfSurvival);
+            //console.log(tracker2, probOfAttack);
         //console.log(attackVar);
         //console.log(chaseVar);
-            if ((tracker2 > probOfSurvival || attackVar === true) && chaseVar === false) {
+            if (( (tracker2 < probOfAttack && tracker3 > probOfChase) || attackVar === true) && chaseVar === false) {
                 console.log("In attack");
                 if (attackCount === 0) {
                     attackDist = distance();
@@ -1072,8 +1072,7 @@ Pacman.Ghost = function (game, map, colour) {
                 attackVar = true;
                 attackCount++;
                 return attack(ctx);
-            } else if (tracker2 > probOfChase
-                || chaseVar === true) {
+            } else if ( (tracker2 < probOfAttack && tracker3 <= probOfChase) || chaseVar === true) {
                 console.log("In chase");
                 chaseVar = true;
                 chaseCount++;
@@ -2080,7 +2079,7 @@ var PACMAN = (function () {
             }
         } else if (state === COUNTDOWN && endtrials === false) {
 
-            diff = 5 + Math.floor((timerStart - tick) / Pacman.FPS);
+            diff = 3 + Math.floor((timerStart - tick) / Pacman.FPS);
 
             if (diff === 0) {
                 map.draw(ctx);
@@ -2090,7 +2089,11 @@ var PACMAN = (function () {
                     Pacman.countdownCheck = true;
                     lastTime = diff;
                     map.draw(ctx);
-                    dialog("Starting in: " + diff);
+                    if (diff == 2) {
+                      dialog("Ready, ");
+                    } else {
+                      dialog("Go!");
+                    }
                 }
             }
             Pacman.countdownCheck = false;
