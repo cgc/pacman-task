@@ -1004,7 +1004,7 @@ Pacman.Ghost = function (game, map, colour) {
 
     function survival(lambda_dist) {
 
-        let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 2.25) * -3)))) ) / 10;
+        let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.75) * -3)))) ) / 10;
         return re;
     }
 
@@ -1072,7 +1072,8 @@ Pacman.Ghost = function (game, map, colour) {
                 attackVar = true;
                 attackCount++;
                 return attack(ctx);
-            } else if ( (tracker2 < probOfAttack && tracker3 <= probOfChase) || chaseVar === true) {
+            } else if ( (tracker2 < probOfAttack && tracker3 <= probOfChase) ||
+                        chaseVar === true ) {
                 console.log("In chase");
                 chaseVar = true;
                 chaseCount++;
