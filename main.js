@@ -644,6 +644,7 @@ Pacman.Ghost = function (game, map, colour) {
         attackDist = null,
         wallDist = null,
         tracker2 = null,
+        tracker4 = Math.random(),
         fps = 18,
         pacman2 = new Pacman.User(game, map);
 
@@ -663,7 +664,12 @@ Pacman.Ghost = function (game, map, colour) {
         };
     };
 
-    function getNewAttackCoord(x, y) {
+    function getAttackSpeed(x, min_speed_to_catch, max_ghost_speed) {
+        let speed = x * (max_ghost_speed -  min_speed_to_catch) + min_speed_to_catch;
+        return speed;
+    }
+
+    function getNewAttackCoord(x, y, tracker4) {
        // let moveAmount = Math.ceil(wallDist / attackDist) * 4;
         if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
            // if (x - moveAmount < PACMAN.getUserPos()) {
@@ -673,17 +679,21 @@ Pacman.Ghost = function (game, map, colour) {
                     "y" : y
                 }
             } else {
-                if (distance() > 50) {
-                    return {
-                        "x" : x - 5,
-                        "y" : y
-                    }
-                } else {
-                    return {
-                        "x" : x - 3,
-                        "y" : y
-                    }
+                let max_time_to_catch = (PACMAN.getUserPos() - 10) / 2;
+                let min_speed_to_catch = (PACMAN.getGhostPos() - PACMAN.getUserPos()) / max_time_to_catch;
+                let min_ghost_speed = Math.max(min_speed_to_catch, 2);
+                let max_ghost_speed = 5;
+                let ghost_attack_speed = getAttackSpeed(tracker4, min_ghost_speed, max_ghost_speed);
+                console.log("max_time_to_catch: " + max_time_to_catch);
+                console.log("G + P distance: " + (PACMAN.getGhostPos() - PACMAN.getUserPos()));
+                console.log("max speed: " + max_ghost_speed);
+                console.log("min speed: " + min_ghost_speed);
+                console.log("attack speed: " + ghost_attack_speed);
+                return {
+                    "x" : x - ghost_attack_speed,
+                    "y" : y
                 }
+
             }
         } else {
             //if (x + moveAmount > PACMAN.getUserPos()) {
@@ -693,17 +703,20 @@ Pacman.Ghost = function (game, map, colour) {
                     "y" : y
                 }
             } else {
-                if (distance() > 50) {
-                    return {
-                        "x" : x + 5,
-                        "y" : y
-                    }
-                } else {
-                    return {
-                        "x" : x + 3,
-                        "y" : y
-                    }
-                }
+              let max_time_to_catch = (( 170 - PACMAN.getUserPos() ) / 2);
+              let min_speed_to_catch = (PACMAN.getUserPos() - PACMAN.getGhostPos()) / max_time_to_catch;
+              let min_ghost_speed = Math.max(min_speed_to_catch, 2);
+              let max_ghost_speed = 5;
+              let ghost_attack_speed = getAttackSpeed(tracker4, min_ghost_speed, max_ghost_speed);
+              console.log("max_time_to_catch: " + max_time_to_catch);
+              console.log("G + P distance: " + (PACMAN.getUserPos() - PACMAN.getGhostPos()));
+              console.log("max speed: " + max_ghost_speed);
+              console.log("min speed: " + min_ghost_speed);
+              console.log("attack speed: " + ghost_attack_speed);
+              return {
+                  "x" : x + ghost_attack_speed,
+                  "y" : y
+              }
             }
         }
     }
@@ -959,7 +972,7 @@ Pacman.Ghost = function (game, map, colour) {
             direction = LEFT;
             due = LEFT;
             var oldPos = position;
-            npos = getNewAttackCoord(oldPos.x ,PACMAN.getGhostPosY());
+            npos = getNewAttackCoord(oldPos.x ,PACMAN.getGhostPosY(), tracker4);
             position = npos;
             return {
                 "new": position,
@@ -969,7 +982,7 @@ Pacman.Ghost = function (game, map, colour) {
             direction = RIGHT;
             due = RIGHT;
             var oldPos = position;
-            npos = getNewAttackCoord(oldPos.x, PACMAN.getGhostPosY());
+            npos = getNewAttackCoord(oldPos.x, PACMAN.getGhostPosY(), tracker4);
             position = npos;
             return {
                 "new" : position,
@@ -1003,6 +1016,12 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function survival(lambda_dist) {
+
+        let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.75) * -5)))) ) / 10;
+        return re;
+    }
+
+    function chase_chance(lambda_dist) {
 
         let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.75) * -3)))) ) / 10;
         return re;
@@ -1049,10 +1068,9 @@ Pacman.Ghost = function (game, map, colour) {
         let lambda_dist = distanceToLambda(distance());
         const now = performance.now();
         tracker2 = Math.random();
-        tracker3 = Math.random();
         console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 2));
         let probOfAttack = survival(lambda_dist);
-        let probOfChase =  .5;
+        let probOfChase =  chase_chance(lambda_dist);
         console.log("Tracker: " + tracker2);
         console.log("probOfAttack: " + probOfAttack);
         console.log("Chase Value: " + probOfChase);
@@ -1061,7 +1079,7 @@ Pacman.Ghost = function (game, map, colour) {
             //console.log(tracker2, probOfAttack);
         //console.log(attackVar);
         //console.log(chaseVar);
-            if (( (tracker2 < probOfAttack && tracker3 > probOfChase) || attackVar === true) && chaseVar === false) {
+            if (( (tracker2 < probOfAttack ) || attackVar === true) && chaseVar === false) {
                 console.log("In attack");
                 if (attackCount === 0) {
                     attackDist = distance();
@@ -1072,7 +1090,7 @@ Pacman.Ghost = function (game, map, colour) {
                 attackVar = true;
                 attackCount++;
                 return attack(ctx);
-            } else if ( (tracker2 < probOfAttack && tracker3 <= probOfChase) ||
+            } else if ( (tracker2 <= probOfChase) ||
                         chaseVar === true ) {
                 console.log("In chase");
                 chaseVar = true;
