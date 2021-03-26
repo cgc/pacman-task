@@ -156,12 +156,12 @@ Pacman.User = function (game, map) {
             Pacman.randomTrial = 1;
         }
         console.assert(Pacman.randomTrial <= 19 && Pacman.randomTrial >= 0);
-        console.log("Random 0: " + Pacman.randomTrial);
+      //  console.log("Random 0: " + Pacman.randomTrial);
         if ((getTrials() === 20 && Pacman.startingPositions[Pacman.randomTrial][2] === null)
             || (Pacman.startingPositions[Pacman.randomTrial][2] === null && Pacman.previousGhostStart === null)) {
             Pacman.randomTrial = Math.floor(Math.random() * 21);
         }
-        console.log("Random: " + Pacman.randomTrial);
+       // console.log("Random: " + Pacman.randomTrial);
         position = {"x": Pacman.startingPositions[Pacman.randomTrial][1], "y": 100};
         direction = NONE;
         due = NONE;
@@ -248,11 +248,11 @@ Pacman.User = function (game, map) {
             }
         }
         if (position.x === 10 || position.x === 170) {
-            console.log("Escaped.");
+          //  console.log("Escaped.");
             var start = new Audio('https://dl.dropbox.com/s/eqexu1hbjplnk2n/256112__nckn__pleasant-done-notification.wav?dl=1');
             start.play();
            // audio.play("start");
-            console.log("\n");
+           // console.log("\n");
             trials--;
             trials_2++;
             game.completedLevel();
@@ -762,7 +762,7 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function chase(ctx) {
-        console.log("Chased.")
+      //  console.log("Chased.")
         Pacman.chaseArray.push("True");
         if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
             due = LEFT;
@@ -793,7 +793,7 @@ Pacman.Ghost = function (game, map, colour) {
     } */
 
     function attack(ctx) {
-        console.log("Attacked.");
+      //  console.log("Attacked.");
         Pacman.attackArray.push("True");
          Pacman.attackVar1 = true;
         attackVar = true;
@@ -891,7 +891,7 @@ Pacman.Ghost = function (game, map, colour) {
     //let tracker = Math.random() * 100;
     if (!isNaN(distance())) {
         if (PACMAN.getEaten1() === 5) {
-            console.log("In chase");
+          //  console.log("In chase");
             chaseVar = true;
             chaseCount++;
             return chase(ctx);
@@ -901,23 +901,23 @@ Pacman.Ghost = function (game, map, colour) {
         //console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 4));
         let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 4);
         let probOfChase = survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) + ( (survival(((now - Pacman.trialTime) / 1000) - 4, 2.5, 4) - survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) ) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) );
-        console.log("Tracker: " + tracker2);
-        console.log("ProbofSurvival: " + probOfSurvival);
-        console.log("Chase Value: " + (probOfSurvival - (probOfSurvival / 8)));
-        console.log("Chase Value: " + probOfChase);
+      //  console.log("Tracker: " + tracker2);
+       // console.log("ProbofSurvival: " + probOfSurvival);
+       // console.log("Chase Value: " + (probOfSurvival - (probOfSurvival / 8)));
+       // console.log("Chase Value: " + probOfChase);
         //if (chaseVar === false && bobVar === false) {
         //console.log(now.getSeconds() + "." + now.getMilliseconds());
         //console.log(tracker2, probOfSurvival);
-        console.log("Tracker: " + tracker2);
-        console.log("ProbofSurvival: " + probOfSurvival);
-        console.log("Chase Value: " + (probOfSurvival - (probOfSurvival / 8)));
+       // console.log("Tracker: " + tracker2);
+       // console.log("ProbofSurvival: " + probOfSurvival);
+       // console.log("Chase Value: " + (probOfSurvival - (probOfSurvival / 8)));
         //if (chaseVar === false && bobVar === false) {
             //console.log(now.getSeconds() + "." + now.getMilliseconds());
             //console.log(tracker2, probOfSurvival);
         //console.log(attackVar);
         //console.log(chaseVar);
             if ((tracker2 > probOfSurvival || attackVar === true) && chaseVar === false) {
-                console.log("In attack");
+              //  console.log("In attack");
                 if (attackCount === 0) {
                     attackDist = distance();
                     if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
@@ -929,14 +929,14 @@ Pacman.Ghost = function (game, map, colour) {
                 return attack(ctx);
             } else if (tracker2 > probOfChase
                 || chaseVar === true) {
-                console.log("In chase");
+               // console.log("In chase");
                 chaseVar = true;
                 chaseCount++;
                 return chase(ctx);
             } else {
                 Pacman.attackArray.push("False");
                 Pacman.chaseArray.push("False");
-                console.log("in bob" + bobCount);
+              //  console.log("in bob" + bobCount);
                 bobVar = true;
                // let oldPos = position;
                // position = getNewCoord(due, position);
@@ -1447,6 +1447,7 @@ Pacman.Map = function (size) {
                 if (userPosition <= 80) {
                    if (x === (userPosition / 10) + 2) {
                        ctx.fillStyle = "#ffff00";
+                       console.log(Pacman.randomTrial);
                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / Pacman.startingPositions[Pacman.randomTrial][3],
@@ -1455,6 +1456,7 @@ Pacman.Map = function (size) {
                        ctx.fill();
                    } else if (x === (userPosition / 10) + 3) {
                        ctx.fillStyle = "#ffff00";
+                       console.log(Pacman.randomTrial);
                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / Pacman.startingPositions[Pacman.randomTrial][4],
@@ -1463,6 +1465,7 @@ Pacman.Map = function (size) {
                        ctx.fill();
                    } else if (x === (userPosition / 10) + 4) {
                        ctx.fillStyle = "#ffff00";
+                       console.log(Pacman.randomTrial);
                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / Pacman.startingPositions[Pacman.randomTrial][6],
@@ -1489,6 +1492,7 @@ Pacman.Map = function (size) {
                 } else {
                     if (x === (userPosition / 10) - 2) {
                         ctx.fillStyle = "#ffff00";
+                        console.log(Pacman.randomTrial);
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / Pacman.startingPositions[Pacman.randomTrial][3],
@@ -1497,6 +1501,7 @@ Pacman.Map = function (size) {
                         ctx.fill();
                     } else if (x === (userPosition / 10) - 3) {
                         ctx.fillStyle = "#ffff00";
+                        console.log(Pacman.randomTrial);
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / Pacman.startingPositions[Pacman.randomTrial][4],
@@ -1505,6 +1510,7 @@ Pacman.Map = function (size) {
                         ctx.fill();
                     } else if (x === (userPosition / 10) - 4) {
                         ctx.fillStyle = "#ffff00";
+                        console.log(Pacman.randomTrial);
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / Pacman.startingPositions[Pacman.randomTrial][5],
@@ -1689,9 +1695,9 @@ var PACMAN = (function (handle) {
         }
         if (user.trials !== 0) {
             window.postMessage(["Trial " + user.getTrials2(),
-                {Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
+               JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
                 Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
-                Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:Pacman.lives}], "*");
+                Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:user.getLives()})], "*");
         }
         map.reset();
         map.draw(ctx);
@@ -1881,17 +1887,17 @@ var PACMAN = (function (handle) {
             ghostPosX = g["new"].x;
             ghostPosY = g["new"].y;
             Pacman.ghostLocationArray.push(ghostPosX);
-            console.log("Ghost Position: " + ghostPosX);
+          //  console.log("Ghost Position: " + ghostPosX);
         }
         userPosX = u["new"].x;
        // console.log("Trial: " + Math.abs(20 - user.getTrials()));
-        console.log("User Position: " + userPosX);
+     //   console.log("User Position: " + userPosX);
        // console.log("Distance: " + ghost1.distance());
       //  console.log("Eaten: " + user.getEaten());
       //  console.log("\n"); */
         Pacman.userLocationArray.push(userPosX);
         Pacman.eatenArray.push(user.getEaten());
-        Pacman.scoreArray.push(user.score);
+        Pacman.scoreArray.push(user.theScore());
 
 
             if (Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
@@ -1906,8 +1912,8 @@ var PACMAN = (function (handle) {
                         setState(EATEN_PAUSE);
                         timerStart = tick;
                     } else if (ghost1.isDangerous()) {
-                        console.log("Hit ghost.");
-                        console.log("\n");
+                     //   console.log("Hit ghost.");
+                       // console.log("\n");
                        // audio.play("die");
                         setState(DYING);
                         var die = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
