@@ -47,6 +47,8 @@ Pacman.chaseArray = [];
 Pacman.eatenArray = [];
 Pacman.scoreArray = [];
 Pacman.lives = null;
+Pacman.start = new Audio('https://dl.dropbox.com/s/eqexu1hbjplnk2n/256112__nckn__pleasant-done-notification.wav?dl=1');
+Pacman.die = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
 Pacman.startingPositions = [
     [1,170,90,2.5,6,5,4,3  ],
     [2,120,40,5,3,6,2.5,4  ],
@@ -226,6 +228,7 @@ Pacman.User = function (game, map) {
                 (dir === UP || dir === DOWN));
     };
 
+
     function move(ctx) {
 
         var npos        = null,
@@ -244,6 +247,7 @@ Pacman.User = function (game, map) {
                 npos = null;
             }
         }
+
         if (position.x === 10 || position.x === 170) {
             var start = new Audio('https://dl.dropbox.com/s/eqexu1hbjplnk2n/256112__nckn__pleasant-done-notification.wav?dl=1');
             start.play();
@@ -605,15 +609,17 @@ Pacman.Ghost = function (game, map, colour) {
             return "#222";
         }
         const now = performance.now();
-        let probOfChase = 1 - survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) + ( (survival(((now - Pacman.trialTime) / 1000) - 4, 2.5, 4) - survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) ) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) );
+        let lambda_dist = distanceToLambda(distance());
+        let probOfChase =  chase_chance(lambda_dist);
+        console.log("Distance" + distance());
         console.log("Prob" + probOfChase);
-        if (probOfChase < .2) {
+        if (probOfChase < .006) {
             return "#FA86F2";
-        } else if (probOfChase >= .2 && probOfChase < .4) {
+        } else if (probOfChase >= .006 && probOfChase < .0065) {
             return "#F55CE7";
-        } else if (probOfChase >= .4 && probOfChase < .6) {
-            return "#ED30CD";
-        } else if (probOfChase >= .6 && probOfChase < .8) {
+        } else if (probOfChase >= .0065 && probOfChase < .0075) {
+            return "#ed30cd";
+        } else if (probOfChase >= .0075 && probOfChase < .008) {
             return "#D7008A";
         } else {
             return "#B30041";
@@ -761,8 +767,8 @@ Pacman.Ghost = function (game, map, colour) {
         const n = 161;
         const arr = [...Array(n).keys()];
         let lambda = arr.indexOf(x);
-        let xMax = 3;
-        let xMin = 2.5;
+        let xMax = 10;
+        let xMin = 0;
         let yMax = 160;
         let yMin = 0;
         const retArr = [];
@@ -771,11 +777,22 @@ Pacman.Ghost = function (game, map, colour) {
             let outputX = percent * (xMax - xMin) + xMin;
             retArr.push(outputX);
         }
-        return retArr[lambda];
+        // return retArr[lambda];
+        return x;
     }
 
-    function survival(x, lambda, gamma) {
-        let re = 1 - (1 / (1 + (Math.E ** ((x - lambda) * -2)))) ;
+    function survival(lambda_dist) {
+
+        // let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.75) * -4)))) ) / 5;
+        let re =  -.007 * (lambda_dist/100 -2)
+
+        return re;
+    }
+
+    function chase_chance(lambda_dist) {
+
+        // let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.75) * -3)))) ) / 5;
+        let re = -.005 * (lambda_dist/100 - 2)
         return re;
     }
 
@@ -815,17 +832,17 @@ Pacman.Ghost = function (game, map, colour) {
         return move(ctx);
     }
     if (!isNaN(distance())) {
-        if (PACMAN.getEaten1() === 5) {
-            chaseVar = true;
-            chaseCount++;
-            return chase(ctx);
-        }
-        let lambda = distanceToLambda(distance());
+        let lambda_dist = distanceToLambda(distance());
         const now = performance.now();
-        let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 4);
-        let probOfChase = survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) + ( (survival(((now - Pacman.trialTime) / 1000) - 4, 2.5, 4) - survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) ) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) );
-        console.log("ChaseProb" + probOfChase);
-            if ((tracker2 > probOfSurvival || attackVar === true) && chaseVar === false) {
+        tracker2 = Math.random();
+        console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 2));
+        let probOfAttack = survival(lambda_dist);
+        let probOfChase =  chase_chance(lambda_dist);
+        console.log("Tracker: " + tracker2);
+        console.log("probOfAttack: " + probOfAttack);
+        console.log("Chase Value: " + probOfChase);
+            if (( (tracker2 < probOfAttack ) || attackVar === true) && chaseVar === false && ((((now - Pacman.trialTime) / 1000) - 2) > 1) ) {
+                console.log("In attack");
                 if (attackCount === 0) {
                     attackDist = distance();
                     if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
@@ -835,8 +852,9 @@ Pacman.Ghost = function (game, map, colour) {
                 attackVar = true;
                 attackCount++;
                 return attack(ctx);
-            } else if (tracker2 > probOfChase
-                || chaseVar === true) {
+            } else if ( (tracker2 <= probOfChase) ||
+                        chaseVar === true ) {
+                console.log("In chase");
                 chaseVar = true;
                 chaseCount++;
                 return chase(ctx);
@@ -1503,9 +1521,11 @@ var PACMAN = (function (handle) {
                         setState(EATEN_PAUSE);
                         timerStart = tick;
                     } else if (ghost1.isDangerous()) {
+                        console.log("Hit ghost.");
+                        console.log("\n");
+                        Pacman.die.volume = 0.1;
+                        Pacman.die.play();
                         setState(DYING);
-                        var die = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
-                        die.play();
                         timerStart = tick;
                     }
                 }
@@ -1565,26 +1585,30 @@ var PACMAN = (function (handle) {
                 ghost1.draw(ctx);
                 user.drawDead(ctx, (tick - timerStart) / (Pacman.FPS * 2));
             }
-        } else if (state === COUNTDOWN && endtrials === false) {
+          } else if (state === COUNTDOWN && endtrials === false) {
 
-            diff = 5 + Math.floor((timerStart - tick) / Pacman.FPS);
+              diff = 3 + Math.floor((timerStart - tick) / Pacman.FPS);
 
-            if (diff === 0) {
-                map.draw(ctx);
-                setState(PLAYING);
-            } else {
-                if (diff !== lastTime) {
-                    Pacman.countdownCheck = true;
-                    lastTime = diff;
-                    map.draw(ctx);
-                    dialog("Starting in: " + diff);
-                }
-            }
-            Pacman.countdownCheck = false;
-        }
+              if (diff === 0) {
+                  map.draw(ctx);
+                  setState(PLAYING);
+              } else {
+                  if (diff !== lastTime) {
+                      Pacman.countdownCheck = true;
+                      lastTime = diff;
+                      map.draw(ctx);
+                      if (diff == 2) {
+                        dialog("Ready, ");
+                      } else {
+                        dialog("Go!");
+                      }
+                  }
+              }
+              Pacman.countdownCheck = false;
+          }
 
-        drawFooter();
-    }
+          drawFooter();
+      }
 
 
     function eatenPill() {
@@ -1767,4 +1791,3 @@ $(function(){
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
 });
-
