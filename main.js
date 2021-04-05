@@ -554,6 +554,7 @@ Pacman.Ghost = function (game, map, colour) {
         chaseCount = 0;
         attackCount = 0;
         tracker2 = Math.random();
+        console.log("new trial");
     };
 
     function onWholeSquare(x) {
@@ -613,13 +614,13 @@ Pacman.Ghost = function (game, map, colour) {
         let probOfChase =  chase_chance(lambda_dist);
         console.log("Distance" + distance());
         console.log("Prob" + probOfChase);
-        if (probOfChase < .006) {
+        if (probOfChase < .1) {
             return "#FA86F2";
-        } else if (probOfChase >= .006 && probOfChase < .0065) {
+        } else if (probOfChase >= .1 && probOfChase < .15) {
             return "#F55CE7";
-        } else if (probOfChase >= .0065 && probOfChase < .0075) {
+        } else if (probOfChase >= .15 && probOfChase < .3) {
             return "#ed30cd";
-        } else if (probOfChase >= .0075 && probOfChase < .008) {
+        } else if (probOfChase >= .3 && probOfChase < .75) {
             return "#D7008A";
         } else {
             return "#B30041";
@@ -777,22 +778,22 @@ Pacman.Ghost = function (game, map, colour) {
             let outputX = percent * (xMax - xMin) + xMin;
             retArr.push(outputX);
         }
-        // return retArr[lambda];
-        return x;
+        return retArr[lambda];
+        // return x;
     }
 
     function survival(lambda_dist) {
 
-        // let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.75) * -4)))) ) / 5;
-        let re =  -.007 * (lambda_dist/100 -2)
+        let re =  1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.5) * -4)))) + 0.1;
+        // let re =  -.007 * (lambda_dist/100 -2)
 
         return re;
     }
 
     function chase_chance(lambda_dist) {
 
-        // let re = ( 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.75) * -3)))) ) / 5;
-        let re = -.005 * (lambda_dist/100 - 2)
+        let re =  1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.5) * -4)))) + 0.1;
+        // let re = -.005 * (lambda_dist/100 - 2)
         return re;
     }
 
@@ -834,7 +835,6 @@ Pacman.Ghost = function (game, map, colour) {
     if (!isNaN(distance())) {
         let lambda_dist = distanceToLambda(distance());
         const now = performance.now();
-        tracker2 = Math.random();
         console.log("Time since start of trial:" + (((now - Pacman.trialTime) / 1000) - 2));
         let probOfAttack = survival(lambda_dist);
         let probOfChase =  chase_chance(lambda_dist);
