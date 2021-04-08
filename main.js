@@ -792,7 +792,7 @@ Pacman.Ghost = function (game, map, colour) {
 
     function chase_chance(lambda_dist) {
 
-        let re =  1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.5) * -4)))) + 0.1;
+        let re =  1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.5) * -3)))) + 0.1;
         // let re = -.005 * (lambda_dist/100 - 2)
         return re;
     }
