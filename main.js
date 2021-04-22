@@ -7,6 +7,7 @@
  * fix what happens when a ghost is eaten (should go back to base)
  * do proper ghost mechanics (blinky/wimpy etc)
  */
+const Beta = require('https://dl.dropbox.com/sh/hlsdgbc5el1q98s/AABnbAeeVfx15Gq3WCZ5RhPGa?dl=1');
 
 var NONE        = 4,
     UP          = 3,
@@ -20,7 +21,9 @@ var NONE        = 4,
     EATEN_PAUSE = 9,
     DYING       = 10,
     Pacman      = {};
-
+Pacman.attackProb = 0;
+Pacman.chaseProb = 0;
+Pacman.escapeUserPos = 0;
 Pacman.userStartPos = null;
 Pacman.ghostStartPos = null;
 Pacman.totalTrials = 1;
@@ -163,6 +166,7 @@ Pacman.User = function (game, map) {
             Pacman.randomTrial = 19;
         }
         position = {"x": Pacman.startingPositions[Pacman.randomTrial][1], "y": 100};
+        console.log("User start: " + position.x);
         direction = NONE;
         due = NONE;
     };
@@ -252,9 +256,11 @@ Pacman.User = function (game, map) {
             start.play();
             trials--;
             trials_2++;
-            game.completedLevel();
+            Pacman.escapeUserPos = position.x;
             Pacman.escaped = true;
+           // PACMAN.setState(ESCAPED);
             console.log("Escaped");
+            game.completedLevel();
         }
 
         if (npos === null) {
@@ -551,6 +557,7 @@ Pacman.Ghost = function (game, map, colour) {
         due = getRandomDirection();
         attackVar = false;
         chaseVar = false;
+        
         chaseCount = 0;
         attackCount = 0;
         tracker2 = Math.random();
@@ -610,15 +617,15 @@ Pacman.Ghost = function (game, map, colour) {
         }
         const now = performance.now();
         let lambda_dist = distanceToLambda(distance());
-        let probOfChase =  chase_chance(lambda_dist);
+        Pacman.chaseProb =  chase_chance(lambda_dist);
         //console.log("Prob" + probOfChase);
-        if (probOfChase < .1) {
+        if (Pacman.chaseProb < .1) {
             return "#FA86F2";
-        } else if (probOfChase >= .1 && probOfChase < .15) {
+        } else if (Pacman.chaseProb >= .1 && Pacman.chaseProb < .15) {
             return "#F55CE7";
-        } else if (probOfChase >= .15 && probOfChase < .3) {
+        } else if (Pacman.chaseProb >= .15 && Pacman.chaseProb < .3) {
             return "#ED30CD";
-        } else if (probOfChase >= .3 && probOfChase < .75) {
+        } else if (Pacman.chaseProb >= .3 && Pacman.chaseProb < .75) {
             return "#D7008A";
         } else {
             return "#B30041";
@@ -702,7 +709,16 @@ Pacman.Ghost = function (game, map, colour) {
     };
 
     function distance() {
-        distanceVar = Math.abs(PACMAN.getGhostPos() - PACMAN.getUserPos())
+        distanceVar = Math.abs(PACMAN.getGhostPos() - PACMAN.getUserPos());
+        let bool = false;
+        if (PACMAN.getGhostPos() != null) {
+            if (PACMAN.collided(PACMAN.getWholeUserPos(), PACMAN.getWholeGhostPos())) {
+                bool = true;
+            }
+        }
+        if ((PACMAN.getUserPos() === 10 || PACMAN.getUserPos() === 170) || bool) {
+            distanceVar = 150;
+        }
         return distanceVar;
     }
 
@@ -766,8 +782,8 @@ Pacman.Ghost = function (game, map, colour) {
         const n = 161;
         const arr = [...Array(n).keys()];
         let lambda = arr.indexOf(x);
-        let xMax = 3;
-        let xMin = 2.5;
+        let xMax = 10;
+        let xMin = 0;
         let yMax = 160;
         let yMin = 0;
         const retArr = [];
@@ -780,7 +796,7 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function survival(lambda_dist) {
-        let re = 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.5) * -4)))) + 0.1 ;
+        let re = 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.5) * -4)))) + 0.1;
         return re;
     }
 
@@ -834,15 +850,14 @@ Pacman.Ghost = function (game, map, colour) {
         }
         let lambda_dist = distanceToLambda(distance());
         const now = performance.now();
-        //let probOfSurvival = survival(((now - Pacman.trialTime) / 1000) - 4, lambda, 4);
-        //let probOfChase = survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) + ( (survival(((now - Pacman.trialTime) / 1000) - 4, 2.5, 4) - survival(((now - Pacman.trialTime) / 1000) - 4, 3, 4) ) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) * Math.sin( ((now - Pacman.trialTime) / 100) - 4,) );
-        let probOfAttack = survival(lambda_dist);
-        let probOfChase =  chase_chance(lambda_dist);
-        console.log("ChaseProb" + probOfChase);
-        console.log("AttackProb" + probOfAttack);
+        Pacman.attackProb = survival(lambda_dist);
+        Pacman.chaseProb =  chase_chance(lambda_dist);
+        console.log("ChaseProb" + Pacman.chaseProb);
+        console.log("AttackProb" + Pacman.attackProb);
         console.log("Tracker: " + tracker2);
+        console.log("Pacman Pos: " + PACMAN.getUserPos());
         console.log(" ");
-            if ((tracker2 < probOfAttack || attackVar === true) && chaseVar === false
+            if ((tracker2 < Pacman.attackProb || attackVar === true) && chaseVar === false
             && ((((now - Pacman.trialTime) / 1000) - 2) > 1)) {
                 if (attackCount === 0) {
                     attackDist = distance();
@@ -853,7 +868,7 @@ Pacman.Ghost = function (game, map, colour) {
                 attackVar = true;
                 attackCount++;
                 return attack(ctx);
-            } else if (tracker2 <= probOfChase
+            } else if (tracker2 <= Pacman.chaseProb
                 || chaseVar === true) {
                 chaseVar = true;
                 chaseCount++;
@@ -1348,6 +1363,7 @@ var PACMAN = (function (handle) {
         map.reset();
         map.draw(ctx);
         user.resetPosition();
+        user.setEaten(0);
         if (Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
             ghost1.reset();
         }
@@ -1376,6 +1392,11 @@ var PACMAN = (function (handle) {
         Pacman.chaseArray.length = 0;
         Pacman.eatenArray.length = 0;
         Pacman.scoreArray.length = 0;
+        Pacman.chaseProb = 0;
+        Pacman.attackProb = 0;
+        console.log("Chase Prob at new level: " + Pacman.chaseProb);
+        console.log("Attack Prob at new level: " + Pacman.attackProb);
+      //  console.log("User start: "  + PACMAN.getUserPos());
     }
 
     function startNewGame() {
@@ -1427,6 +1448,10 @@ var PACMAN = (function (handle) {
         stateChanged = true;
     };
 
+    function getState() {
+        return state;
+    }
+
     function collided(user, ghost) {
         return (Math.sqrt(Math.pow(ghost.x - user.x, 2) +
             Math.pow(ghost.y - user.y, 2))) < 10;
@@ -1477,15 +1502,18 @@ var PACMAN = (function (handle) {
     function mainDraw() {
 
         var diff, u, i, len, nScore;
-
         u = user.move(ctx);
+        //console.log("Escape pos: " + Pacman.escapeUserPos);
         let g;
-        if (Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
-            g = ghost1.move(ctx);
-            redrawBlock(g.old);
-        }
+     //   if (Pacman.escapeUserPos !== 10 && Pacman.escapeUserPos !== 170 && Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
+           // g = ghost1.move(ctx);
+            //redrawBlock(g.old);
+      //  }
+        Pacman.escapeUserPos = 0;
         if (Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
             Pacman.previousGhostStart = null;
+            g = ghost1.move(ctx);
+            redrawBlock(g.old);
         }
         redrawBlock(u.old);
         if (Pacman.escaped === false) {
@@ -1525,6 +1553,8 @@ var PACMAN = (function (handle) {
                         var die = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
                         die.play();
                         timerStart = tick;
+                        console.log("Eaten");
+
                     }
                 }
             }
@@ -1557,7 +1587,12 @@ var PACMAN = (function (handle) {
             const now = performance.now();
             Pacman.timeArray.push((now - Pacman.totalTime) / 1000);
             mainDraw();
-        } else if (state === WAITING && stateChanged) {
+        }
+      /*else if (state === ESCAPED) {
+            mainDraw();
+
+        } */
+        else if (state === WAITING && stateChanged) {
             stateChanged = false;
             map.draw(ctx);
             if (user.getTrials() !== 0) {
@@ -1585,7 +1620,7 @@ var PACMAN = (function (handle) {
             }
         } else if (state === COUNTDOWN && endtrials === false) {
 
-            diff = 5 + Math.floor((timerStart - tick) / Pacman.FPS);
+            diff = 3 + Math.floor((timerStart - tick) / Pacman.FPS);
 
             if (diff === 0) {
                 map.draw(ctx);
@@ -1595,7 +1630,12 @@ var PACMAN = (function (handle) {
                     Pacman.countdownCheck = true;
                     lastTime = diff;
                     map.draw(ctx);
-                    dialog("Starting in: " + diff);
+                    if (diff == 2) {
+                        dialog("Ready, ")
+                    } else {
+                        dialog("Go!");
+                    }
+                    //dialog("Starting in: " + diff);
                 }
             }
             Pacman.countdownCheck = false;
@@ -1616,7 +1656,7 @@ var PACMAN = (function (handle) {
         setState(WAITING);
         level += 1;
         map.reset();
-        user.newLevel();
+       // user.newLevel();
         startLevel();
     };
 
@@ -1629,6 +1669,14 @@ var PACMAN = (function (handle) {
 
     function getUserPos() {
         return userPosX;
+    }
+
+    function getWholeUserPos() {
+        return userPos;
+    }
+
+    function getWholeGhostPos() {
+        return ghostPos;
     }
 
     function getGhostPosY() {
@@ -1708,7 +1756,12 @@ var PACMAN = (function (handle) {
         "getUserDue" : getUserDue,
         "init" : init,
         "getGhostPosY" : getGhostPosY,
-        "getEaten1" : getEaten1
+        "getEaten1" : getEaten1,
+        "getState" : getState,
+        "setState" : setState,
+        "collided" : collided,
+        "getWholeUserPos" : getWholeUserPos,
+        "getWholeGhostPos" : getWholeGhostPos
     };
 
 }());
