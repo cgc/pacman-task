@@ -7,8 +7,6 @@
  * fix what happens when a ghost is eaten (should go back to base)
  * do proper ghost mechanics (blinky/wimpy etc)
  */
-const Beta = require('https://dl.dropbox.com/sh/hlsdgbc5el1q98s/AABnbAeeVfx15Gq3WCZ5RhPGa?dl=1');
-
 var NONE        = 4,
     UP          = 3,
     LEFT        = 2,
@@ -21,6 +19,7 @@ var NONE        = 4,
     EATEN_PAUSE = 9,
     DYING       = 10,
     Pacman      = {};
+Pacman.move = false;
 Pacman.attackProb = 0;
 Pacman.chaseProb = 0;
 Pacman.escapeUserPos = 0;
@@ -105,6 +104,10 @@ Pacman.User = function (game, map) {
     };
 
     function loseLife() {
+        window.postMessage(["Trial " + getTrials2(),
+            JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
+                Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
+                Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:getLives()})], "*");
         lives -= 1;
         trials--;
         trials_2++;
@@ -151,6 +154,9 @@ Pacman.User = function (game, map) {
     };
 
     function resetPosition() {
+       // const beta = require("m");
+        //const val = beta(1, 1);
+        //console.log("Beta: " + val);
         Pacman.randomTrial = Math.floor(Math.random() * 21);
         if (Pacman.randomTrial >= 20) {
             Pacman.randomTrial = 19;
@@ -253,13 +259,17 @@ Pacman.User = function (game, map) {
         }
         if (position.x === 10 || position.x === 170) {
             var start = new Audio('https://dl.dropbox.com/s/eqexu1hbjplnk2n/256112__nckn__pleasant-done-notification.wav?dl=1');
-            start.play();
+            //start.play();
             trials--;
             trials_2++;
             Pacman.escapeUserPos = position.x;
             Pacman.escaped = true;
            // PACMAN.setState(ESCAPED);
             console.log("Escaped");
+            window.postMessage(["Trial " + getTrials2(),
+                JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
+                    Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
+                    Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:getLives()})], "*");
             game.completedLevel();
         }
 
@@ -291,6 +301,7 @@ Pacman.User = function (game, map) {
 
         if ((isMidSquare(position.y) || isMidSquare(position.x)) &&
             block === Pacman.BISCUIT || block === Pacman.PILL) {
+            Pacman.move = true;
             let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
             if (userPosition <= 80) {
                 if (nextWhole.x === (userPosition / 10) + 2) {
@@ -723,7 +734,6 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function chase(ctx) {
-        Pacman.chaseArray.push("True");
         if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
             due = LEFT;
             direction = LEFT;
@@ -747,8 +757,7 @@ Pacman.Ghost = function (game, map, colour) {
 
 
     function attack(ctx) {
-        Pacman.attackArray.push("True");
-         Pacman.attackVar1 = true;
+        Pacman.attackVar1 = true;
         attackVar = true;
         let npos;
         if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
@@ -844,6 +853,8 @@ Pacman.Ghost = function (game, map, colour) {
     }
     if (!isNaN(distance())) {
         if (PACMAN.getEaten1() === 5) {
+            Pacman.chaseArray.push("True");
+            Pacman.attackArray.push("False");
             chaseVar = true;
             chaseCount++;
             return chase(ctx);
@@ -859,6 +870,8 @@ Pacman.Ghost = function (game, map, colour) {
         console.log(" ");
             if ((tracker2 < Pacman.attackProb || attackVar === true) && chaseVar === false
             && ((((now - Pacman.trialTime) / 1000) - 2) > 1)) {
+                Pacman.attackArray.push("True");
+                Pacman.chaseArray.push("False");
                 if (attackCount === 0) {
                     attackDist = distance();
                     if (PACMAN.getUserPos() < PACMAN.getGhostPos()) {
@@ -870,6 +883,8 @@ Pacman.Ghost = function (game, map, colour) {
                 return attack(ctx);
             } else if (tracker2 <= Pacman.chaseProb
                 || chaseVar === true) {
+                Pacman.chaseArray.push("True");
+                Pacman.attackArray.push("False");
                 chaseVar = true;
                 chaseCount++;
                 return chase(ctx);
@@ -1354,12 +1369,13 @@ var PACMAN = (function (handle) {
         if (user.trials === 0) {
             user.trials = 20;
         }
-        if (user.trials !== 0) {
+      /*  if (user.trials !== 0) {
+            console.log("Trial " + user.getTrials2());
             window.postMessage(["Trial " + user.getTrials2(),
                JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
                 Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
                 Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:user.getLives()})], "*");
-        }
+        } */
         map.reset();
         map.draw(ctx);
         user.resetPosition();
@@ -1394,6 +1410,7 @@ var PACMAN = (function (handle) {
         Pacman.scoreArray.length = 0;
         Pacman.chaseProb = 0;
         Pacman.attackProb = 0;
+        Pacman.move = false;
         console.log("Chase Prob at new level: " + Pacman.chaseProb);
         console.log("Attack Prob at new level: " + Pacman.attackProb);
       //  console.log("User start: "  + PACMAN.getUserPos());
@@ -1535,12 +1552,19 @@ var PACMAN = (function (handle) {
         Pacman.userLocationArray.push(userPosX);
         Pacman.eatenArray.push(user.getEaten());
         Pacman.scoreArray.push(user.theScore());
+        if (Pacman.move === false) {
+            Pacman.bisc1Array.push("False");
+            Pacman.bisc2Array.push("False");
+            Pacman.bisc3Array.push("False");
+            Pacman.bisc4Array.push("False");
+            Pacman.bisc5Array.push("False");
+        }
 
 
             if (Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
                 if (collided(userPos, ghostPos)) {
                     if (ghost1.isVunerable()) {
-                        audio.play("eatghost");
+                        //audio.play("eatghost");
                         ghost1.eat();
                         eatenCount += 1;
                         nScore = eatenCount * 50;
@@ -1549,9 +1573,13 @@ var PACMAN = (function (handle) {
                         setState(EATEN_PAUSE);
                         timerStart = tick;
                     } else if (ghost1.isDangerous()) {
-                        setState(DYING);
+                     /*   window.postMessage(["Trial " + user.getTrials2(),
+                            JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
+                                Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
+                                Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:user.getLives()})], "*");
+                      */  setState(DYING);
                         var die = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
-                        die.play();
+                        //die.play();
                         timerStart = tick;
                         console.log("Eaten");
 
@@ -1646,7 +1674,7 @@ var PACMAN = (function (handle) {
 
 
     function eatenPill() {
-        audio.play("eatpill");
+        //audio.play("eatpill");
         timerStart = tick;
         eatenCount = 0;
         ghost1.makeEatable(ctx);
