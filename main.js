@@ -21,7 +21,7 @@ var NONE        = 4,
     Pacman      = {};
 Pacman.move = false;
 Pacman.attackProb = 0;
-Pacman.chaseProb = 0;
+Pacman.chaseProb = 0.5;
 Pacman.escapeUserPos = 0;
 Pacman.userStartPos = null;
 Pacman.ghostStartPos = null;
@@ -50,16 +50,16 @@ Pacman.eatenArray = [];
 Pacman.scoreArray = [];
 Pacman.lives = null;
 Pacman.startingPositions = [
-    [1,160,90,2.5,6,5,4,3  ],
+    [1,160,80,null,null,null,null,null  ],
     [2,120,40,5,3,6,2.5,4  ],
     [3,120,null,5,2.5,6,3,4  ],
     [4,150,70,3,6,4,2.5,5  ],
-    [5,80,160,2.5,4,6,5,3  ],
+    [5,80,160,null,null,null,null,null  ],
     [6,40,120,6,5,3,4,2.5  ],
     [7,20,null,4,3,2.5,5,6  ],
     [8,130,50,4,6,3,5,2.5  ],
     [9,30,110,5,6,3,4,2.5  ],
-    [10,140,null,5,2.5,3,4,6  ],
+    [10,140,60,null,null,null,null,null  ],
     [11,60,140,2.5,6,5,4,3  ],
     [12,50,130,5,3,6,2.5,4  ],
     [13,140,60,5,2.5,6,3,4  ],
@@ -68,9 +68,415 @@ Pacman.startingPositions = [
     [16,160,100,6,5,3,4,2.5  ],
     [17,160,80,4,3,2.5,5,6  ],
     [18,20,100,4,6,3,5,2.5  ],
-    [19,40,null,5,6,3,4,2.5  ],
+    [19,40,120,null,null,null,null,null  ],
     [20,70,150,5,2.5,3,4,6  ]
 ];
+Pacman.survivalProbabilities = [
+  {
+    "CDF": 1,
+    "Scaled_Distance": 0
+  },
+  {
+    "CDF": 0.998539552395,
+    "Scaled_Distance": 0.01
+  },
+  {
+    "CDF": 0.99431287648,
+    "Scaled_Distance": 0.02
+  },
+  {
+    "CDF": 0.987544129555,
+    "Scaled_Distance": 0.03
+  },
+  {
+    "CDF": 0.97844723712,
+    "Scaled_Distance": 0.04
+  },
+  {
+    "CDF": 0.967226171875,
+    "Scaled_Distance": 0.05
+  },
+  {
+    "CDF": 0.95407522912,
+    "Scaled_Distance": 0.06
+  },
+  {
+    "CDF": 0.939179298555,
+    "Scaled_Distance": 0.07
+  },
+  {
+    "CDF": 0.9227141324800001,
+    "Scaled_Distance": 0.08
+  },
+  {
+    "CDF": 0.9048466103950001,
+    "Scaled_Distance": 0.09
+  },
+  {
+    "CDF": 0.8857349999999999,
+    "Scaled_Distance": 0.1
+  },
+  {
+    "CDF": 0.865529214595,
+    "Scaled_Distance": 0.11
+  },
+  {
+    "CDF": 0.8443710668800001,
+    "Scaled_Distance": 0.12
+  },
+  {
+    "CDF": 0.8223945191550001,
+    "Scaled_Distance": 0.13
+  },
+  {
+    "CDF": 0.79972592992,
+    "Scaled_Distance": 0.14
+  },
+  {
+    "CDF": 0.776484296875,
+    "Scaled_Distance": 0.15
+  },
+  {
+    "CDF": 0.75278149632,
+    "Scaled_Distance": 0.16
+  },
+  {
+    "CDF": 0.728722518955,
+    "Scaled_Distance": 0.17
+  },
+  {
+    "CDF": 0.7044057020799999,
+    "Scaled_Distance": 0.18
+  },
+  {
+    "CDF": 0.6799229581949999,
+    "Scaled_Distance": 0.19
+  },
+  {
+    "CDF": 0.6553599999999999,
+    "Scaled_Distance": 0.2
+  },
+  {
+    "CDF": 0.630796561795,
+    "Scaled_Distance": 0.21
+  },
+  {
+    "CDF": 0.60630661728,
+    "Scaled_Distance": 0.22
+  },
+  {
+    "CDF": 0.581958593755,
+    "Scaled_Distance": 0.23
+  },
+  {
+    "CDF": 0.5578155827200001,
+    "Scaled_Distance": 0.24
+  },
+  {
+    "CDF": 0.5339355468749999,
+    "Scaled_Distance": 0.25
+  },
+  {
+    "CDF": 0.5103715235199999,
+    "Scaled_Distance": 0.26
+  },
+  {
+    "CDF": 0.48717182435499984,
+    "Scaled_Distance": 0.27
+  },
+  {
+    "CDF": 0.46438023167999987,
+    "Scaled_Distance": 0.28
+  },
+  {
+    "CDF": 0.442036190995,
+    "Scaled_Distance": 0.29
+  },
+  {
+    "CDF": 0.42017499999999985,
+    "Scaled_Distance": 0.3
+  },
+  {
+    "CDF": 0.398827993995,
+    "Scaled_Distance": 0.31
+  },
+  {
+    "CDF": 0.3780227276799999,
+    "Scaled_Distance": 0.32
+  },
+  {
+    "CDF": 0.3577831533549999,
+    "Scaled_Distance": 0.33
+  },
+  {
+    "CDF": 0.33812979552,
+    "Scaled_Distance": 0.34
+  },
+  {
+    "CDF": 0.3190799218749998,
+    "Scaled_Distance": 0.35000000000000003
+  },
+  {
+    "CDF": 0.30064771072000007,
+    "Scaled_Distance": 0.36
+  },
+  {
+    "CDF": 0.282844414755,
+    "Scaled_Distance": 0.37
+  },
+  {
+    "CDF": 0.26567852128,
+    "Scaled_Distance": 0.38
+  },
+  {
+    "CDF": 0.24915590879499994,
+    "Scaled_Distance": 0.39
+  },
+  {
+    "CDF": 0.23327999999999993,
+    "Scaled_Distance": 0.4
+  },
+  {
+    "CDF": 0.2180519111949999,
+    "Scaled_Distance": 0.41000000000000003
+  },
+  {
+    "CDF": 0.20347059808000012,
+    "Scaled_Distance": 0.42
+  },
+  {
+    "CDF": 0.189532997955,
+    "Scaled_Distance": 0.43
+  },
+  {
+    "CDF": 0.17623416831999994,
+    "Scaled_Distance": 0.44
+  },
+  {
+    "CDF": 0.16356742187499995,
+    "Scaled_Distance": 0.45
+  },
+  {
+    "CDF": 0.15152445792000002,
+    "Scaled_Distance": 0.46
+  },
+  {
+    "CDF": 0.140095490155,
+    "Scaled_Distance": 0.47000000000000003
+  },
+  {
+    "CDF": 0.12926937088000012,
+    "Scaled_Distance": 0.48
+  },
+  {
+    "CDF": 0.11903371159499998,
+    "Scaled_Distance": 0.49
+  },
+  {
+    "CDF": 0.109375,
+    "Scaled_Distance": 0.5
+  },
+  {
+    "CDF": 0.10027871339499994,
+    "Scaled_Distance": 0.51
+  },
+  {
+    "CDF": 0.0917294284800001,
+    "Scaled_Distance": 0.52
+  },
+  {
+    "CDF": 0.08371092755499998,
+    "Scaled_Distance": 0.53
+  },
+  {
+    "CDF": 0.07620630112000004,
+    "Scaled_Distance": 0.54
+  },
+  {
+    "CDF": 0.06919804687499997,
+    "Scaled_Distance": 0.55
+  },
+  {
+    "CDF": 0.06266816511999995,
+    "Scaled_Distance": 0.56
+  },
+  {
+    "CDF": 0.05659825055500001,
+    "Scaled_Distance": 0.5700000000000001
+  },
+  {
+    "CDF": 0.05096958048000011,
+    "Scaled_Distance": 0.58
+  },
+  {
+    "CDF": 0.045763199395000065,
+    "Scaled_Distance": 0.59
+  },
+  {
+    "CDF": 0.04096000000000011,
+    "Scaled_Distance": 0.6
+  },
+  {
+    "CDF": 0.03654080059499998,
+    "Scaled_Distance": 0.61
+  },
+  {
+    "CDF": 0.032486418880000034,
+    "Scaled_Distance": 0.62
+  },
+  {
+    "CDF": 0.028777742154999952,
+    "Scaled_Distance": 0.63
+  },
+  {
+    "CDF": 0.02539579392000002,
+    "Scaled_Distance": 0.64
+  },
+  {
+    "CDF": 0.022321796875000022,
+    "Scaled_Distance": 0.65
+  },
+  {
+    "CDF": 0.019537232320000042,
+    "Scaled_Distance": 0.66
+  },
+  {
+    "CDF": 0.01702389595499998,
+    "Scaled_Distance": 0.67
+  },
+  {
+    "CDF": 0.014763950079999977,
+    "Scaled_Distance": 0.68
+  },
+  {
+    "CDF": 0.012739972195000004,
+    "Scaled_Distance": 0.6900000000000001
+  },
+  {
+    "CDF": 0.010934999999999917,
+    "Scaled_Distance": 0.7000000000000001
+  },
+  {
+    "CDF": 0.009332572794999994,
+    "Scaled_Distance": 0.71
+  },
+  {
+    "CDF": 0.007916769279999958,
+    "Scaled_Distance": 0.72
+  },
+  {
+    "CDF": 0.00667224175500003,
+    "Scaled_Distance": 0.73
+  },
+  {
+    "CDF": 0.005584246720000019,
+    "Scaled_Distance": 0.74
+  },
+  {
+    "CDF": 0.004638671875,
+    "Scaled_Distance": 0.75
+  },
+  {
+    "CDF": 0.003822059520000032,
+    "Scaled_Distance": 0.76
+  },
+  {
+    "CDF": 0.003121626355000018,
+    "Scaled_Distance": 0.77
+  },
+  {
+    "CDF": 0.0025252796799999366,
+    "Scaled_Distance": 0.78
+  },
+  {
+    "CDF": 0.002021629994999996,
+    "Scaled_Distance": 0.79
+  },
+  {
+    "CDF": 0.0016000000000000458,
+    "Scaled_Distance": 0.8
+  },
+  {
+    "CDF": 0.0012504299950000242,
+    "Scaled_Distance": 0.81
+  },
+  {
+    "CDF": 0.0009636796799999958,
+    "Scaled_Distance": 0.8200000000000001
+  },
+  {
+    "CDF": 0.0007312263550000031,
+    "Scaled_Distance": 0.8300000000000001
+  },
+  {
+    "CDF": 0.0005452595199999521,
+    "Scaled_Distance": 0.84
+  },
+  {
+    "CDF": 0.00039867187499997847,
+    "Scaled_Distance": 0.85
+  },
+  {
+    "CDF": 0.00028504671999995956,
+    "Scaled_Distance": 0.86
+  },
+  {
+    "CDF": 0.00019864175499995085,
+    "Scaled_Distance": 0.87
+  },
+  {
+    "CDF": 0.0001343692799999907,
+    "Scaled_Distance": 0.88
+  },
+  {
+    "CDF": 0.00008777279499994073,
+    "Scaled_Distance": 0.89
+  },
+  {
+    "CDF": 0.00005500000000002725,
+    "Scaled_Distance": 0.9
+  },
+  {
+    "CDF": 0.00003277219499997486,
+    "Scaled_Distance": 0.91
+  },
+  {
+    "CDF": 0.00001835007999995142,
+    "Scaled_Distance": 0.92
+  },
+  {
+    "CDF": 0.000009495954999994005,
+    "Scaled_Distance": 0.93
+  },
+  {
+    "CDF": 0.000004432320000025136,
+    "Scaled_Distance": 0.9400000000000001
+  },
+  {
+    "CDF": 0.0000017968750000152411,
+    "Scaled_Distance": 0.9500000000000001
+  },
+  {
+    "CDF": 5.939200000693035e-7,
+    "Scaled_Distance": 0.96
+  },
+  {
+    "CDF": 1.4215499999359338e-7,
+    "Scaled_Distance": 0.97
+  },
+  {
+    "CDF": 1.888000000782597e-8,
+    "Scaled_Distance": 0.98
+  },
+  {
+    "CDF": 5.950000492305207e-10,
+    "Scaled_Distance": 0.99
+  },
+  {
+    "CDF": 0,
+    "Scaled_Distance": 1
+  }
+]
 
 
 Pacman.User = function (game, map) {
@@ -467,7 +873,8 @@ Pacman.Ghost = function (game, map, colour) {
         attackCount = null,
         attackDist = null,
         wallDist = null,
-        tracker2 = null,
+        tracker_attack = null,
+        tracker_chase = null,
         fps = 18;
 
     function getNewCoord(dir, current) {
@@ -568,10 +975,11 @@ Pacman.Ghost = function (game, map, colour) {
         due = getRandomDirection();
         attackVar = false;
         chaseVar = false;
-        
+
         chaseCount = 0;
         attackCount = 0;
-        tracker2 = Math.random();
+        tracker_attack = Math.random();
+        tracker_chase = Math.random();
     };
 
     function onWholeSquare(x) {
@@ -627,21 +1035,22 @@ Pacman.Ghost = function (game, map, colour) {
             return "#222";
         }
         const now = performance.now();
-        let lambda_dist = distanceToLambda(distance());
-        Pacman.chaseProb =  chase_chance(lambda_dist);
+        // let lambda_dist = distanceToLambda(distance());
+        // Pacman.attack =  survival(lambda_dist);
         //console.log("Prob" + probOfChase);
-        if (Pacman.chaseProb < .1) {
+        if (Pacman.attackProb < .2) {
             return "#FA86F2";
-        } else if (Pacman.chaseProb >= .1 && Pacman.chaseProb < .15) {
+        } else if (Pacman.attackProb >= .2 && Pacman.attackProb < .4) {
             return "#F55CE7";
-        } else if (Pacman.chaseProb >= .15 && Pacman.chaseProb < .3) {
+        } else if (Pacman.attackProb >= .4 && Pacman.attackProb < .6) {
             return "#ED30CD";
-        } else if (Pacman.chaseProb >= .3 && Pacman.chaseProb < .75) {
+        } else if (Pacman.attackProb >= .6 && Pacman.attackProb < .8) {
             return "#D7008A";
         } else {
             return "#B30041";
         }
         return colour;
+
     };
 
     function draw(ctx) {
@@ -788,31 +1197,29 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function distanceToLambda(x) {
-        const n = 161;
-        const arr = [...Array(n).keys()];
-        let lambda = arr.indexOf(x);
-        let xMax = 10;
-        let xMin = 0;
-        let yMax = 160;
-        let yMin = 0;
-        const retArr = [];
-        for (const i in arr) {
-            let percent = (i - yMin) / (yMax - yMin);
-            let outputX = percent * (xMax - xMin) + xMin;
-            retArr.push(outputX);
-        }
-        return retArr[lambda];
+        // const n = 120;
+        // const arr = [...Array(n).keys()];
+        // let lambda = arr.indexOf(x);
+        // let xMax = 120;
+        // let xMin = 0;
+        // let yMax = 100;
+        // let yMin = 0;
+        // const retArr = [];
+        // for (const i in arr) {
+        //     let percent = (i - yMin) / (yMax - yMin);
+        //     let outputX = percent * (xMax - xMin) + xMin;
+        //     retArr.push(outputX);
+        // }
+        // console.log("max lamda dist: " + retArr[retArr.length -1]);
+        let new_dist = x;
+        if ( new_dist > 100)
+            new_dist = 100;
+        return Math.floor(new_dist);
     }
 
     function survival(lambda_dist) {
-        let re = 1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.5) * -4)))) + 0.1;
-        return re;
-    }
-
-    function chase_chance(lambda_dist) {
-
-        let re =  1 - (1 / (1 + (Math.E ** ((lambda_dist - 1.5) * -3)))) + 0.1;
-        // let re = -.005 * (lambda_dist/100 - 2)
+        console.log("lamda dist: " + lambda_dist);
+        re = Pacman.survivalProbabilities[lambda_dist]["CDF"];
         return re;
     }
 
@@ -852,23 +1259,22 @@ Pacman.Ghost = function (game, map, colour) {
         return move(ctx);
     }
     if (!isNaN(distance())) {
-        if (PACMAN.getEaten1() === 5) {
-            Pacman.chaseArray.push("True");
-            Pacman.attackArray.push("False");
-            chaseVar = true;
-            chaseCount++;
-            return chase(ctx);
-        }
+        // if (PACMAN.getEaten1() === 5) {
+        //     Pacman.chaseArray.push("True");
+        //     Pacman.attackArray.push("False");
+        //     chaseVar = true;
+        //     chaseCount++;
+        //     return chase(ctx);
+        // }
         let lambda_dist = distanceToLambda(distance());
         const now = performance.now();
         Pacman.attackProb = survival(lambda_dist);
-        Pacman.chaseProb =  chase_chance(lambda_dist);
-        console.log("ChaseProb" + Pacman.chaseProb);
-        console.log("AttackProb" + Pacman.attackProb);
-        console.log("Tracker: " + tracker2);
+        console.log("AttackProb: " + Pacman.attackProb);
+        console.log("Tracker Attack: " + tracker_attack);
+        console.log("Tracker Chase: " + tracker_chase);
         console.log("Pacman Pos: " + PACMAN.getUserPos());
         console.log(" ");
-            if ((tracker2 < Pacman.attackProb || attackVar === true) && chaseVar === false
+            if (( (tracker_attack < Pacman.attackProb & tracker_chase <=Pacman.chaseProb)|| attackVar === true) && chaseVar === false
             && ((((now - Pacman.trialTime) / 1000) - 2) > 1)) {
                 Pacman.attackArray.push("True");
                 Pacman.chaseArray.push("False");
@@ -879,13 +1285,15 @@ Pacman.Ghost = function (game, map, colour) {
                     }
                 }
                 attackVar = true;
+                console.log("Attack: " + attackVar);
                 attackCount++;
                 return attack(ctx);
-            } else if (tracker2 <= Pacman.chaseProb
+            } else if ((tracker_attack < Pacman.attackProb & tracker_chase >=Pacman.chaseProb)
                 || chaseVar === true) {
                 Pacman.chaseArray.push("True");
                 Pacman.attackArray.push("False");
                 chaseVar = true;
+                console.log("Chase: " + chaseVar);
                 chaseCount++;
                 return chase(ctx);
             } else {
@@ -1127,7 +1535,7 @@ Pacman.Map = function (size) {
                 let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
                 if (userPosition <= 80) {
                    if (x === (userPosition / 10) + 2) {
-                       ctx.fillStyle = "#ffff00";
+                       ctx.fillStyle = "#FFFFFF";
                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / Pacman.startingPositions[Pacman.randomTrial][3],
@@ -1135,7 +1543,7 @@ Pacman.Map = function (size) {
                            Math.PI * 2, false);
                        ctx.fill();
                    } else if (x === (userPosition / 10) + 3) {
-                       ctx.fillStyle = "#ffff00";
+                       ctx.fillStyle = "#FFFFFF";
                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / Pacman.startingPositions[Pacman.randomTrial][4],
@@ -1143,7 +1551,7 @@ Pacman.Map = function (size) {
                            Math.PI * 2, false);
                        ctx.fill();
                    } else if (x === (userPosition / 10) + 4) {
-                       ctx.fillStyle = "#ffff00";
+                       ctx.fillStyle = "#FFFFFF";
                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / Pacman.startingPositions[Pacman.randomTrial][6],
@@ -1151,7 +1559,7 @@ Pacman.Map = function (size) {
                            Math.PI * 2, false);
                        ctx.fill();
                    } else if (x === (userPosition / 10) + 5) {
-                       ctx.fillStyle = "#ffff00";
+                       ctx.fillStyle = "#FFFFFF";
                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / Pacman.startingPositions[Pacman.randomTrial][6],
@@ -1159,7 +1567,7 @@ Pacman.Map = function (size) {
                            Math.PI * 2, false);
                        ctx.fill();
                    } else if (x === (userPosition / 10) + 6) {
-                       ctx.fillStyle = "#ffff00";
+                       ctx.fillStyle = "#FFFFFF";
                        ctx.arc((x * blockSize) + (blockSize / 2.5),
                            (y * blockSize) + (blockSize / 2.5),
                            blockSize / Pacman.startingPositions[Pacman.randomTrial][7],
@@ -1169,7 +1577,7 @@ Pacman.Map = function (size) {
                    }
                 } else {
                     if (x === (userPosition / 10) - 2) {
-                        ctx.fillStyle = "#ffff00";
+                        ctx.fillStyle = "#FFFFFF";
                        // console.log(Pacman.randomTrial);
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
@@ -1178,7 +1586,7 @@ Pacman.Map = function (size) {
                             Math.PI * 2, false);
                         ctx.fill();
                     } else if (x === (userPosition / 10) - 3) {
-                        ctx.fillStyle = "#ffff00";
+                        ctx.fillStyle = "#FFFFFF";
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / Pacman.startingPositions[Pacman.randomTrial][4],
@@ -1186,7 +1594,7 @@ Pacman.Map = function (size) {
                             Math.PI * 2, false);
                         ctx.fill();
                     } else if (x === (userPosition / 10) - 4) {
-                        ctx.fillStyle = "#ffff00";
+                        ctx.fillStyle = "#FFFFFF";
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / Pacman.startingPositions[Pacman.randomTrial][5],
@@ -1194,7 +1602,7 @@ Pacman.Map = function (size) {
                             Math.PI * 2, false);
                         ctx.fill();
                     } else if (x === (userPosition / 10) - 5) {
-                        ctx.fillStyle = "#ffff00";
+                        ctx.fillStyle = "#FFFFFF";
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / Pacman.startingPositions[Pacman.randomTrial][6],
@@ -1202,7 +1610,7 @@ Pacman.Map = function (size) {
                             Math.PI * 2, false);
                         ctx.fill();
                     } else if (x === (userPosition / 10) - 6) {
-                        ctx.fillStyle = "#ffff00";
+                        ctx.fillStyle = "#FFFFFF";
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / Pacman.startingPositions[Pacman.randomTrial][7],
@@ -1408,7 +1816,7 @@ var PACMAN = (function (handle) {
         Pacman.chaseArray.length = 0;
         Pacman.eatenArray.length = 0;
         Pacman.scoreArray.length = 0;
-        Pacman.chaseProb = 0;
+        Pacman.chaseProb = 0.5;
         Pacman.attackProb = 0;
         Pacman.move = false;
         console.log("Chase Prob at new level: " + Pacman.chaseProb);
@@ -1866,4 +2274,3 @@ $(function(){
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
 });
-
