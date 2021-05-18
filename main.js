@@ -48,6 +48,7 @@ Pacman.attackArray = [];
 Pacman.chaseArray = [];
 Pacman.eatenArray = [];
 Pacman.scoreArray = [];
+Pacman.averageScore = [];
 Pacman.lives = null;
 Pacman.startingPositions = [
     [1,160,80,null,null,null,null,null  ],
@@ -710,36 +711,36 @@ Pacman.User = function (game, map) {
             Pacman.move = true;
             let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
             if (userPosition <= 80) {
-                if (nextWhole.x === (userPosition / 10) + 2) {
+                if ( (nextWhole.x === (userPosition / 10) + 2) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null) ) {
                     Pacman.bisc1Array.push("True");
                     addScore(10);
-                } else if (nextWhole.x === (userPosition / 10) + 3) {
+                } else if ( (nextWhole.x === (userPosition / 10) + 3) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc2Array.push("True");
                     addScore(20);
-                } else if (nextWhole.x === (userPosition / 10) + 4) {
+                } else if ( (nextWhole.x === (userPosition / 10) + 4) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc3Array.push("True");
                     addScore(30);
-                } else if (nextWhole.x === (userPosition / 10) + 5) {
+                } else if ( (nextWhole.x === (userPosition / 10) + 5) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc4Array.push("True");
                     addScore(40);
-                } else if (nextWhole.x === (userPosition / 10) + 6) {
+                } else if ( (nextWhole.x === (userPosition / 10) + 6) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc5Array.push("True");
                     addScore(50);
                 }
             } else {
-                if (nextWhole.x === (userPosition / 10) - 2) {
+                if ( (nextWhole.x === (userPosition / 10) - 2) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc1Array.push("True");
                     addScore(10);
-                } else if (nextWhole.x === (userPosition / 10) - 3) {
+                } else if ( (nextWhole.x === (userPosition / 10) - 3) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc2Array.push("True");
                     addScore(20);
-                } else if (nextWhole.x === (userPosition / 10) - 4) {
+                } else if ( (nextWhole.x === (userPosition / 10) - 4) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc3Array.push("True");
                     addScore(30);
-                } else if (nextWhole.x === (userPosition / 10) - 5) {
+                } else if ( (nextWhole.x === (userPosition / 10) - 5) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc4Array.push("True");
                     addScore(40);
-                } else if (nextWhole.x === (userPosition / 10) - 6) {
+                } else if ( (nextWhole.x === (userPosition / 10) - 6) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc5Array.push("True");
                     addScore(50);
                 }
@@ -1777,6 +1778,8 @@ var PACMAN = (function (handle) {
         if (user.trials === 0) {
             user.trials = 20;
         }
+
+
       /*  if (user.trials !== 0) {
             console.log("Trial " + user.getTrials2());
             window.postMessage(["Trial " + user.getTrials2(),
@@ -1996,9 +1999,9 @@ var PACMAN = (function (handle) {
             }
     };
 
-    function pressN() {
-        dialog("Press n to start a new game!");
-    }
+    // function pressN() {
+    //     dialog("Press n to start a new game!");
+    // }
 
     function mainLoop() {
         if (Pacman.escaped === true) {
@@ -2015,7 +2018,13 @@ var PACMAN = (function (handle) {
             endtrials = true;
             map.draw(ctx);
             //user.trials = 20;
-            dialog("Please exit the game.");
+            Pacman.averageScore.push(Pacman.scoreArray[Pacman.scoreArray.length - 1]);
+            console.log("Average Score: " + Pacman.averageScore);
+            // compute final score
+            let filtered_average_score = Pacman.averageScore.filter(x => x !== undefined);
+            let average_score_final = Math.floor(filtered_average_score.reduce((a,b) => a + b, 0) / filtered_average_score.length);
+            dialog("Your average score was: " + average_score_final);
+            window.postMessage("final_score", average_score_final);
             window.postMessage("next", "*");
         }
 
@@ -2035,6 +2044,8 @@ var PACMAN = (function (handle) {
                 //if (user.getLives() === 0) {
                     //setTimeout(pressN, 5000);
                 //} else {
+                    Pacman.averageScore.push(Pacman.scoreArray[Pacman.scoreArray.length - 1]);
+                    console.log("Average Score: " + Pacman.averageScore);
                     dialog("Press n to start a new game!");
                 //}
             } else {
