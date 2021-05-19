@@ -50,7 +50,7 @@ Pacman.eatenArray = [];
 Pacman.scoreArray = [];
 Pacman.averageScore = [];
 Pacman.lives = null;
-Pacman.startingPositions = [
+Pacman.orig_startingPositions = [
     [1,160,80,null,null,null,null,null  ],
     [2,120,40,5,3,6,2.5,4  ],
     [3,120,null,5,2.5,6,3,4  ],
@@ -66,12 +66,13 @@ Pacman.startingPositions = [
     [13,140,60,5,2.5,6,3,4  ],
     [14,160,null,3,6,4,2.5,5  ],
     [15,60,null,2.5,4,6,5,3  ],
-    [16,160,100,6,5,3,4,2.5  ],
+    [16,100,20,6,5,3,4,2.5  ],
     [17,160,80,4,3,2.5,5,6  ],
     [18,20,100,4,6,3,5,2.5  ],
     [19,40,120,null,null,null,null,null  ],
     [20,70,150,5,2.5,3,4,6  ]
 ];
+Pacman.startingPositions = Pacman.orig_startingPositions.sort(() => Math.random() - 0.5);
 Pacman.survivalProbabilities = [
   {
     "CDF": 1,
@@ -560,24 +561,26 @@ Pacman.User = function (game, map) {
         eaten = 0;
     };
 
+
     function resetPosition() {
        // const beta = require("m");
         //const val = beta(1, 1);
         //console.log("Beta: " + val);
-        Pacman.randomTrial = Math.floor(Math.random() * 21);
-        if (Pacman.randomTrial >= 20) {
-            Pacman.randomTrial = 19;
-        } else if (Pacman.randomTrial < 1) {
-            Pacman.randomTrial = 1;
-        }
-        console.assert(Pacman.randomTrial <= 19 && Pacman.randomTrial >= 0);
-        if ((getTrials() === 20 && Pacman.startingPositions[Pacman.randomTrial][2] === null)
-            || (Pacman.startingPositions[Pacman.randomTrial][2] === null && Pacman.previousGhostStart === null)) {
-            Pacman.randomTrial = Math.floor(Math.random() * 21);
-        }
-        if (Pacman.randomTrial === 20) {
-            Pacman.randomTrial = 19;
-        }
+        // Pacman.randomTrial = Math.floor(Math.random() * 21);
+        // if (Pacman.randomTrial >= 20) {
+        //     Pacman.randomTrial = 19;
+        // } else if (Pacman.randomTrial < 1) {
+        //     Pacman.randomTrial = 1;
+        // }
+        // console.assert(Pacman.randomTrial <= 19 && Pacman.randomTrial >= 0);
+        // if ((getTrials() === 20 && Pacman.startingPositions[Pacman.randomTrial][2] === null)
+        //     || (Pacman.startingPositions[Pacman.randomTrial][2] === null && Pacman.previousGhostStart === null)) {
+        //     Pacman.randomTrial = Math.floor(Math.random() * 21);
+        // }
+        // if (Pacman.randomTrial === 20) {
+        //     Pacman.randomTrial = 19;
+        // }
+        Pacman.randomTrial = getTrials2();
         position = {"x": Pacman.startingPositions[Pacman.randomTrial][1], "y": 100};
         console.log("User start: " + position.x);
         direction = NONE;
@@ -1274,6 +1277,7 @@ Pacman.Ghost = function (game, map, colour) {
         console.log("Tracker Attack: " + tracker_attack);
         console.log("Tracker Chase: " + tracker_chase);
         console.log("Pacman Pos: " + PACMAN.getUserPos());
+        console.log("Ghost Pos: " + PACMAN.getGhostPos());
         console.log(" ");
             if (( (tracker_attack < Pacman.attackProb & tracker_chase <=Pacman.chaseProb)|| attackVar === true) && chaseVar === false
             && ((((now - Pacman.trialTime) / 1000) - 2) > 1)) {
@@ -1290,7 +1294,7 @@ Pacman.Ghost = function (game, map, colour) {
                 attackCount++;
                 return attack(ctx);
             } else if ((tracker_attack < Pacman.attackProb & tracker_chase >=Pacman.chaseProb)
-                || chaseVar === true) {
+                || chaseVar === true || ((((now - Pacman.trialTime) / 1000) - 2) > 5 ) ) {
                 Pacman.chaseArray.push("True");
                 Pacman.attackArray.push("False");
                 chaseVar = true;
@@ -1318,6 +1322,7 @@ Pacman.Ghost = function (game, map, colour) {
                         "old": oldPos
                     }
                 }
+                console.log("bob count: " + bobCount);
                 if (bobCount >= 10) {
                     due = oppositeDirection(due);
                     direction = oppositeDirection(direction);
@@ -1431,7 +1436,7 @@ Pacman.Map = function (size) {
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0],
+            [5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1518,7 +1523,7 @@ Pacman.Map = function (size) {
         ctx.beginPath();
 
         if (layout === Pacman.EMPTY || layout === Pacman.BLOCK ||
-            layout === Pacman.BISCUIT) {
+            layout === Pacman.BISCUIT || layout === Pacman.LEFT_DOOR || layout === Pacman.RIGHT_DOOR) {
 
             ctx.fillStyle = "#000";
             ctx.fillRect((x * blockSize), (y * blockSize),
@@ -1620,6 +1625,19 @@ Pacman.Map = function (size) {
                         ctx.fill();
                     }
                 }
+            }
+            if (layout === Pacman.LEFT_DOOR || layout === Pacman.RIGHT_DOOR) {
+              let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
+              // console.log("left or right door?")
+              // if ( (userPosition < 80 && layout === Pacman.LEFT_DOOR) || (userPosition >= 80 && layout === Pacman.RIGHT_DOOR)) {
+              //     ctx.fillStyle = "#2ECC71";
+              //     ctx.fillRect((x * blockSize ), (y * blockSize),
+              //         blockSize, blockSize);
+              // } else {
+                ctx.fillStyle = "#000";
+                ctx.fillRect((x * blockSize), (y * blockSize),
+                    blockSize, blockSize);
+              // }
             }
         }
         ctx.closePath();
@@ -2024,7 +2042,7 @@ var PACMAN = (function (handle) {
             let filtered_average_score = Pacman.averageScore.filter(x => x !== undefined);
             let average_score_final = Math.floor(filtered_average_score.reduce((a,b) => a + b, 0) / filtered_average_score.length);
             dialog("Your average score was: " + average_score_final);
-            window.postMessage("final_score", average_score_final);
+            window.postMessage(["final_score", average_score_final], "*");
             window.postMessage("next", "*");
         }
 
@@ -2240,31 +2258,33 @@ Pacman.BISCUIT = 1;
 Pacman.EMPTY   = 2;
 Pacman.BLOCK   = 3;
 Pacman.PILL    = 4;
+Pacman.LEFT_DOOR  = 5;
+Pacman.RIGHT_DOOR  = 6;
 
-Pacman.MAP = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
+// Pacman.MAP = [
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+//     [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 2, 2, 2],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 2, 2, 2, 2, 2, 2, 5, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+// ];
 
 Pacman.WALLS = [
 
