@@ -79,399 +79,399 @@ Pacman.survivalProbabilities = [
     "Scaled_Distance": 0
   },
   {
-    "CDF": 0.998539552395,
+    "CDF": 0.9979689583650599,
     "Scaled_Distance": 0.01
   },
   {
-    "CDF": 0.99431287648,
+    "CDF": 0.99214346656768,
     "Scaled_Distance": 0.02
   },
   {
-    "CDF": 0.987544129555,
+    "CDF": 0.98290696581622,
     "Scaled_Distance": 0.03
   },
   {
-    "CDF": 0.97844723712,
+    "CDF": 0.9706196592230399,
     "Scaled_Distance": 0.04
   },
   {
-    "CDF": 0.967226171875,
+    "CDF": 0.9556194578125,
     "Scaled_Distance": 0.05
   },
   {
-    "CDF": 0.95407522912,
+    "CDF": 0.93822290223616,
     "Scaled_Distance": 0.06
   },
   {
-    "CDF": 0.939179298555,
+    "CDF": 0.91872606049758,
     "Scaled_Distance": 0.07
   },
   {
-    "CDF": 0.9227141324800001,
+    "CDF": 0.89740540198912,
     "Scaled_Distance": 0.08
   },
   {
-    "CDF": 0.9048466103950001,
+    "CDF": 0.8745186481431401,
     "Scaled_Distance": 0.09
   },
   {
-    "CDF": 0.8857349999999999,
+    "CDF": 0.8503055999999999,
     "Scaled_Distance": 0.1
   },
   {
-    "CDF": 0.865529214595,
+    "CDF": 0.8249889429952599,
     "Scaled_Distance": 0.11
   },
   {
-    "CDF": 0.8443710668800001,
+    "CDF": 0.7987750292684799,
     "Scaled_Distance": 0.12
   },
   {
-    "CDF": 0.8223945191550001,
+    "CDF": 0.7718546377960199,
     "Scaled_Distance": 0.13
   },
   {
-    "CDF": 0.79972592992,
+    "CDF": 0.7444037126502401,
     "Scaled_Distance": 0.14
   },
   {
-    "CDF": 0.776484296875,
+    "CDF": 0.7165840796874999,
     "Scaled_Distance": 0.15
   },
   {
-    "CDF": 0.75278149632,
+    "CDF": 0.6885441419673599,
     "Scaled_Distance": 0.16
   },
   {
-    "CDF": 0.728722518955,
+    "CDF": 0.66041955420538,
     "Scaled_Distance": 0.17
   },
   {
-    "CDF": 0.7044057020799999,
+    "CDF": 0.6323338765619199,
     "Scaled_Distance": 0.18
   },
   {
-    "CDF": 0.6799229581949999,
+    "CDF": 0.6043992080693399,
     "Scaled_Distance": 0.19
   },
   {
-    "CDF": 0.6553599999999999,
+    "CDF": 0.5767167999999998,
     "Scaled_Distance": 0.2
   },
   {
-    "CDF": 0.630796561795,
+    "CDF": 0.54937764947746,
     "Scaled_Distance": 0.21
   },
   {
-    "CDF": 0.60630661728,
+    "CDF": 0.52246307363328,
     "Scaled_Distance": 0.22
   },
   {
-    "CDF": 0.581958593755,
+    "CDF": 0.4960452646118201,
     "Scaled_Distance": 0.23
   },
   {
-    "CDF": 0.5578155827200001,
+    "CDF": 0.47018782572544005,
     "Scaled_Distance": 0.24
   },
   {
-    "CDF": 0.5339355468749999,
+    "CDF": 0.4449462890624998,
     "Scaled_Distance": 0.25
   },
   {
-    "CDF": 0.5103715235199999,
+    "CDF": 0.4203686148505602,
     "Scaled_Distance": 0.26
   },
   {
-    "CDF": 0.48717182435499984,
+    "CDF": 0.3964956728771801,
     "Scaled_Distance": 0.27
   },
   {
-    "CDF": 0.46438023167999987,
+    "CDF": 0.37336170627071996,
     "Scaled_Distance": 0.28
   },
   {
-    "CDF": 0.442036190995,
+    "CDF": 0.35099477794354006,
     "Scaled_Distance": 0.29
   },
   {
-    "CDF": 0.42017499999999985,
+    "CDF": 0.32941719999999985,
     "Scaled_Distance": 0.3
   },
   {
-    "CDF": 0.398827993995,
+    "CDF": 0.30864594641166,
     "Scaled_Distance": 0.31
   },
   {
-    "CDF": 0.3780227276799999,
+    "CDF": 0.28869304926207984,
     "Scaled_Distance": 0.32
   },
   {
-    "CDF": 0.3577831533549999,
+    "CDF": 0.2695659788636199,
     "Scaled_Distance": 0.33
   },
   {
-    "CDF": 0.33812979552,
+    "CDF": 0.25126800804864,
     "Scaled_Distance": 0.34
   },
   {
-    "CDF": 0.3190799218749998,
+    "CDF": 0.23379856093749996,
     "Scaled_Distance": 0.35000000000000003
   },
   {
-    "CDF": 0.30064771072000007,
+    "CDF": 0.21715354648576013,
     "Scaled_Distance": 0.36
   },
   {
-    "CDF": 0.282844414755,
+    "CDF": 0.2013256771129801,
     "Scaled_Distance": 0.37
   },
   {
-    "CDF": 0.26567852128,
+    "CDF": 0.18630477271551993,
     "Scaled_Distance": 0.38
   },
   {
-    "CDF": 0.24915590879499994,
+    "CDF": 0.17207805036573998,
     "Scaled_Distance": 0.39
   },
   {
-    "CDF": 0.23327999999999993,
+    "CDF": 0.15863039999999995,
     "Scaled_Distance": 0.4
   },
   {
-    "CDF": 0.2180519111949999,
+    "CDF": 0.14594464639785998,
     "Scaled_Distance": 0.41000000000000003
   },
   {
-    "CDF": 0.20347059808000012,
+    "CDF": 0.13400179775488008,
     "Scaled_Distance": 0.42
   },
   {
-    "CDF": 0.189532997955,
+    "CDF": 0.12278128115142006,
     "Scaled_Distance": 0.43
   },
   {
-    "CDF": 0.17623416831999994,
+    "CDF": 0.11226116521984009,
     "Scaled_Distance": 0.44
   },
   {
-    "CDF": 0.16356742187499995,
+    "CDF": 0.1024183703125,
     "Scaled_Distance": 0.45
   },
   {
-    "CDF": 0.15152445792000002,
+    "CDF": 0.09322886647295991,
     "Scaled_Distance": 0.46
   },
   {
-    "CDF": 0.140095490155,
+    "CDF": 0.08466785951278,
     "Scaled_Distance": 0.47000000000000003
   },
   {
-    "CDF": 0.12926937088000012,
+    "CDF": 0.07670996549632003,
     "Scaled_Distance": 0.48
   },
   {
-    "CDF": 0.11903371159499998,
+    "CDF": 0.06932937393593996,
     "Scaled_Distance": 0.49
   },
   {
-    "CDF": 0.109375,
+    "CDF": 0.0625,
     "Scaled_Distance": 0.5
   },
   {
-    "CDF": 0.10027871339499994,
+    "CDF": 0.05619562603605999,
     "Scaled_Distance": 0.51
   },
   {
-    "CDF": 0.0917294284800001,
+    "CDF": 0.050390032711679966,
     "Scaled_Distance": 0.52
   },
   {
-    "CDF": 0.08371092755499998,
+    "CDF": 0.04505712007522,
     "Scaled_Distance": 0.53
   },
   {
-    "CDF": 0.07620630112000004,
+    "CDF": 0.04017101883903995,
     "Scaled_Distance": 0.54
   },
   {
-    "CDF": 0.06919804687499997,
+    "CDF": 0.03570619218749993,
     "Scaled_Distance": 0.55
   },
   {
-    "CDF": 0.06266816511999995,
+    "CDF": 0.03163752841215994,
     "Scaled_Distance": 0.56
   },
   {
-    "CDF": 0.05659825055500001,
+    "CDF": 0.027940424676579978,
     "Scaled_Distance": 0.5700000000000001
   },
   {
-    "CDF": 0.05096958048000011,
+    "CDF": 0.024590862213120013,
     "Scaled_Distance": 0.58
   },
   {
-    "CDF": 0.045763199395000065,
+    "CDF": 0.021565473254139933,
     "Scaled_Distance": 0.59
   },
   {
-    "CDF": 0.04096000000000011,
+    "CDF": 0.018841600000000014,
     "Scaled_Distance": 0.6
   },
   {
-    "CDF": 0.03654080059499998,
+    "CDF": 0.016397345926260076,
     "Scaled_Distance": 0.61
   },
   {
-    "CDF": 0.032486418880000034,
+    "CDF": 0.014211619732479974,
     "Scaled_Distance": 0.62
   },
   {
-    "CDF": 0.028777742154999952,
+    "CDF": 0.012264172235020077,
     "Scaled_Distance": 0.63
   },
   {
-    "CDF": 0.02539579392000002,
+    "CDF": 0.010535626506239959,
     "Scaled_Distance": 0.64
   },
   {
-    "CDF": 0.022321796875000022,
+    "CDF": 0.009007501562499964,
     "Scaled_Distance": 0.65
   },
   {
-    "CDF": 0.019537232320000042,
+    "CDF": 0.007662229903359963,
     "Scaled_Distance": 0.66
   },
   {
-    "CDF": 0.01702389595499998,
+    "CDF": 0.006483169204379968,
     "Scaled_Distance": 0.67
   },
   {
-    "CDF": 0.014763950079999977,
+    "CDF": 0.005454608465919941,
     "Scaled_Distance": 0.68
   },
   {
-    "CDF": 0.012739972195000004,
+    "CDF": 0.0045617689203399925,
     "Scaled_Distance": 0.6900000000000001
   },
   {
-    "CDF": 0.010934999999999917,
+    "CDF": 0.003790799999999983,
     "Scaled_Distance": 0.7000000000000001
   },
   {
-    "CDF": 0.009332572794999994,
+    "CDF": 0.003128770668459957,
     "Scaled_Distance": 0.71
   },
   {
-    "CDF": 0.007916769279999958,
+    "CDF": 0.002563656417279958,
     "Scaled_Distance": 0.72
   },
   {
-    "CDF": 0.00667224175500003,
+    "CDF": 0.0020843222308200016,
     "Scaled_Distance": 0.73
   },
   {
-    "CDF": 0.005584246720000019,
+    "CDF": 0.0016805018214399725,
     "Scaled_Distance": 0.74
   },
   {
-    "CDF": 0.004638671875,
+    "CDF": 0.0013427734375,
     "Scaled_Distance": 0.75
   },
   {
-    "CDF": 0.003822059520000032,
+    "CDF": 0.00106253254656008,
     "Scaled_Distance": 0.76
   },
   {
-    "CDF": 0.003121626355000018,
+    "CDF": 0.0008319616961800502,
     "Scaled_Distance": 0.77
   },
   {
-    "CDF": 0.0025252796799999366,
+    "CDF": 0.0006439978547200242,
     "Scaled_Distance": 0.78
   },
   {
-    "CDF": 0.002021629994999996,
+    "CDF": 0.0004922975345400538,
     "Scaled_Distance": 0.79
   },
   {
-    "CDF": 0.0016000000000000458,
+    "CDF": 0.00037120000000001596,
     "Scaled_Distance": 0.8
   },
   {
-    "CDF": 0.0012504299950000242,
+    "CDF": 0.00027568886266005066,
     "Scaled_Distance": 0.81
   },
   {
-    "CDF": 0.0009636796799999958,
+    "CDF": 0.00020135236607998763,
     "Scaled_Distance": 0.8200000000000001
   },
   {
-    "CDF": 0.0007312263550000031,
+    "CDF": 0.0001443426626199784,
     "Scaled_Distance": 0.8300000000000001
   },
   {
-    "CDF": 0.0005452595199999521,
+    "CDF": 0.000101334384639995,
     "Scaled_Distance": 0.84
   },
   {
-    "CDF": 0.00039867187499997847,
+    "CDF": 0.00006948281250007682,
     "Scaled_Distance": 0.85
   },
   {
-    "CDF": 0.00028504671999995956,
+    "CDF": 0.000046381941759987555,
     "Scaled_Distance": 0.86
   },
   {
-    "CDF": 0.00019864175499995085,
+    "CDF": 0.00003002275198005222,
     "Scaled_Distance": 0.87
   },
   {
-    "CDF": 0.0001343692799999907,
+    "CDF": 0.000018751979520059692,
     "Scaled_Distance": 0.88
   },
   {
-    "CDF": 0.00008777279499994073,
+    "CDF": 0.000011231696739999464,
     "Scaled_Distance": 0.89
   },
   {
-    "CDF": 0.00005500000000002725,
+    "CDF": 0.000006399999999961992,
     "Scaled_Distance": 0.9
   },
   {
-    "CDF": 0.00003277219499997486,
+    "CDF": 0.0000034331088599737214,
     "Scaled_Distance": 0.91
   },
   {
-    "CDF": 0.00001835007999995142,
+    "CDF": 0.0000017091788799827867,
     "Scaled_Distance": 0.92
   },
   {
-    "CDF": 0.000009495954999994005,
+    "CDF": 7.741304199893051e-7,
     "Scaled_Distance": 0.93
   },
   {
-    "CDF": 0.000004432320000025136,
+    "CDF": 3.097958399811418e-7,
     "Scaled_Distance": 0.9400000000000001
   },
   {
-    "CDF": 0.0000017968750000152411,
+    "CDF": 1.04687500002143e-7,
     "Scaled_Distance": 0.9500000000000001
   },
   {
-    "CDF": 5.939200000693035e-7,
+    "CDF": 2.7688960013705355e-8,
     "Scaled_Distance": 0.96
   },
   {
-    "CDF": 1.4215499999359338e-7,
+    "CDF": 4.9717799877058155e-9,
     "Scaled_Distance": 0.97
   },
   {
-    "CDF": 1.888000000782597e-8,
+    "CDF": 4.403200026814602e-10,
     "Scaled_Distance": 0.98
   },
   {
-    "CDF": 5.950000492305207e-10,
+    "CDF": 6.9400041269318535e-12,
     "Scaled_Distance": 0.99
   },
   {
@@ -577,10 +577,10 @@ Pacman.User = function (game, map) {
         //     || (Pacman.startingPositions[Pacman.randomTrial][2] === null && Pacman.previousGhostStart === null)) {
         //     Pacman.randomTrial = Math.floor(Math.random() * 21);
         // }
-        // if (Pacman.randomTrial === 20) {
-        //     Pacman.randomTrial = 19;
-        // }
-        Pacman.randomTrial = getTrials2();
+        Pacman.randomTrial = getTrials2() - 1;
+        if (Pacman.randomTrial === 20) {
+            Pacman.randomTrial = 19;
+        }
         position = {"x": Pacman.startingPositions[Pacman.randomTrial][1], "y": 100};
         console.log("User start: " + position.x);
         direction = NONE;
@@ -1042,14 +1042,24 @@ Pacman.Ghost = function (game, map, colour) {
         // let lambda_dist = distanceToLambda(distance());
         // Pacman.attack =  survival(lambda_dist);
         //console.log("Prob" + probOfChase);
-        if (Pacman.attackProb < .2) {
+        if (Pacman.attackProb < .1) {
             return "#FA86F2";
-        } else if (Pacman.attackProb >= .2 && Pacman.attackProb < .4) {
-            return "#F55CE7";
-        } else if (Pacman.attackProb >= .4 && Pacman.attackProb < .6) {
-            return "#ED30CD";
-        } else if (Pacman.attackProb >= .6 && Pacman.attackProb < .8) {
-            return "#D7008A";
+        } else if (Pacman.attackProb >= .1 && Pacman.attackProb < .2) {
+            return "#f673d7";
+        } else if (Pacman.attackProb >= .2 && Pacman.attackProb < .3) {
+              return "#f061bd";
+        } else if (Pacman.attackProb >= .3 && Pacman.attackProb < .4) {
+            return "#e74fa2";
+        } else if (Pacman.attackProb >= .4 && Pacman.attackProb < .5) {
+            return "#dd3e89";
+        } else if (Pacman.attackProb >= .5 && Pacman.attackProb < .6) {
+            return "#d7357c";
+        } else if (Pacman.attackProb >= .6 && Pacman.attackProb < .7) {
+            return "#d12c70";
+        } else if (Pacman.attackProb >= .7 && Pacman.attackProb < .8) {
+            return "#ca2364";
+        } else if (Pacman.attackProb >= .8 && Pacman.attackProb < .9) {
+            return "#c31958";
         } else {
             return "#B30041";
         }
@@ -1774,9 +1784,9 @@ var PACMAN = (function (handle) {
             ((position["new"]["y"] + 5) / 10) * map.blockSize);
     }
 
-    function dialog(text) {
+    function dialog(text, font = "18px Monaco" ) {
         ctx.fillStyle = "#FFFF00";
-        ctx.font      = "18px Monaco";
+        ctx.font      = font;
         var width = ctx.measureText(text).width,
             x     = ((map.width * map.blockSize) - width) / 2;
         ctx.fillText(text, x, (map.height * 10) + 8);
@@ -1945,6 +1955,23 @@ var PACMAN = (function (handle) {
         map.drawBlock(Math.ceil(100/10), Math.ceil(pos.x/10), ctx);
     }
 
+    function getPayout(score) {
+      const n = 3070;
+      const arr = [...Array(n).keys()];
+      let lambda = arr.indexOf(score);
+      let xMax = 25;
+      let xMin = 0;
+      let yMax = 3070;
+      let yMin = 0;
+      const retArr = [];
+      for (const i in arr) {
+          let percent = (i - yMin) / (yMax - yMin);
+          let outputX = percent * (xMax - xMin) + xMin;
+          retArr.push(Math.round(outputX));
+      }
+      return(retArr[lambda]);
+    }
+
     function mainDraw() {
 
         var diff, u, i, len, nScore;
@@ -2041,7 +2068,8 @@ var PACMAN = (function (handle) {
             // compute final score
             let filtered_average_score = Pacman.averageScore.filter(x => x !== undefined);
             let average_score_final = Math.floor(filtered_average_score.reduce((a,b) => a + b, 0) / filtered_average_score.length);
-            dialog("Your average score was: " + average_score_final);
+            let final_payout = getPayout(average_score_final);
+            dialog("You earned a bonus of $" + final_payout + "! Press the arrow to continue", "10px Monaco");
             window.postMessage(["final_score", average_score_final], "*");
             window.postMessage("next", "*");
         }
