@@ -19,6 +19,8 @@ var NONE        = 4,
     EATEN_PAUSE = 9,
     DYING       = 10,
     Pacman      = {};
+Pacman.biscvar = false;
+Pacman.trial_counter = 0;
 Pacman.move = false;
 Pacman.attackProb = 0;
 Pacman.chaseProb = 0.5;
@@ -50,6 +52,7 @@ Pacman.eatenArray = [];
 Pacman.scoreArray = [];
 Pacman.averageScore = [];
 Pacman.lives = null;
+Pacman.usedTrials = [];
 Pacman.orig_startingPositions = [
     [1,160,80,null,null,null,null,null  ],
     [2,120,40,5,3,6,2.5,4  ],
@@ -74,410 +77,410 @@ Pacman.orig_startingPositions = [
 ];
 Pacman.startingPositions = Pacman.orig_startingPositions.sort(() => Math.random() - 0.5);
 Pacman.survivalProbabilities = [
-  {
-    "CDF": 1,
-    "Scaled_Distance": 0
-  },
-  {
-    "CDF": 0.9979689583650599,
-    "Scaled_Distance": 0.01
-  },
-  {
-    "CDF": 0.99214346656768,
-    "Scaled_Distance": 0.02
-  },
-  {
-    "CDF": 0.98290696581622,
-    "Scaled_Distance": 0.03
-  },
-  {
-    "CDF": 0.9706196592230399,
-    "Scaled_Distance": 0.04
-  },
-  {
-    "CDF": 0.9556194578125,
-    "Scaled_Distance": 0.05
-  },
-  {
-    "CDF": 0.93822290223616,
-    "Scaled_Distance": 0.06
-  },
-  {
-    "CDF": 0.91872606049758,
-    "Scaled_Distance": 0.07
-  },
-  {
-    "CDF": 0.89740540198912,
-    "Scaled_Distance": 0.08
-  },
-  {
-    "CDF": 0.8745186481431401,
-    "Scaled_Distance": 0.09
-  },
-  {
-    "CDF": 0.8503055999999999,
-    "Scaled_Distance": 0.1
-  },
-  {
-    "CDF": 0.8249889429952599,
-    "Scaled_Distance": 0.11
-  },
-  {
-    "CDF": 0.7987750292684799,
-    "Scaled_Distance": 0.12
-  },
-  {
-    "CDF": 0.7718546377960199,
-    "Scaled_Distance": 0.13
-  },
-  {
-    "CDF": 0.7444037126502401,
-    "Scaled_Distance": 0.14
-  },
-  {
-    "CDF": 0.7165840796874999,
-    "Scaled_Distance": 0.15
-  },
-  {
-    "CDF": 0.6885441419673599,
-    "Scaled_Distance": 0.16
-  },
-  {
-    "CDF": 0.66041955420538,
-    "Scaled_Distance": 0.17
-  },
-  {
-    "CDF": 0.6323338765619199,
-    "Scaled_Distance": 0.18
-  },
-  {
-    "CDF": 0.6043992080693399,
-    "Scaled_Distance": 0.19
-  },
-  {
-    "CDF": 0.5767167999999998,
-    "Scaled_Distance": 0.2
-  },
-  {
-    "CDF": 0.54937764947746,
-    "Scaled_Distance": 0.21
-  },
-  {
-    "CDF": 0.52246307363328,
-    "Scaled_Distance": 0.22
-  },
-  {
-    "CDF": 0.4960452646118201,
-    "Scaled_Distance": 0.23
-  },
-  {
-    "CDF": 0.47018782572544005,
-    "Scaled_Distance": 0.24
-  },
-  {
-    "CDF": 0.4449462890624998,
-    "Scaled_Distance": 0.25
-  },
-  {
-    "CDF": 0.4203686148505602,
-    "Scaled_Distance": 0.26
-  },
-  {
-    "CDF": 0.3964956728771801,
-    "Scaled_Distance": 0.27
-  },
-  {
-    "CDF": 0.37336170627071996,
-    "Scaled_Distance": 0.28
-  },
-  {
-    "CDF": 0.35099477794354006,
-    "Scaled_Distance": 0.29
-  },
-  {
-    "CDF": 0.32941719999999985,
-    "Scaled_Distance": 0.3
-  },
-  {
-    "CDF": 0.30864594641166,
-    "Scaled_Distance": 0.31
-  },
-  {
-    "CDF": 0.28869304926207984,
-    "Scaled_Distance": 0.32
-  },
-  {
-    "CDF": 0.2695659788636199,
-    "Scaled_Distance": 0.33
-  },
-  {
-    "CDF": 0.25126800804864,
-    "Scaled_Distance": 0.34
-  },
-  {
-    "CDF": 0.23379856093749996,
-    "Scaled_Distance": 0.35000000000000003
-  },
-  {
-    "CDF": 0.21715354648576013,
-    "Scaled_Distance": 0.36
-  },
-  {
-    "CDF": 0.2013256771129801,
-    "Scaled_Distance": 0.37
-  },
-  {
-    "CDF": 0.18630477271551993,
-    "Scaled_Distance": 0.38
-  },
-  {
-    "CDF": 0.17207805036573998,
-    "Scaled_Distance": 0.39
-  },
-  {
-    "CDF": 0.15863039999999995,
-    "Scaled_Distance": 0.4
-  },
-  {
-    "CDF": 0.14594464639785998,
-    "Scaled_Distance": 0.41000000000000003
-  },
-  {
-    "CDF": 0.13400179775488008,
-    "Scaled_Distance": 0.42
-  },
-  {
-    "CDF": 0.12278128115142006,
-    "Scaled_Distance": 0.43
-  },
-  {
-    "CDF": 0.11226116521984009,
-    "Scaled_Distance": 0.44
-  },
-  {
-    "CDF": 0.1024183703125,
-    "Scaled_Distance": 0.45
-  },
-  {
-    "CDF": 0.09322886647295991,
-    "Scaled_Distance": 0.46
-  },
-  {
-    "CDF": 0.08466785951278,
-    "Scaled_Distance": 0.47000000000000003
-  },
-  {
-    "CDF": 0.07670996549632003,
-    "Scaled_Distance": 0.48
-  },
-  {
-    "CDF": 0.06932937393593996,
-    "Scaled_Distance": 0.49
-  },
-  {
-    "CDF": 0.0625,
-    "Scaled_Distance": 0.5
-  },
-  {
-    "CDF": 0.05619562603605999,
-    "Scaled_Distance": 0.51
-  },
-  {
-    "CDF": 0.050390032711679966,
-    "Scaled_Distance": 0.52
-  },
-  {
-    "CDF": 0.04505712007522,
-    "Scaled_Distance": 0.53
-  },
-  {
-    "CDF": 0.04017101883903995,
-    "Scaled_Distance": 0.54
-  },
-  {
-    "CDF": 0.03570619218749993,
-    "Scaled_Distance": 0.55
-  },
-  {
-    "CDF": 0.03163752841215994,
-    "Scaled_Distance": 0.56
-  },
-  {
-    "CDF": 0.027940424676579978,
-    "Scaled_Distance": 0.5700000000000001
-  },
-  {
-    "CDF": 0.024590862213120013,
-    "Scaled_Distance": 0.58
-  },
-  {
-    "CDF": 0.021565473254139933,
-    "Scaled_Distance": 0.59
-  },
-  {
-    "CDF": 0.018841600000000014,
-    "Scaled_Distance": 0.6
-  },
-  {
-    "CDF": 0.016397345926260076,
-    "Scaled_Distance": 0.61
-  },
-  {
-    "CDF": 0.014211619732479974,
-    "Scaled_Distance": 0.62
-  },
-  {
-    "CDF": 0.012264172235020077,
-    "Scaled_Distance": 0.63
-  },
-  {
-    "CDF": 0.010535626506239959,
-    "Scaled_Distance": 0.64
-  },
-  {
-    "CDF": 0.009007501562499964,
-    "Scaled_Distance": 0.65
-  },
-  {
-    "CDF": 0.007662229903359963,
-    "Scaled_Distance": 0.66
-  },
-  {
-    "CDF": 0.006483169204379968,
-    "Scaled_Distance": 0.67
-  },
-  {
-    "CDF": 0.005454608465919941,
-    "Scaled_Distance": 0.68
-  },
-  {
-    "CDF": 0.0045617689203399925,
-    "Scaled_Distance": 0.6900000000000001
-  },
-  {
-    "CDF": 0.003790799999999983,
-    "Scaled_Distance": 0.7000000000000001
-  },
-  {
-    "CDF": 0.003128770668459957,
-    "Scaled_Distance": 0.71
-  },
-  {
-    "CDF": 0.002563656417279958,
-    "Scaled_Distance": 0.72
-  },
-  {
-    "CDF": 0.0020843222308200016,
-    "Scaled_Distance": 0.73
-  },
-  {
-    "CDF": 0.0016805018214399725,
-    "Scaled_Distance": 0.74
-  },
-  {
-    "CDF": 0.0013427734375,
-    "Scaled_Distance": 0.75
-  },
-  {
-    "CDF": 0.00106253254656008,
-    "Scaled_Distance": 0.76
-  },
-  {
-    "CDF": 0.0008319616961800502,
-    "Scaled_Distance": 0.77
-  },
-  {
-    "CDF": 0.0006439978547200242,
-    "Scaled_Distance": 0.78
-  },
-  {
-    "CDF": 0.0004922975345400538,
-    "Scaled_Distance": 0.79
-  },
-  {
-    "CDF": 0.00037120000000001596,
-    "Scaled_Distance": 0.8
-  },
-  {
-    "CDF": 0.00027568886266005066,
-    "Scaled_Distance": 0.81
-  },
-  {
-    "CDF": 0.00020135236607998763,
-    "Scaled_Distance": 0.8200000000000001
-  },
-  {
-    "CDF": 0.0001443426626199784,
-    "Scaled_Distance": 0.8300000000000001
-  },
-  {
-    "CDF": 0.000101334384639995,
-    "Scaled_Distance": 0.84
-  },
-  {
-    "CDF": 0.00006948281250007682,
-    "Scaled_Distance": 0.85
-  },
-  {
-    "CDF": 0.000046381941759987555,
-    "Scaled_Distance": 0.86
-  },
-  {
-    "CDF": 0.00003002275198005222,
-    "Scaled_Distance": 0.87
-  },
-  {
-    "CDF": 0.000018751979520059692,
-    "Scaled_Distance": 0.88
-  },
-  {
-    "CDF": 0.000011231696739999464,
-    "Scaled_Distance": 0.89
-  },
-  {
-    "CDF": 0.000006399999999961992,
-    "Scaled_Distance": 0.9
-  },
-  {
-    "CDF": 0.0000034331088599737214,
-    "Scaled_Distance": 0.91
-  },
-  {
-    "CDF": 0.0000017091788799827867,
-    "Scaled_Distance": 0.92
-  },
-  {
-    "CDF": 7.741304199893051e-7,
-    "Scaled_Distance": 0.93
-  },
-  {
-    "CDF": 3.097958399811418e-7,
-    "Scaled_Distance": 0.9400000000000001
-  },
-  {
-    "CDF": 1.04687500002143e-7,
-    "Scaled_Distance": 0.9500000000000001
-  },
-  {
-    "CDF": 2.7688960013705355e-8,
-    "Scaled_Distance": 0.96
-  },
-  {
-    "CDF": 4.9717799877058155e-9,
-    "Scaled_Distance": 0.97
-  },
-  {
-    "CDF": 4.403200026814602e-10,
-    "Scaled_Distance": 0.98
-  },
-  {
-    "CDF": 6.9400041269318535e-12,
-    "Scaled_Distance": 0.99
-  },
-  {
-    "CDF": 0,
-    "Scaled_Distance": 1
-  }
+    {
+        "CDF": 1,
+        "Scaled_Distance": 0
+    },
+    {
+        "CDF": 0.9979689583650599,
+        "Scaled_Distance": 0.01
+    },
+    {
+        "CDF": 0.99214346656768,
+        "Scaled_Distance": 0.02
+    },
+    {
+        "CDF": 0.98290696581622,
+        "Scaled_Distance": 0.03
+    },
+    {
+        "CDF": 0.9706196592230399,
+        "Scaled_Distance": 0.04
+    },
+    {
+        "CDF": 0.9556194578125,
+        "Scaled_Distance": 0.05
+    },
+    {
+        "CDF": 0.93822290223616,
+        "Scaled_Distance": 0.06
+    },
+    {
+        "CDF": 0.91872606049758,
+        "Scaled_Distance": 0.07
+    },
+    {
+        "CDF": 0.89740540198912,
+        "Scaled_Distance": 0.08
+    },
+    {
+        "CDF": 0.8745186481431401,
+        "Scaled_Distance": 0.09
+    },
+    {
+        "CDF": 0.8503055999999999,
+        "Scaled_Distance": 0.1
+    },
+    {
+        "CDF": 0.8249889429952599,
+        "Scaled_Distance": 0.11
+    },
+    {
+        "CDF": 0.7987750292684799,
+        "Scaled_Distance": 0.12
+    },
+    {
+        "CDF": 0.7718546377960199,
+        "Scaled_Distance": 0.13
+    },
+    {
+        "CDF": 0.7444037126502401,
+        "Scaled_Distance": 0.14
+    },
+    {
+        "CDF": 0.7165840796874999,
+        "Scaled_Distance": 0.15
+    },
+    {
+        "CDF": 0.6885441419673599,
+        "Scaled_Distance": 0.16
+    },
+    {
+        "CDF": 0.66041955420538,
+        "Scaled_Distance": 0.17
+    },
+    {
+        "CDF": 0.6323338765619199,
+        "Scaled_Distance": 0.18
+    },
+    {
+        "CDF": 0.6043992080693399,
+        "Scaled_Distance": 0.19
+    },
+    {
+        "CDF": 0.5767167999999998,
+        "Scaled_Distance": 0.2
+    },
+    {
+        "CDF": 0.54937764947746,
+        "Scaled_Distance": 0.21
+    },
+    {
+        "CDF": 0.52246307363328,
+        "Scaled_Distance": 0.22
+    },
+    {
+        "CDF": 0.4960452646118201,
+        "Scaled_Distance": 0.23
+    },
+    {
+        "CDF": 0.47018782572544005,
+        "Scaled_Distance": 0.24
+    },
+    {
+        "CDF": 0.4449462890624998,
+        "Scaled_Distance": 0.25
+    },
+    {
+        "CDF": 0.4203686148505602,
+        "Scaled_Distance": 0.26
+    },
+    {
+        "CDF": 0.3964956728771801,
+        "Scaled_Distance": 0.27
+    },
+    {
+        "CDF": 0.37336170627071996,
+        "Scaled_Distance": 0.28
+    },
+    {
+        "CDF": 0.35099477794354006,
+        "Scaled_Distance": 0.29
+    },
+    {
+        "CDF": 0.32941719999999985,
+        "Scaled_Distance": 0.3
+    },
+    {
+        "CDF": 0.30864594641166,
+        "Scaled_Distance": 0.31
+    },
+    {
+        "CDF": 0.28869304926207984,
+        "Scaled_Distance": 0.32
+    },
+    {
+        "CDF": 0.2695659788636199,
+        "Scaled_Distance": 0.33
+    },
+    {
+        "CDF": 0.25126800804864,
+        "Scaled_Distance": 0.34
+    },
+    {
+        "CDF": 0.23379856093749996,
+        "Scaled_Distance": 0.35000000000000003
+    },
+    {
+        "CDF": 0.21715354648576013,
+        "Scaled_Distance": 0.36
+    },
+    {
+        "CDF": 0.2013256771129801,
+        "Scaled_Distance": 0.37
+    },
+    {
+        "CDF": 0.18630477271551993,
+        "Scaled_Distance": 0.38
+    },
+    {
+        "CDF": 0.17207805036573998,
+        "Scaled_Distance": 0.39
+    },
+    {
+        "CDF": 0.15863039999999995,
+        "Scaled_Distance": 0.4
+    },
+    {
+        "CDF": 0.14594464639785998,
+        "Scaled_Distance": 0.41000000000000003
+    },
+    {
+        "CDF": 0.13400179775488008,
+        "Scaled_Distance": 0.42
+    },
+    {
+        "CDF": 0.12278128115142006,
+        "Scaled_Distance": 0.43
+    },
+    {
+        "CDF": 0.11226116521984009,
+        "Scaled_Distance": 0.44
+    },
+    {
+        "CDF": 0.1024183703125,
+        "Scaled_Distance": 0.45
+    },
+    {
+        "CDF": 0.09322886647295991,
+        "Scaled_Distance": 0.46
+    },
+    {
+        "CDF": 0.08466785951278,
+        "Scaled_Distance": 0.47000000000000003
+    },
+    {
+        "CDF": 0.07670996549632003,
+        "Scaled_Distance": 0.48
+    },
+    {
+        "CDF": 0.06932937393593996,
+        "Scaled_Distance": 0.49
+    },
+    {
+        "CDF": 0.0625,
+        "Scaled_Distance": 0.5
+    },
+    {
+        "CDF": 0.05619562603605999,
+        "Scaled_Distance": 0.51
+    },
+    {
+        "CDF": 0.050390032711679966,
+        "Scaled_Distance": 0.52
+    },
+    {
+        "CDF": 0.04505712007522,
+        "Scaled_Distance": 0.53
+    },
+    {
+        "CDF": 0.04017101883903995,
+        "Scaled_Distance": 0.54
+    },
+    {
+        "CDF": 0.03570619218749993,
+        "Scaled_Distance": 0.55
+    },
+    {
+        "CDF": 0.03163752841215994,
+        "Scaled_Distance": 0.56
+    },
+    {
+        "CDF": 0.027940424676579978,
+        "Scaled_Distance": 0.5700000000000001
+    },
+    {
+        "CDF": 0.024590862213120013,
+        "Scaled_Distance": 0.58
+    },
+    {
+        "CDF": 0.021565473254139933,
+        "Scaled_Distance": 0.59
+    },
+    {
+        "CDF": 0.018841600000000014,
+        "Scaled_Distance": 0.6
+    },
+    {
+        "CDF": 0.016397345926260076,
+        "Scaled_Distance": 0.61
+    },
+    {
+        "CDF": 0.014211619732479974,
+        "Scaled_Distance": 0.62
+    },
+    {
+        "CDF": 0.012264172235020077,
+        "Scaled_Distance": 0.63
+    },
+    {
+        "CDF": 0.010535626506239959,
+        "Scaled_Distance": 0.64
+    },
+    {
+        "CDF": 0.009007501562499964,
+        "Scaled_Distance": 0.65
+    },
+    {
+        "CDF": 0.007662229903359963,
+        "Scaled_Distance": 0.66
+    },
+    {
+        "CDF": 0.006483169204379968,
+        "Scaled_Distance": 0.67
+    },
+    {
+        "CDF": 0.005454608465919941,
+        "Scaled_Distance": 0.68
+    },
+    {
+        "CDF": 0.0045617689203399925,
+        "Scaled_Distance": 0.6900000000000001
+    },
+    {
+        "CDF": 0.003790799999999983,
+        "Scaled_Distance": 0.7000000000000001
+    },
+    {
+        "CDF": 0.003128770668459957,
+        "Scaled_Distance": 0.71
+    },
+    {
+        "CDF": 0.002563656417279958,
+        "Scaled_Distance": 0.72
+    },
+    {
+        "CDF": 0.0020843222308200016,
+        "Scaled_Distance": 0.73
+    },
+    {
+        "CDF": 0.0016805018214399725,
+        "Scaled_Distance": 0.74
+    },
+    {
+        "CDF": 0.0013427734375,
+        "Scaled_Distance": 0.75
+    },
+    {
+        "CDF": 0.00106253254656008,
+        "Scaled_Distance": 0.76
+    },
+    {
+        "CDF": 0.0008319616961800502,
+        "Scaled_Distance": 0.77
+    },
+    {
+        "CDF": 0.0006439978547200242,
+        "Scaled_Distance": 0.78
+    },
+    {
+        "CDF": 0.0004922975345400538,
+        "Scaled_Distance": 0.79
+    },
+    {
+        "CDF": 0.00037120000000001596,
+        "Scaled_Distance": 0.8
+    },
+    {
+        "CDF": 0.00027568886266005066,
+        "Scaled_Distance": 0.81
+    },
+    {
+        "CDF": 0.00020135236607998763,
+        "Scaled_Distance": 0.8200000000000001
+    },
+    {
+        "CDF": 0.0001443426626199784,
+        "Scaled_Distance": 0.8300000000000001
+    },
+    {
+        "CDF": 0.000101334384639995,
+        "Scaled_Distance": 0.84
+    },
+    {
+        "CDF": 0.00006948281250007682,
+        "Scaled_Distance": 0.85
+    },
+    {
+        "CDF": 0.000046381941759987555,
+        "Scaled_Distance": 0.86
+    },
+    {
+        "CDF": 0.00003002275198005222,
+        "Scaled_Distance": 0.87
+    },
+    {
+        "CDF": 0.000018751979520059692,
+        "Scaled_Distance": 0.88
+    },
+    {
+        "CDF": 0.000011231696739999464,
+        "Scaled_Distance": 0.89
+    },
+    {
+        "CDF": 0.000006399999999961992,
+        "Scaled_Distance": 0.9
+    },
+    {
+        "CDF": 0.0000034331088599737214,
+        "Scaled_Distance": 0.91
+    },
+    {
+        "CDF": 0.0000017091788799827867,
+        "Scaled_Distance": 0.92
+    },
+    {
+        "CDF": 7.741304199893051e-7,
+        "Scaled_Distance": 0.93
+    },
+    {
+        "CDF": 3.097958399811418e-7,
+        "Scaled_Distance": 0.9400000000000001
+    },
+    {
+        "CDF": 1.04687500002143e-7,
+        "Scaled_Distance": 0.9500000000000001
+    },
+    {
+        "CDF": 2.7688960013705355e-8,
+        "Scaled_Distance": 0.96
+    },
+    {
+        "CDF": 4.9717799877058155e-9,
+        "Scaled_Distance": 0.97
+    },
+    {
+        "CDF": 4.403200026814602e-10,
+        "Scaled_Distance": 0.98
+    },
+    {
+        "CDF": 6.9400041269318535e-12,
+        "Scaled_Distance": 0.99
+    },
+    {
+        "CDF": 0,
+        "Scaled_Distance": 1
+    }
 ]
 
 
@@ -563,26 +566,39 @@ Pacman.User = function (game, map) {
 
 
     function resetPosition() {
-       // const beta = require("m");
+        // const beta = require("m");
         //const val = beta(1, 1);
         //console.log("Beta: " + val);
-        // Pacman.randomTrial = Math.floor(Math.random() * 21);
-        // if (Pacman.randomTrial >= 20) {
-        //     Pacman.randomTrial = 19;
-        // } else if (Pacman.randomTrial < 1) {
-        //     Pacman.randomTrial = 1;
-        // }
-        // console.assert(Pacman.randomTrial <= 19 && Pacman.randomTrial >= 0);
-        // if ((getTrials() === 20 && Pacman.startingPositions[Pacman.randomTrial][2] === null)
-        //     || (Pacman.startingPositions[Pacman.randomTrial][2] === null && Pacman.previousGhostStart === null)) {
-        //     Pacman.randomTrial = Math.floor(Math.random() * 21);
-        // }
-        Pacman.randomTrial = getTrials2() - 1;
-        if (Pacman.randomTrial === 20) {
-            Pacman.randomTrial = 19;
+         Pacman.randomTrial = Math.floor(Math.random() * 21);
+         if (Pacman.randomTrial >= 20) {
+             Pacman.randomTrial = 19;
+         } else if (Pacman.randomTrial < 1) {
+             Pacman.randomTrial = 1;
+         }
+         console.assert(Pacman.randomTrial <= 19 && Pacman.randomTrial >= 0);
+         if ((getTrials() === 20 && Pacman.startingPositions[Pacman.randomTrial][2] === null)
+             || (Pacman.startingPositions[Pacman.randomTrial][2] === null && Pacman.previousGhostStart === null)) {
+             Pacman.randomTrial = Math.floor(Math.random() * 21);
+         }
+         if (Pacman.randomTrial === 20) {
+             Pacman.randomTrial = 19;
+         }
+       // Pacman.randomTrial = getTrials2();
+        if (Pacman.usedTrials.includes(Pacman.randomTrial)) {
+            while (Pacman.usedTrials.includes(Pacman.randomTrial)) {
+                Pacman.randomTrial = Math.floor(Math.random() * 21);
+                if (Pacman.randomTrial === 20) {
+                    Pacman.randomTrial = 19;
+                }
+            }
         }
+        Pacman.trial_counter++;
+        if (Pacman.trial_counter > 3) {
+            Pacman.usedTrials.push(Pacman.randomTrial);
+        }
+        //console.log("Used Trials so far: " + Pacman.usedTrials);
         position = {"x": Pacman.startingPositions[Pacman.randomTrial][1], "y": 100};
-        console.log("User start: " + position.x);
+        //console.log("User start: " + position.x);
         direction = NONE;
         due = NONE;
     };
@@ -670,16 +686,16 @@ Pacman.User = function (game, map) {
         if (position.x === 10 || position.x === 170) {
             var start = new Audio('https://dl.dropbox.com/s/eqexu1hbjplnk2n/256112__nckn__pleasant-done-notification.wav?dl=1');
             //start.play();
-            trials--;
-            trials_2++;
             Pacman.escapeUserPos = position.x;
             Pacman.escaped = true;
-           // PACMAN.setState(ESCAPED);
+            // PACMAN.setState(ESCAPED);
             console.log("Escaped");
             window.postMessage(["Trial " + getTrials2(),
                 JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
                     Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
                     Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:getLives()})], "*");
+            trials--;
+            trials_2++;
             game.completedLevel();
         }
 
@@ -715,7 +731,7 @@ Pacman.User = function (game, map) {
             let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
             if (userPosition <= 80) {
                 if ( (nextWhole.x === (userPosition / 10) + 2) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null) ) {
-                    Pacman.bisc1Array.push("True");
+                    Pacman.bisc1Array.push("True");// + (performance.now() - Pacman.totalTime) / 1000);
                     addScore(10);
                 } else if ( (nextWhole.x === (userPosition / 10) + 3) && (Pacman.startingPositions[Pacman.randomTrial][3] !== null)) {
                     Pacman.bisc2Array.push("True");
@@ -754,13 +770,16 @@ Pacman.User = function (game, map) {
             if (block === Pacman.PILL) {
                 game.eatenPill();
             }
+            Pacman.move = false;
         } else {
+            Pacman.biscvar = true;
+        }/* else {
             Pacman.bisc1Array.push("False");
             Pacman.bisc2Array.push("False");
             Pacman.bisc3Array.push("False");
             Pacman.bisc4Array.push("False");
             Pacman.bisc5Array.push("False");
-        }
+        } */
         return {
             "new" : position,
             "old" : oldPosition
@@ -1047,7 +1066,7 @@ Pacman.Ghost = function (game, map, colour) {
         } else if (Pacman.attackProb >= .1 && Pacman.attackProb < .2) {
             return "#f673d7";
         } else if (Pacman.attackProb >= .2 && Pacman.attackProb < .3) {
-              return "#f061bd";
+            return "#f061bd";
         } else if (Pacman.attackProb >= .3 && Pacman.attackProb < .4) {
             return "#e74fa2";
         } else if (Pacman.attackProb >= .4 && Pacman.attackProb < .5) {
@@ -1232,7 +1251,7 @@ Pacman.Ghost = function (game, map, colour) {
     }
 
     function survival(lambda_dist) {
-        console.log("lamda dist: " + lambda_dist);
+        //console.log("lamda dist: " + lambda_dist);
         re = Pacman.survivalProbabilities[lambda_dist]["CDF"];
         return re;
     }
@@ -1262,35 +1281,35 @@ Pacman.Ghost = function (game, map, colour) {
             npos = getNewCoord(direction, position);
         }
 
-    if (onGrid &&
-        map.isWallSpace({
-            "y": pointToCoord(nextSquare(npos.y, direction)),
-            "x": pointToCoord(nextSquare(npos.x, direction))
-        })) {
+        if (onGrid &&
+            map.isWallSpace({
+                "y": pointToCoord(nextSquare(npos.y, direction)),
+                "x": pointToCoord(nextSquare(npos.x, direction))
+            })) {
 
-        due = oppositeDirection(due);
-        direction = oppositeDirection(direction);
-        return move(ctx);
-    }
-    if (!isNaN(distance())) {
-        // if (PACMAN.getEaten1() === 5) {
-        //     Pacman.chaseArray.push("True");
-        //     Pacman.attackArray.push("False");
-        //     chaseVar = true;
-        //     chaseCount++;
-        //     return chase(ctx);
-        // }
-        let lambda_dist = distanceToLambda(distance());
-        const now = performance.now();
-        Pacman.attackProb = survival(lambda_dist);
-        console.log("AttackProb: " + Pacman.attackProb);
-        console.log("Tracker Attack: " + tracker_attack);
-        console.log("Tracker Chase: " + tracker_chase);
-        console.log("Pacman Pos: " + PACMAN.getUserPos());
-        console.log("Ghost Pos: " + PACMAN.getGhostPos());
-        console.log(" ");
-            if (( (tracker_attack < Pacman.attackProb & tracker_chase <=Pacman.chaseProb)|| attackVar === true) && chaseVar === false
-            && ((((now - Pacman.trialTime) / 1000) - 2) > 1)) {
+            due = oppositeDirection(due);
+            direction = oppositeDirection(direction);
+            return move(ctx);
+        }
+        if (!isNaN(distance())) {
+            // if (PACMAN.getEaten1() === 5) {
+            //     Pacman.chaseArray.push("True");
+            //     Pacman.attackArray.push("False");
+            //     chaseVar = true;
+            //     chaseCount++;
+            //     return chase(ctx);
+            // }
+            let lambda_dist = distanceToLambda(distance());
+            const now = performance.now();
+            Pacman.attackProb = survival(lambda_dist);
+            console.log("AttackProb: " + Pacman.attackProb);
+            console.log("Tracker Attack: " + tracker_attack);
+            console.log("Tracker Chase: " + tracker_chase);
+            console.log("Pacman Pos: " + PACMAN.getUserPos());
+            console.log("Ghost Pos: " + PACMAN.getGhostPos());
+            console.log(" ");
+            if (( (tracker_attack < Pacman.attackProb && tracker_chase <= Pacman.chaseProb) || attackVar === true) && chaseVar === false
+                && ((((now - Pacman.trialTime) / 1000) - 2) > 1)) {
                 Pacman.attackArray.push("True");
                 Pacman.chaseArray.push("False");
                 if (attackCount === 0) {
@@ -1333,7 +1352,19 @@ Pacman.Ghost = function (game, map, colour) {
                     }
                 }
                 console.log("bob count: " + bobCount);
-                if (bobCount >= 10) {
+                if (Pacman.startingPositions[Pacman.randomTrial][2] === 20) {
+                    if (bobCount >= 8) {
+                        due = oppositeDirection(due);
+                        direction = oppositeDirection(direction);
+                        position = getNewCoord(due, position);
+                        bobCount = 0;
+                        return {
+                            "new" : position,
+                            "old" : oldPos
+                        }
+                    }
+                }
+                if (bobCount >= 10) {// && Pacman.startingPositions[Pacman.randomTrial][2] !== 20) {
                     due = oppositeDirection(due);
                     direction = oppositeDirection(direction);
                     position = getNewCoord(due, position);
@@ -1342,6 +1373,17 @@ Pacman.Ghost = function (game, map, colour) {
                         "new" : position,
                         "old" : oldPos
                     }
+              /*  } else if (Pacman.startingPositions[Pacman.randomTrial][2] === 20) {
+                    if (bobCount >= 10) {
+                        due = oppositeDirection(due);
+                        direction = oppositeDirection(direction);
+                        position = getNewCoord(due, position);
+                        bobCount = 0;
+                        return {
+                            "new": position,
+                            "old": oldPos
+                        }
+                    } */
                 } else {
                     position = getNewCoord(due, position);
                     return {
@@ -1350,18 +1392,18 @@ Pacman.Ghost = function (game, map, colour) {
                     }
                 }
             }
+        }
+        position = npos;
+        var tmp = pane(position);
+        if (tmp) {
+            position = tmp;
+        }
+        bobVar = false;
+        return {
+            "new": position,
+            "old": oldPos
+        };
     }
-    position = npos;
-    var tmp = pane(position);
-    if (tmp) {
-        position = tmp;
-    }
-    bobVar = false;
-    return {
-        "new": position,
-        "old": oldPos
-    };
-}
 
     return {
         "eat"         : eat,
@@ -1550,51 +1592,51 @@ Pacman.Map = function (size) {
             if (layout === Pacman.BISCUIT) {
                 let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
                 if (userPosition <= 80) {
-                   if (x === (userPosition / 10) + 2) {
-                       ctx.fillStyle = "#FFFFFF";
-                       ctx.arc((x * blockSize) + (blockSize / 2.5),
-                           (y * blockSize) + (blockSize / 2.5),
-                           blockSize / Pacman.startingPositions[Pacman.randomTrial][3],
-                           0,
-                           Math.PI * 2, false);
-                       ctx.fill();
-                   } else if (x === (userPosition / 10) + 3) {
-                       ctx.fillStyle = "#FFFFFF";
-                       ctx.arc((x * blockSize) + (blockSize / 2.5),
-                           (y * blockSize) + (blockSize / 2.5),
-                           blockSize / Pacman.startingPositions[Pacman.randomTrial][4],
-                           0,
-                           Math.PI * 2, false);
-                       ctx.fill();
-                   } else if (x === (userPosition / 10) + 4) {
-                       ctx.fillStyle = "#FFFFFF";
-                       ctx.arc((x * blockSize) + (blockSize / 2.5),
-                           (y * blockSize) + (blockSize / 2.5),
-                           blockSize / Pacman.startingPositions[Pacman.randomTrial][6],
-                           0,
-                           Math.PI * 2, false);
-                       ctx.fill();
-                   } else if (x === (userPosition / 10) + 5) {
-                       ctx.fillStyle = "#FFFFFF";
-                       ctx.arc((x * blockSize) + (blockSize / 2.5),
-                           (y * blockSize) + (blockSize / 2.5),
-                           blockSize / Pacman.startingPositions[Pacman.randomTrial][6],
-                           0,
-                           Math.PI * 2, false);
-                       ctx.fill();
-                   } else if (x === (userPosition / 10) + 6) {
-                       ctx.fillStyle = "#FFFFFF";
-                       ctx.arc((x * blockSize) + (blockSize / 2.5),
-                           (y * blockSize) + (blockSize / 2.5),
-                           blockSize / Pacman.startingPositions[Pacman.randomTrial][7],
-                           0,
-                           Math.PI * 2, false);
-                       ctx.fill();
-                   }
+                    if (x === (userPosition / 10) + 2) {
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
+                            (y * blockSize) + (blockSize / 2.5),
+                            blockSize / Pacman.startingPositions[Pacman.randomTrial][3],
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
+                    } else if (x === (userPosition / 10) + 3) {
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
+                            (y * blockSize) + (blockSize / 2.5),
+                            blockSize / Pacman.startingPositions[Pacman.randomTrial][4],
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
+                    } else if (x === (userPosition / 10) + 4) {
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
+                            (y * blockSize) + (blockSize / 2.5),
+                            blockSize / Pacman.startingPositions[Pacman.randomTrial][6],
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
+                    } else if (x === (userPosition / 10) + 5) {
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
+                            (y * blockSize) + (blockSize / 2.5),
+                            blockSize / Pacman.startingPositions[Pacman.randomTrial][6],
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
+                    } else if (x === (userPosition / 10) + 6) {
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.arc((x * blockSize) + (blockSize / 2.5),
+                            (y * blockSize) + (blockSize / 2.5),
+                            blockSize / Pacman.startingPositions[Pacman.randomTrial][7],
+                            0,
+                            Math.PI * 2, false);
+                        ctx.fill();
+                    }
                 } else {
                     if (x === (userPosition / 10) - 2) {
                         ctx.fillStyle = "#FFFFFF";
-                       // console.log(Pacman.randomTrial);
+                        // console.log(Pacman.randomTrial);
                         ctx.arc((x * blockSize) + (blockSize / 2.5),
                             (y * blockSize) + (blockSize / 2.5),
                             blockSize / Pacman.startingPositions[Pacman.randomTrial][3],
@@ -1637,17 +1679,17 @@ Pacman.Map = function (size) {
                 }
             }
             if (layout === Pacman.LEFT_DOOR || layout === Pacman.RIGHT_DOOR) {
-              let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
-              // console.log("left or right door?")
-              // if ( (userPosition < 80 && layout === Pacman.LEFT_DOOR) || (userPosition >= 80 && layout === Pacman.RIGHT_DOOR)) {
-              //     ctx.fillStyle = "#2ECC71";
-              //     ctx.fillRect((x * blockSize ), (y * blockSize),
-              //         blockSize, blockSize);
-              // } else {
+                let userPosition = Pacman.startingPositions[Pacman.randomTrial][1];
+                // console.log("left or right door?")
+                // if ( (userPosition < 80 && layout === Pacman.LEFT_DOOR) || (userPosition >= 80 && layout === Pacman.RIGHT_DOOR)) {
+                //     ctx.fillStyle = "#2ECC71";
+                //     ctx.fillRect((x * blockSize ), (y * blockSize),
+                //         blockSize, blockSize);
+                // } else {
                 ctx.fillStyle = "#000";
                 ctx.fillRect((x * blockSize), (y * blockSize),
                     blockSize, blockSize);
-              // }
+                // }
             }
         }
         ctx.closePath();
@@ -1769,7 +1811,7 @@ var PACMAN = (function (handle) {
         timer        = null,
         map          = null,
         user         = null,
-            endtrials = false,
+        endtrials = false,
         stored       = null;
 
     function getTick() {
@@ -1784,7 +1826,7 @@ var PACMAN = (function (handle) {
             ((position["new"]["y"] + 5) / 10) * map.blockSize);
     }
 
-    function dialog(text, font = "18px Monaco" ) {
+    function dialog(text, font = "18px Monaco") {
         ctx.fillStyle = "#FFFF00";
         ctx.font      = font;
         var width = ctx.measureText(text).width,
@@ -1799,6 +1841,7 @@ var PACMAN = (function (handle) {
     function startLevel() {
         if (Pacman.totalTrials === 20) {
             Pacman.totalTrials = 1;
+            Pacman.usedTrials.length = 0;
         } else {
             Pacman.totalTrials++;
         }
@@ -1808,13 +1851,13 @@ var PACMAN = (function (handle) {
         }
 
 
-      /*  if (user.trials !== 0) {
-            console.log("Trial " + user.getTrials2());
-            window.postMessage(["Trial " + user.getTrials2(),
-               JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
-                Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
-                Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:user.getLives()})], "*");
-        } */
+        /*  if (user.trials !== 0) {
+              console.log("Trial " + user.getTrials2());
+              window.postMessage(["Trial " + user.getTrials2(),
+                 JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
+                  Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
+                  Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:user.getLives()})], "*");
+          } */
         map.reset();
         map.draw(ctx);
         user.resetPosition();
@@ -1850,9 +1893,10 @@ var PACMAN = (function (handle) {
         Pacman.chaseProb = 0.5;
         Pacman.attackProb = 0;
         Pacman.move = false;
-        console.log("Chase Prob at new level: " + Pacman.chaseProb);
-        console.log("Attack Prob at new level: " + Pacman.attackProb);
-      //  console.log("User start: "  + PACMAN.getUserPos());
+        Pacman.biscvar = false;
+        //console.log("Chase Prob at new level: " + Pacman.chaseProb);
+        //console.log("Attack Prob at new level: " + Pacman.attackProb);
+        //  console.log("User start: "  + PACMAN.getUserPos());
     }
 
     function startNewGame() {
@@ -1956,32 +2000,41 @@ var PACMAN = (function (handle) {
     }
 
     function getPayout(score) {
-      const n = 3070;
-      const arr = [...Array(n).keys()];
-      let lambda = arr.indexOf(score);
-      let xMax = 25;
-      let xMin = 0;
-      let yMax = 3070;
-      let yMin = 0;
-      const retArr = [];
-      for (const i in arr) {
-          let percent = (i - yMin) / (yMax - yMin);
-          let outputX = percent * (xMax - xMin) + xMin;
-          retArr.push(Math.round(outputX));
-      }
-      return(retArr[lambda]);
+        const n = 3070;
+        const arr = [...Array(n).keys()];
+        let lambda = arr.indexOf(score);
+        let xMax = 25;
+        let xMin = 0;
+        let yMax = 3070;
+        let yMin = 0;
+        const retArr = [];
+        for (const i in arr) {
+            let percent = (i - yMin) / (yMax - yMin);
+            let outputX = percent * (xMax - xMin) + xMin;
+            retArr.push(Math.round(outputX));
+        }
+        return(retArr[lambda]);
     }
-
     function mainDraw() {
 
         var diff, u, i, len, nScore;
         u = user.move(ctx);
         //console.log("Escape pos: " + Pacman.escapeUserPos);
         let g;
-     //   if (Pacman.escapeUserPos !== 10 && Pacman.escapeUserPos !== 170 && Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
-           // g = ghost1.move(ctx);
-            //redrawBlock(g.old);
-      //  }
+        //   if (Pacman.escapeUserPos !== 10 && Pacman.escapeUserPos !== 170 && Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
+        // g = ghost1.move(ctx);
+        //redrawBlock(g.old);
+        //  }
+        const now = performance.now();
+        Pacman.timeArray.push((now - Pacman.totalTime) / 1000);
+        if ((Pacman.move === false && Pacman.bisc1Array.slice(-1)[0] !== "True") || Pacman.biscvar === true) {
+            Pacman.bisc1Array.push("False");
+            Pacman.bisc2Array.push("False");
+            Pacman.bisc3Array.push("False");
+            Pacman.bisc4Array.push("False");
+            Pacman.bisc5Array.push("False");
+        }
+        Pacman.biscvar = false;
         Pacman.escapeUserPos = 0;
         if (Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
             Pacman.previousGhostStart = null;
@@ -2008,40 +2061,31 @@ var PACMAN = (function (handle) {
         Pacman.userLocationArray.push(userPosX);
         Pacman.eatenArray.push(user.getEaten());
         Pacman.scoreArray.push(user.theScore());
-        if (Pacman.move === false) {
-            Pacman.bisc1Array.push("False");
-            Pacman.bisc2Array.push("False");
-            Pacman.bisc3Array.push("False");
-            Pacman.bisc4Array.push("False");
-            Pacman.bisc5Array.push("False");
-        }
+        if (Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
+            if (collided(userPos, ghostPos)) {
+                if (ghost1.isVunerable()) {
+                    //audio.play("eatghost");
+                    ghost1.eat();
+                    eatenCount += 1;
+                    nScore = eatenCount * 50;
+                    drawScore(nScore, ghostPos);
+                    user.addScore(nScore);
+                    setState(EATEN_PAUSE);
+                    timerStart = tick;
+                } else if (ghost1.isDangerous()) {
+                    /*   window.postMessage(["Trial " + user.getTrials2(),
+                           JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
+                               Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
+                               Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:user.getLives()})], "*");
+                     */  setState(DYING);
+                    var die = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
+                    //die.play();
+                    timerStart = tick;
+                    console.log("Eaten");
 
-
-            if (Pacman.startingPositions[Pacman.randomTrial][2] !== null) {
-                if (collided(userPos, ghostPos)) {
-                    if (ghost1.isVunerable()) {
-                        //audio.play("eatghost");
-                        ghost1.eat();
-                        eatenCount += 1;
-                        nScore = eatenCount * 50;
-                        drawScore(nScore, ghostPos);
-                        user.addScore(nScore);
-                        setState(EATEN_PAUSE);
-                        timerStart = tick;
-                    } else if (ghost1.isDangerous()) {
-                     /*   window.postMessage(["Trial " + user.getTrials2(),
-                            JSON.stringify({Times:Pacman.timeArray, GhostLocation:Pacman.ghostLocationArray, UserLocation:Pacman.userLocationArray,
-                                Biscuit1:Pacman.bisc1Array, Biscuit2:Pacman.bisc2Array, Biscuit3:Pacman.bisc3Array, Biscuit4:Pacman.bisc4Array, Biscuit5:Pacman.bisc5Array,
-                                Attack:Pacman.attackArray, Chase:Pacman.chaseArray, Eaten:Pacman.eatenArray, Score:Pacman.scoreArray, Lives:user.getLives()})], "*");
-                      */  setState(DYING);
-                        var die = new Audio('https://dl.dropbox.com/s/d1p1u1mpm55forc/341820__ianstargem__screechy-alarm.wav?dl=1');
-                        //die.play();
-                        timerStart = tick;
-                        console.log("Eaten");
-
-                    }
                 }
             }
+        }
     };
 
     // function pressN() {
@@ -2075,27 +2119,24 @@ var PACMAN = (function (handle) {
         }
 
         if (state === PLAYING) {
-            const now = performance.now();
-            Pacman.timeArray.push((now - Pacman.totalTime) / 1000);
             mainDraw();
         }
-      /*else if (state === ESCAPED) {
-            mainDraw();
-
-        } */
+        /*else if (state === ESCAPED) {
+              mainDraw();
+          } */
         else if (state === WAITING && stateChanged) {
             stateChanged = false;
             map.draw(ctx);
             if (user.getTrials() !== 0) {
                 //if (user.getLives() === 0) {
-                    //setTimeout(pressN, 5000);
+                //setTimeout(pressN, 5000);
                 //} else {
-                    Pacman.averageScore.push(Pacman.scoreArray[Pacman.scoreArray.length - 1]);
-                    console.log("Average Score: " + Pacman.averageScore);
-                    dialog("Press n to start a new game!");
+                Pacman.averageScore.push(Pacman.scoreArray[Pacman.scoreArray.length - 1]);
+                console.log("Average Score: " + Pacman.averageScore);
+                dialog("Press n to start a new game!");
                 //}
             } else {
-              //  dialog("Please exit the game.");
+                //  dialog("Please exit the game.");
             }
         } else if (state === EATEN_PAUSE &&
             (tick - timerStart) > (Pacman.FPS / 3)) {
@@ -2149,7 +2190,7 @@ var PACMAN = (function (handle) {
         setState(WAITING);
         level += 1;
         map.reset();
-       // user.newLevel();
+        // user.newLevel();
         startLevel();
     };
 
@@ -2208,7 +2249,7 @@ var PACMAN = (function (handle) {
             "eatenPill"      : eatenPill
         }, map);
 
-            ghost1 = new Pacman.Ghost({"getTick":getTick}, map, ghostSpecs[0]);
+        ghost1 = new Pacman.Ghost({"getTick":getTick}, map, ghostSpecs[0]);
 
 
         map.draw(ctx);
@@ -2241,7 +2282,7 @@ var PACMAN = (function (handle) {
     }
 
     return {
-       "getUserPos": getUserPos,
+        "getUserPos": getUserPos,
         "getGhostPos": getGhostPos,
         "loseLife": loseLife,
         "completedLevel": completedLevel,
@@ -2333,3 +2374,4 @@ $(function(){
             "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
     }
 });
+
