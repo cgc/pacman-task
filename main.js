@@ -1956,7 +1956,8 @@ var PACMAN = (function (handle) {
         if (user.getLives() > 0 && user.getTrials() > 0) {
             startLevel();
         } else if (user.getTrials()) {
-            setState(PLAYING);
+            // cgc: This logic seems to be more correctly handled by the state==WAITING handlers
+            // setState(PLAYING);
         }
     }
 
@@ -2137,6 +2138,11 @@ var PACMAN = (function (handle) {
           syncSquare.black();
         }
 
+        // When we've completed the task, endtrials is set to true, so we clear our main loop.
+        if (endtrials) {
+            window.clearInterval(timer);
+        }
+
         if (Pacman.escaped === true) {
             Pacman.escaped = false;
         }
@@ -2159,9 +2165,12 @@ var PACMAN = (function (handle) {
             let average_score_final = Math.floor(filtered_average_score.reduce((a,b) => a + b, 0) / filtered_average_score.length);
             let final_payout = getPayout(average_score_final);
             dialog("You earned a bonus of $" + final_payout + "! Press the arrow to continue", "10px Monaco");
-            map.draw(ctx);
+            //map.draw(ctx); // HACK cgc: removing b/c this seems to overwrite the dialog?
+            // cgc: However, "press arrow to continue" isn't quite right if we're also goign to clearInterval...
             window.postMessage(["final_score", average_score_final], "*");
             window.postMessage("next", "*");
+        } else if (user.getTrials() === 0 && !endtrials && Pacman.death_check === true) {
+            endtrials = true;
         } else if ((user.getTrials() % 20) === 0 && (user.getTrials() < 40 && state !== PAUSE && Pacman.pause_done == 0)){
             Pacman.scoreArray.length = 0;
             setState(BREAK);
