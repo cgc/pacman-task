@@ -489,6 +489,22 @@ Pacman.survivalProbabilities = [
 ]
 
 
+class SyncSquare {
+  constructor() {
+    this.el = document.querySelector('#syncSquare');
+  }
+  white() {
+    this.setColor('white');
+  }
+  black() {
+    this.setColor('black');
+  }
+  setColor(c) {
+    this.el.style.backgroundColor = c;
+  }
+}
+const syncSquare = new SyncSquare();
+
 Pacman.User = function (game, map) {
 
     var
@@ -2113,6 +2129,14 @@ var PACMAN = (function (handle) {
     // }
 
     function mainLoop() {
+        // At the top of this main loop, we set the sync square's attributes based on the current state.
+        // HACK doesn't seem to be quite right for when you complete a level. But does seem well-synced for initial render.
+        if(state == PLAYING) {
+          syncSquare.white()
+        } else {
+          syncSquare.black();
+        }
+
         if (Pacman.escaped === true) {
             Pacman.escaped = false;
         }
