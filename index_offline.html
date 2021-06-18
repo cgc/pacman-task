@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Pacman</title>
+
+    <style type="text/css">
+        @font-face {
+            font-family: 'BDCartoonShoutRegular';
+            src: url('BD_Cartoon_Shout-webfont (1).ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        #pacman {
+            height:450px;
+            width:342px;
+            margin:20px auto;
+        }
+        #shim {
+            font-family: BDCartoonShoutRegular;
+            position:absolute;
+            visibility:hidden
+        }
+        #syncSquare {
+          position: fixed;
+          right: 30px;
+          bottom: 30px;
+          width: 30px;
+          height: 30px;
+        }
+        h1 {
+          font-family: BDCartoonShoutRegular;
+          text-align:center;
+          color: white;
+        }
+        body {
+          width:342px;
+          margin:0px auto;
+          font-family:sans-serif;
+          background: black;
+        }
+        a { text-decoration:none; }
+    </style>
+
+</head>
+
+<body>
+
+<div id="shim">shim for font face</div>
+
+<h1>Pacman</h1>
+
+<div id="pacman"></div>
+<div id="syncSquare"></div>
+<script src="main.js"></script>
+<script src="modernizr-1.5.min.js"></script>
+<script>
+
+    var el = document.getElementById("pacman");
+
+   if (Modernizr.canvas && Modernizr.localstorage &&
+        Modernizr.audio && (Modernizr.audio.ogg || Modernizr.audio.mp3)) {
+        window.setTimeout(function () { PACMAN.init(el, "./"); }, 0);
+    } else {
+        el.innerHTML = "Sorry, needs a decent browser<br /><small>" +
+            "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
+    }
+
+    // NOTE this should only run when _off_ qualtrics.
+var OFFLINE_DATA_TRACKER = [];
+window.addEventListener("message", (event) => {
+  if (event.data == 'next') {
+    // Now we download all the data thus far.
+    downloadData(OFFLINE_DATA_TRACKER);
+  } else {
+    OFFLINE_DATA_TRACKER.push(event.data);
+  }
+}, false);
+
+function downloadData(data) {
+  // from https://codepen.io/vidhill/pen/bNPEmX
+
+  // Get data ready
+  const blob = new Blob([JSON.stringify(data)], {type: "octet/stream"});
+  const url = window.URL.createObjectURL(blob);
+
+  // Make and add button to page
+  var button = document.createElement('a');
+  document.body.appendChild(button);
+  button.href = url;
+  button.target = '_blank';
+  button.download = 'pacman-task-data.json';
+
+  // Download
+  button.click();
+
+  // Clean things up
+  URL.revokeObjectURL(url);
+  document.body.removeChild(button);
+}
+
+</script>
+
+</body>
+</html>
